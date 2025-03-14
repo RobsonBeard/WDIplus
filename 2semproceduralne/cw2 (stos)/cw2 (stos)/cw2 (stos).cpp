@@ -1,5 +1,6 @@
 #include "Stack.h"
 #include "Util.h"
+#include "dbl.h"
 
 using namespace std;
 
@@ -11,12 +12,13 @@ int main()
 	// ZROBIC W DOMU STOS LICZBOWY double (nie na ocene)
 
 	 // poprosic kacpra zeby wyslal ten kod, bo bazowalismy na starym pliku ze stosem a chyba mam to na starym laptopie
+
 	StackItem* pStack = NULL;
 	createStack(&pStack);
 
 	push(&pStack, 'A');
-	push(&pStack,'B');
-	push(&pStack,'C');
+	push(&pStack, 'B');
+	push(&pStack, 'C');
 
 	//printf("%c %c %c\n",pop(),pop(),pop() ); // to jest zle, bo te sama strukture modyfikuje w jednej linijce!!!
 	// powinno wyjsc CBA
@@ -29,8 +31,21 @@ int main()
 
 	printf("\n");
 
-	printf("Podaj wyrazenie znakowo bez spacji: ");
-	ONP();
+	DblItem* pDbl = NULL;
+	createStack(&pDbl);
+
+	push(&pDbl, 1.23);
+	push(&pDbl, 4.56);
+	push(&pDbl, 3.14);
+
+	printf("%.2f\n", pop(&pDbl));
+	printf("%.2f\n", pop(&pDbl));
+	printf("%.2f\n", pop(&pDbl));
+	printf("%.2f\n", pop(&pDbl));
+
+
+	//printf("Podaj wyrazenie znakowo bez spacji: ");
+	//ONP();
 
 	return 0;
 }

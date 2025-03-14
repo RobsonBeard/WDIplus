@@ -128,10 +128,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cw2 (stos).cpp" />
+    <ClCompile Include="dbl.cpp" />
     <ClCompile Include="Util.cpp" />
     <ClCompile Include="Stack.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dbl.h" />
     <ClInclude Include="Stack.h" />
     <ClInclude Include="Util.h" />
   </ItemGroup>
