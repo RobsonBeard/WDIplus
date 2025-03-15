@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdarg.h>
-//#include <float.h>
 
 int Printf( const char* sFormat, ... ); //<zdeklarowac parametry>
 
@@ -26,16 +25,6 @@ int main( int argc, char* argv[] )
     n = Printf( "%s\n%f%c  n=%%d \\ \% /\ny=%f ` ` z=%%f\n%", str, x, c, n, y, z );  // ` -> '
     Printf( "\nilosc formatow=%d\n", n );
 
-
-
-    printf( "\n" );
-    double test1 = 123.000000004567890123456;
-    //double test2 = test1 - (int)test1;
-    //printf("%.8f",test1);
-    outDouble( test1 );
-    //outNum( 123 );
-    //outDec( -0 );
-
     return 0;
 }
 // implementacja uproszczonej funkcji "Printf": %c %d %f %s oraz 
@@ -51,7 +40,6 @@ int Printf( const char* sFormat, ... )
 
     va_list args;
     va_start( args, sFormat );
-
 
     int res = PrintfV( sFormat,args );
 
@@ -72,12 +60,13 @@ int PrintfV( const char* sFormat, va_list args )
         case '%':
         {
             char c2 = *(sFormat+1);
-            switch( c2 /*c = znak_z_we_stringu*/ ) // wziac pod uwage przypadek gdzie na koncu stringa jest %
+            // ewentualnie tu zrobic ifa, ktory inkrementowalby ilosc i sFormat
+            switch( c2 /*c = znak_z_we_stringu*/ )
             {
             case 'd': 
                 outDec( va_arg( args, int ) );
                 ilosc++;
-                sFormat++;
+                sFormat++; //pomija wypisywanie literki, tutaj d
                 break;
             case 'f': 
                 outDouble( va_arg( args, double ) ); 
@@ -87,7 +76,7 @@ int PrintfV( const char* sFormat, va_list args )
             case 's':  
                 outStr( va_arg( args, char* ) ); 
                 ilosc++;
-                sFormat++; //pomija wypisywanie literki, tutaj s
+                sFormat++; 
                 break; 
             case 'c': 
                 outChar( va_arg( args, char ) ); 
@@ -100,7 +89,7 @@ int PrintfV( const char* sFormat, va_list args )
             break;
             
         case '`': c = '\'';  // to bez break-a
-        default:outChar( c );
+        default: outChar( c );
         }
         sFormat++;
     }
@@ -126,7 +115,7 @@ void outDec( int x )
 {
     // wypisac znak jesli trzeba i wykorzystac outNum()
 
-    if( x < 0 ) // jesli mam korzystac z tej funkcji z doublami to nie moze byc porownania do 0
+    if( x < 0 ) // nie wiem czy moze byc porownanie do 0
     {
         outChar( '-' );
         outNum( -x );
@@ -137,19 +126,18 @@ void outDec( int x )
 //-----------------------------------------------
 void outDouble( double x )
 {
-    // zrobic moze dla dodatnich liczb a minus pisac na samym koncu
-    // przypadek, gdzie liczba jest w przedziale (-1,1)
-
+    if(x < 0) // nie wiem czy moze byc porownanie do 0
+    {
+        outChar('-');
+        x = -x;
+    }
 
     int calk = (int)x;
     outDec( calk );
 
     double ulamek = x - calk;
 
-    outChar( '.' ); // kiedy pisaæ te kropke?
-
-    // ewentualnie pomno¿yæ u³amek przez 1e+8 i wypisywaæ dopóki nie nadejdê na 0, ale to ma problem np. 12.4560456
-    // no to mo¿e mno¿yæ 8 razy u³amek o 10 i wypisywaæ czêœæ ca³kowit¹? modulo 10?
+    outChar( '.' );
 
     for( int i = 0; i < 8; i++ ) {
         if((ulamek - (int)ulamek) <= 1e-6 ) {
