@@ -9,8 +9,8 @@ int PrintfV( const char* sFormat, va_list args );
 
 void outDec( int );       // znakowo wypisuje liczbe calk
 void outChar( char );     // wypisuje znak  // putchar()
-void outStr( char* );     // wypisuje zanakowo string
-void outDouble( double ); // wypisuje znakowow liczbe double    0.  (do 8 po kropce)
+void outStr( char* );     // wypisuje znakowo string
+void outDouble( double ); // wypisuje znakowo liczbe double    0.  (do 8 po kropce)
 void outNum( int x );     // wypisuje znakowo liczbe int >0     rekurencyjnie
 
 //----------------------------------
@@ -18,7 +18,7 @@ int main( int argc, char* argv[] )
 {
     int n = -0;
     char c = '$';
-    double x = 12000000.34500000012;   // nie wiecej jak 8 po pkropce  // .0000012 <=1e-6
+    double x = 12000000.34500000012;   // nie wiecej jak 8 po kropce  // .0000012 <=1e-6
     double y = -.12;
     double z = -1.5;
     char* str = (char*)"to jest string";
@@ -29,10 +29,10 @@ int main( int argc, char* argv[] )
 
 
     printf( "\n" );
-    double test1 = 123.456;
+    double test1 = 123.000000004567890123456;
     //double test2 = test1 - (int)test1;
-    //printf("%f",test2);
-    outDec( test1 );
+    //printf("%.8f",test1);
+    outDouble( test1 );
     //outNum( 123 );
     //outDec( -0 );
 
@@ -72,20 +72,28 @@ int PrintfV( const char* sFormat, va_list args )
         case '%':
         {
             char c2 = *(sFormat+1);
-            switch( c2 /*c = znak_z_we_stringu*/ ) //! wziac pod uwage przypadek gdzie na koncu stringa jest %
+            switch( c2 /*c = znak_z_we_stringu*/ ) // wziac pod uwage przypadek gdzie na koncu stringa jest %
             {
             case 'd': 
                 outDec( va_arg( args, int ) );
                 ilosc++;
                 sFormat++;
-             break;
-            case 'f': outDouble( va_arg( args, double ) ); break;
+                break;
+            case 'f': 
+                outDouble( va_arg( args, double ) ); 
+                ilosc++;
+                sFormat++;
+                break;
             case 's':  
                 outStr( va_arg( args, char* ) ); 
                 ilosc++;
+                sFormat++; //pomija wypisywanie literki, tutaj s
+                break; 
+            case 'c': 
+                outChar( va_arg( args, char ) ); 
+                ilosc++;
                 sFormat++;
-             break; //! w jakis sposob musze pominac wypisywanie s, wchodzi mi znowu do tego pierwszego switcha i wypisuje domyslnie
-            case 'c': outChar( va_arg( args, char ) ); break;
+                break;
             default: outChar( c );
             }
         }
@@ -129,14 +137,26 @@ void outDec( int x )
 //-----------------------------------------------
 void outDouble( double x )
 {
-    double ulamek = x - (int)x;
-    outDec( (int)x );
-    outChar( '.' );
-    if( ulamek <= 1e-6 ) {
-        
-    }
-    for( int i = 0; i < 8; i++ ) {
+    // zrobic moze dla dodatnich liczb a minus pisac na samym koncu
+    // przypadek, gdzie liczba jest w przedziale (-1,1)
 
+
+    int calk = (int)x;
+    outDec( calk );
+
+    double ulamek = x - calk;
+
+    outChar( '.' ); // kiedy pisaæ te kropke?
+
+    // ewentualnie pomno¿yæ u³amek przez 1e+8 i wypisywaæ dopóki nie nadejdê na 0, ale to ma problem np. 12.4560456
+    // no to mo¿e mno¿yæ 8 razy u³amek o 10 i wypisywaæ czêœæ ca³kowit¹? modulo 10?
+
+    for( int i = 0; i < 8; i++ ) {
+        if((ulamek - (int)ulamek) <= 1e-6 ) {
+            return;
+        }
+        ulamek *= 10;
+        outChar((int)ulamek % 10 + 48);
     }
 
     // wykorzystac outDec()
