@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdarg.h>
 
+#define DECIMAL_PLACES 8
+#define MIN_LEFTOVER 1e-6
+
 int Printf( const char* sFormat, ... ); //<zdeklarowac parametry>
 
 //zadeklarowac PrintfV()
@@ -63,26 +66,10 @@ int PrintfV( const char* sFormat, va_list args )
             // ewentualnie tu zrobic ifa, ktory inkrementowalby ilosc i sFormat
             switch( c2 /*c = znak_z_we_stringu*/ )
             {
-            case 'd': 
-                outDec( va_arg( args, int ) );
-                ilosc++;
-                sFormat++; //pomija wypisywanie literki, tutaj d
-                break;
-            case 'f': 
-                outDouble( va_arg( args, double ) ); 
-                ilosc++;
-                sFormat++;
-                break;
-            case 's':  
-                outStr( va_arg( args, char* ) ); 
-                ilosc++;
-                sFormat++; 
-                break; 
-            case 'c': 
-                outChar( va_arg( args, char ) ); 
-                ilosc++;
-                sFormat++;
-                break;
+            case 'd': outDec( va_arg( args, int ) ); ilosc++; sFormat++ /*pomija wypisywanie literki, tutaj d*/; break;
+            case 'f': outDouble( va_arg( args, double ) ); ilosc++; sFormat++; break;
+            case 's':  outStr( va_arg( args, char* ) ); ilosc++; sFormat++; break; 
+            case 'c': outChar( va_arg( args, char ) ); ilosc++; sFormat++; break;
             default: outChar( c );
             }
         }
@@ -134,25 +121,24 @@ void outDouble( double x )
 
     int calk = (int)x;
     outDec( calk );
+    // wykorzystac outDec()
 
     double ulamek = x - calk;
 
     outChar( '.' );
 
-    for( int i = 0; i < 8; i++ ) {
-        if((ulamek - (int)ulamek) <= 1e-6 ) {
+    for( int i = 0; i < DECIMAL_PLACES; i++ ) {
+        if((ulamek - (int)ulamek) <= MIN_LEFTOVER ) {
             return;
-        }
+        } // przerwac drukowanie jesli reszta <=1e-6
         ulamek *= 10;
-        outChar((int)ulamek % 10 + 48);
-    }
-
-    // wykorzystac outDec()
-    // przerwac drukowanie jesli reszta <=1e-6  ewentualnie do  8-miu cyfr po kropce
+        outChar((int)ulamek % 10 + '0');
+    } // jesli reszta wieksza, to drukowac do 8-miu cyfr po kropce
+    
 }
 //-----------------------------------------------
 void outNum( int x ) //rekurencyjny  //x>0
 {
     if( x > 9 ) outNum( x / 10 );
-    outChar( x%10+48 );
+    outChar( x%10+'0');
 }
