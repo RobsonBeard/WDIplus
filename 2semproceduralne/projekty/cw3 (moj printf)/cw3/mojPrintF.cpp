@@ -3,6 +3,7 @@
 
 #define DECIMAL_PLACES 8
 #define MIN_LEFTOVER 1e-6
+#define ZERO 0 // ewentualnie poprawic na 1e-100 albo cos takiego
 
 int Printf( const char* sFormat, ... ); //<zdeklarowac parametry>
 
@@ -61,18 +62,15 @@ int PrintfV( const char* sFormat, va_list args )
         switch( c )
         {
         case '%':
-        {
-            char c2 = *(sFormat+1);
-            // ewentualnie tu zrobic ifa, ktory inkrementowalby ilosc i sFormat
-            switch( c2 /*c = znak_z_we_stringu*/ )
+        
+            switch( *( sFormat + 1 ) /* tutaj sprawdzam kolejny znak po c, wczesniej mialem tu zmienna char c2 */ )
             {
-            case 'd': outDec( va_arg( args, int ) ); ilosc++; sFormat++ /*pomija wypisywanie literki, tutaj d*/; break;
+            case 'd': outDec( va_arg( args, int ) ); ilosc++; sFormat++ /* pomija wypisywanie literki, tutaj "d" */; break;
             case 'f': outDouble( va_arg( args, double ) ); ilosc++; sFormat++; break;
             case 's':  outStr( va_arg( args, char* ) ); ilosc++; sFormat++; break; 
             case 'c': outChar( va_arg( args, char ) ); ilosc++; sFormat++; break;
             default: outChar( c );
             }
-        }
             break;
             
         case '`': c = '\'';  // to bez break-a
@@ -102,7 +100,7 @@ void outDec( int x )
 {
     // wypisac znak jesli trzeba i wykorzystac outNum()
 
-    if( x < 0 ) // nie wiem czy moze byc porownanie do 0
+    if( x < ZERO )
     {
         outChar( '-' );
         outNum( -x );
@@ -113,27 +111,28 @@ void outDec( int x )
 //-----------------------------------------------
 void outDouble( double x )
 {
-    if(x < 0) // nie wiem czy moze byc porownanie do 0
+    if(x < ZERO) 
     {
         outChar('-');
         x = -x;
     }
 
-    int calk = (int)x;
-    outDec( calk );
     // wykorzystac outDec()
+    outDec( (int)x );
 
-    double ulamek = x - calk;
+    x = x - (int)x;
 
     outChar( '.' );
 
-    for( int i = 0; i < DECIMAL_PLACES; i++ ) {
-        if((ulamek - (int)ulamek) <= MIN_LEFTOVER ) {
-            return;
-        } // przerwac drukowanie jesli reszta <=1e-6
-        ulamek *= 10;
-        outChar((int)ulamek % 10 + '0');
-    } // jesli reszta wieksza, to drukowac do 8-miu cyfr po kropce
+    // przerwac drukowanie jesli reszta <=1e-6
+    // jesli reszta wieksza, to drukowac do 8-miu cyfr po kropce
+
+    for( int i = 0; i < DECIMAL_PLACES && ( x - (int)x ) > MIN_LEFTOVER; i++ ) {
+        // sprytnie dodaje drugi warunek dzialania petli, zamiast tworzyc ifa w jej srodku
+        // ten warunek mowi, ze przejde przez petle, jesli i<8 i dalsza czesc ulamkowa jest wieksza niz 1e-6
+
+        outChar((int)(x*=10) % 10 + '0'); // zamiast robic to w innej linii, to tutaj od razu mnoze x przez 10
+    } 
     
 }
 //-----------------------------------------------
