@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 
-// #define FUN_PTR_TYPE // te linijke moge komentowac i odkomentowywac i bedzie dzialac inny fragment kodu
+#define FUN_PTR_TYPE // te linijke moge komentowac i odkomentowywac i bedzie dzialac inny fragment kodu
 
 int f1();
 int f2();

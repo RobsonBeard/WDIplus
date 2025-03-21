@@ -1,7 +1,4 @@
 
-void initTab( int* pTab, int nSize );
-void printTab( int* pTab, int nSize );
-int createTab( int**, int );
 
 int main( int argc, char* argv[] )
 {

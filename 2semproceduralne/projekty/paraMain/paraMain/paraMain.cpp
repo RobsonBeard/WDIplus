@@ -100,12 +100,12 @@ double w moim printf:
 0.2350000001
 
 nie uzywac dodatkowej zmiennej
-x = x - (int)x; - tak mozna!
+x = x - (int)x; - tak mozna! //done
 
 jakis taki warunek w forze!!!!
-for(int i=0; i<8 && (x-(int)x>1e-6); i++)
+for(int i=0; i<8 && (x-(int)x>1e-6); i++) // done
 
-(int)(x*=10)%10 + '0'  - tak dla cyfr po przecinku!
+(int)(x*=10)%10 + '0'  - tak dla cyfr po przecinku! // done
 
 rozpatrzenie 0 w outDec
 w outNum i ifie dwie instrukcje albo cos takiego?
