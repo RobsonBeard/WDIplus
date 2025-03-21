@@ -39,13 +39,10 @@ int main(int argc, char* argv[])
 	}
 
 	initTab( controlArray, nSize );
-	memcpy(testingArray,controlArray,nSize * sizeof( int ) ); // kopiuje DO testing Z control, tyle bajtow ile po prawej stronie (czyli przekopiowany rozmiar z malloca)
 
 	#ifdef MY_DEBUG_CONST
 	printTabTest( controlArray, nSize );
 	printf( "\n");
-	printTabTest( testingArray, nSize );
-	printf( "\n" );
 	#endif // MY_DEBUG_CONST
 
 
@@ -55,6 +52,8 @@ int main(int argc, char* argv[])
 
 	for( int i = 0; i < sortsNo; i++ )
 	{
+		memcpy( testingArray, controlArray, nSize * sizeof( int ) ); // kopiuje DO testing Z control, tyle bajtow ile po prawej stronie (czyli przekopiowany rozmiar z malloca)
+
 		relativeTime = (double) clock() / CLOCKS_PER_SEC; // najpierw mierze czas przed wykonaniem sortowania, zeby potem moc zmierzyc czas samego sortowania
 		pSortTab[i]( testingArray, nSize );
 		relativeTime = (double)clock() / CLOCKS_PER_SEC - relativeTime;
@@ -65,8 +64,6 @@ int main(int argc, char* argv[])
 		printf( "\n" );
 		printTabTest( testingArray, nSize );
 		#endif // MY_DEBUG_CONST
-		
-		memcpy( testingArray, controlArray, nSize * sizeof( int ) ); // takie samo kopiowanie jak wczesniej
 	}
 
 
