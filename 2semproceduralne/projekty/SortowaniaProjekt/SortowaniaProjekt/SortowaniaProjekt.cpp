@@ -1,7 +1,7 @@
 #include "Sort.h"
 
 #define PARAM_NO 2
-//#define MY_DEBUG_CONST
+#define MY_DEBUG_CONST
 
 typedef void ( *pFType )( int *pTab, int nSize ); // moj typ wskaznikowy na funkcje
 //? czy to ma byc w tym miejscu?
@@ -15,14 +15,14 @@ void printTabTest( int* pTab, int nSize );
 int main(int argc, char* argv[])
 {
 
-	pFType pSortTab[] = {bubbleSort, simpleInsertionSort, simpleSelectionSort};
-	const char* sortNames[] = {"bubbleSort","simpleInsertionSort","simpleSelectionSort"};
-	// tutaj bede dodawal kolejne sortowania
-
 	if( argc != PARAM_NO ) {
 		printf( "Usage: %s <tab_size> \n", argv[0] );
-		return 1; 
+		return 1;
 	} // tym razem jest tylko jeden dodatkowy parametr, rozmiar tablicy
+	
+	pFType pSortTab[] = {bubbleSort, simpleInsertionSort, simpleSelectionSort, mixedSort,halfFindSort};
+	const char* sortNames[] = {"bubbleSort","simpleInsertionSort","simpleSelectionSort", "mixedSort", "halfFindSort"};
+	// tutaj bede dodawal kolejne sortowania
 
 	int nSize = atoi( argv[1] ); // funkcja biblioteczna - napis do inta, istnieje tez np. atof()
 
@@ -63,6 +63,7 @@ int main(int argc, char* argv[])
 		#ifdef MY_DEBUG_CONST
 		printf( "\n" );
 		printTabTest( testingArray, nSize );
+		printf( "\n" );
 		#endif // MY_DEBUG_CONST
 	}
 

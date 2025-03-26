@@ -1,7 +1,5 @@
 #include "Sort.h"
 
-
-
 int createTab( int** pTab, int nSize ) {
 	*pTab = (int*)malloc( nSize * sizeof( int ) );
 	if( !*pTab ) // if(*pTab == NULL)
@@ -85,3 +83,125 @@ void simpleInsertionSort( int* pTab, int nSize) {
 	}
 	// schematy dzialania w zeszycie!
 }
+
+void mixedSort( int* pTab, int nSize ) {
+	int l = 1;
+	int p = nSize - 1;
+	int k = nSize - 1;
+	int temp;
+	
+	do {
+		for( int i = p; i >= l; i-- )
+		{
+			if( pTab[i-1]>pTab[i] ) {
+				temp = pTab[i-1];
+				pTab[i - 1] = pTab[i];
+				pTab[i] = temp;
+				k = i;
+			}
+		}
+		l = k + 1;
+		for( int i = l; i <= p; i++ )
+		{
+			if( pTab[i - 1] > pTab[i] ) {
+				temp = pTab[i-1];
+				pTab[i - 1] = pTab[i];
+				pTab[i] = temp;
+				k = i;
+			}
+		}
+		p = k - 1;
+	} while(l<=p);
+}
+
+void halfFindSort( int* pTab, int nSize ) {
+	int x;
+	int l;
+	int p;
+	int m;
+	
+	//for( int i = 1; i <= nSize-2; i++ )
+	//{
+	//	// teraz zostawia pierwszy element t[0] i przekopiowuje wszedzie drugi t[1]
+	//	x = pTab[i];
+	//	l = 0;
+	//	p = i + 1; // dla p = i-1 teraz troche sortuje a troche nie
+	//	while( l < p )/*dla l<=p wywala memory error*/ {
+	//		m = ( l + p ) / 2;
+	//		/*if( x < pTab[m] ) {
+	//			p = m - 1;
+	//		}
+	//		else l = m - 1;*/
+	//		( x < pTab[m] ) ? p = m - 1 : l = m + 1;
+	//	}
+	//	for( int j = i - 1; j >= l; j-- )
+	//		pTab[j + 1] = pTab[j];
+
+	//	pTab[l] = x;
+	//}
+}
+
+void quickSort( int* pTab, int nSize ) {
+	  
+}
+
+
+
+/*
+	// w pascalu petla repeat while wykonuje sie dopoki warunek jest FALSZYWY
+
+	// program 2.5, 2.2
+	// sortowanie szybkie 2.10, dwie funkcje do napisania w nim, 3 parametry - tablice, lewe i prawe ograniczenie
+	// potrzeba namiastki funkcji, ktora wywola quicksorta, bo on ma 3 parametry, a my przekazujemy 2
+
+i=0;j=nTabSize-1;
+x wybierz jako srodkowy
+do{
+	znajdz t[i]>x na lewo od x;
+	znajdz t[j]<x na prawo od x;
+	if i<=j
+		zamien
+		i++
+		j++
+} while (i<j)
+
+rekurencyjnie dla lewej polowki
+rekurencyjnie dla prawej polowki
+
+*/
+
+/*
+* program 2.8
+sort stogowe - heapsort
+nastepniki - nastepnik 0 to 1 i 2
+nastepik 1 to 2 i 3
+(2i + 1)
+nastepnik 2 to 4 i 5 ? 
+i licze je tylko do polowy indeksow
+
+uaktualnienie stogu ma byc pomiedzy indeksami l i p
+
+void Update(l,p, tablica)
+{
+	sprawdzenie czy l>=p, jesli tak - return
+	mam indeks l, dla niego obliczam potomkow
+	obliczam indeks elementu, z ktorym nalezy zamienic p - wybieram wiekszy z potomkow
+	nastepuje zamiana z wiekszym z potomkow?
+}
+
+dwa ify z ksiazki mozna zapisac jednym ifem
+naglowek funkcji srodkowej nie ma byc w pliku naglowkowym, tylko gdzies w cpp
+najpierw sie tworzy stóg, a potem sie go sortuje. tworzymy go petla for a nie while
+sortowanie jadê pêtl¹ od koñca do 1 (nie  0)
+wymieniam ostatni element z zerowym i uaktualniam stog,
+potem przedostatni z czymstam i uaktualniam stog
+
+to jest najtrudniejsze, zrobic na koniec
+
+
+jakas kolejka priorytetowa - (lifo albo fifo? ktores z tych?) na tablicy
+//TODO gdy zrobimy heapsort to probujmy odwrocic sortowanie na malejace
+czyli costam w ifach pozmieniac, no i zachowac te funkcje w komentarzu
+//!bez odwolan rekurencyjnych, ktore sa w internecie, bo bedzie karny projekt - mamy korzystac tylko z wirtha!
+//! ma nie byc spacji przy rzutowaniu!! (double) a nie ( double ), po nazwie funkcji nie ma spacji, wylaczone formatowanie gdy zamknie sie srednik lub zamknie blok, bo mamy sobie samemu formatowac (chyba?)
+*/

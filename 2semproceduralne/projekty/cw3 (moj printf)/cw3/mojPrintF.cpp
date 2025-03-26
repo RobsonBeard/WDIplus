@@ -26,7 +26,7 @@ int main( int argc, char* argv[] )
     double z = -1.5;
     char* str = (char*)"to jest string";
 
-    n = Printf( "%s\n%f%c  n=%%d \\ \% /\ny=%f ` ` z=%%f\n%", str, x, c, n, y, z );  // ` -> '
+    n = Printf( "%s\n%f%c  *%a*  n=%%d \\ \% /\ny=%f ` ` z=%%f\n%", str, x, c, n, y, z );  // ` -> '
     Printf( "\nilosc formatow=%d\n", n );
 
     return 0;
@@ -57,26 +57,27 @@ int PrintfV( const char* sFormat, va_list args )
     char c;
     int ilosc = 0;
     //! NIE WOLNO ROBIC BLOKOW W CASE
-    while( c = *sFormat /*c = znak_z_we_stringu*/ )
+    while( c = *sFormat++ /*c = znak_z_we_stringu*/ )
     {
         switch( c )
         {
         case '%':
         
-            switch( *( sFormat + 1 ) /* tutaj sprawdzam kolejny znak po c, wczesniej mialem tu zmienna char c2 */ )
+            switch( c=*sFormat++ ) /* tutaj sprawdzam kolejny znak po c, wczesniej mialem tu zmienna char c2 */ 
             {
-            case 'd': outDec( va_arg( args, int ) ); ilosc++; sFormat++ /* pomija wypisywanie literki, tutaj "d" */; break;
-            case 'f': outDouble( va_arg( args, double ) ); ilosc++; sFormat++; break;
-            case 's':  outStr( va_arg( args, char* ) ); ilosc++; sFormat++; break; 
-            case 'c': outChar( va_arg( args, char ) ); ilosc++; sFormat++; break;
-            default: outChar( c );
+            case 'd': outDec( va_arg(args, int) );         ilosc++; /* pomija wypisywanie literki, tutaj "d" */; break;
+            case 'f': outDouble( va_arg( args, double ) ); ilosc++; break;
+            case 's': outStr( va_arg( args, char* ) );     ilosc++; break; 
+            case 'c': outChar( va_arg( args, char ) );     ilosc++; break;
+            default: outChar( '%' );
+                     sFormat--;
             }
             break;
             
         case '`': c = '\'';  // to bez break-a
         default: outChar( c );
         }
-        sFormat++;
+        //sFormat++;
     }
     return ilosc;
 }
@@ -89,10 +90,11 @@ void outChar( char c )
 //-----------------------------------------------
 void outStr( char* pStr )
 {
-    char c;
-    while(c = *pStr ) {
-        outChar( c );
-        pStr++;
+    //char c;
+    while(*pStr ) {
+        outChar( *pStr++ );
+        //pStr++;
+        //TODO: SPRAWDZIC CZY DZIALA
     }
 }
 //-----------------------------------------------
@@ -103,9 +105,10 @@ void outDec( int x )
     if( x < ZERO )
     {
         outChar( '-' );
-        outNum( -x );
+        //outNum( -x );
+        x = -x;
     }
-    else outNum( x );
+    outNum( x );
 }
 
 //-----------------------------------------------
@@ -131,7 +134,7 @@ void outDouble( double x )
         // sprytnie dodaje drugi warunek dzialania petli, zamiast tworzyc ifa w jej srodku
         // ten warunek mowi, ze przejde przez petle, jesli i<8 i dalsza czesc ulamkowa jest wieksza niz 1e-6
 
-        outChar((int)(x*=10) % 10 + '0'); // zamiast robic to w innej linii, to tutaj od razu mnoze x przez 10
+        outChar( (int)(x*=10) % 10 + '0' ); // zamiast robic to w innej linii, to tutaj od razu mnoze x przez 10
     } 
     
 }
