@@ -20,8 +20,8 @@ int main(int argc, char* argv[])
 		return 1;
 	} // tym razem jest tylko jeden dodatkowy parametr, rozmiar tablicy
 	
-	pFType pSortTab[] = {bubbleSort, simpleInsertionSort, simpleSelectionSort, mixedSort,halfFindSort};
-	const char* sortNames[] = {"bubbleSort","simpleInsertionSort","simpleSelectionSort", "mixedSort", "halfFindSort"};
+	pFType pSortTab[] = { bubbleSort, simpleInsertionSort, simpleSelectionSort, mixedSort,halfFindSort,quickSort,heapSort };
+	const char* sortNames[] = { "bubbleSort","simpleInsertionSort","simpleSelectionSort", "mixedSort", "halfFindSort", "quickSort","heapSort" };
 	// tutaj bede dodawal kolejne sortowania
 
 	int nSize = atoi( argv[1] ); // funkcja biblioteczna - napis do inta, istnieje tez np. atof()
