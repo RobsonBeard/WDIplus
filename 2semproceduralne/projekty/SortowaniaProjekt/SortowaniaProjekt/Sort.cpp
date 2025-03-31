@@ -86,36 +86,37 @@ void simpleInsertionSort( int* pTab, int nSize) {
 	
 }
 
-//TODO: spróbowaæ jak najbardziej zoptymalizowaæ te kody, POPRAWIC I ZROZUMIEC HEAPSORT (tak jak jest w komentarzu), zrozumieæ po co tworzymy dodatkowe zmienne
 
 void mixedSort( int* pTab, int nSize ) {
-	int l = 1;
-	int p = nSize - 1;
+	int l = 1; 
+	int p = nSize - 1; // ostatni indeks tablicy
 	int k = nSize - 1;
 	int temp;
 	
 	do {
-		for( int i = p; i >= l; i-- )
+		for( int i = p; i >= l; i-- ) // jadê w dó³
 		{
-			if( pTab[i-1]>pTab[i] ) {
-				temp = pTab[i-1];
+			if( pTab[i - 1] > pTab[i] ) // jeœli element z lewej strony jest wiêkszy od obecnego (st¹d l=1, bo mo¿na porównaæ max do [0])
+			{
+				temp = pTab[i - 1];
 				pTab[i - 1] = pTab[i];
-				pTab[i] = temp;
-				k = i;
+				pTab[i] = temp; // zamieniam elementy z warunku miejscami
+				k = i; // zapisuje indeks ostatniej zamiany
 			}
 		}
-		l = k + 1;
-		for( int i = l; i <= p; i++ )
+		l = k + 1;  // tam gdzie ostatnio zmienia³em + 1
+		for( int i = l; i <= p; i++ ) // jadê do góry
 		{
-			if( pTab[i - 1] > pTab[i] ) {
-				temp = pTab[i-1];
+			if( pTab[i - 1] > pTab[i] )// taki sam warunek i dzia³anie jak u góry 
+			{
+				temp = pTab[i - 1];
 				pTab[i - 1] = pTab[i];
 				pTab[i] = temp;
-				k = i;
+				k = i; 
 			}
 		}
-		p = k - 1;
-	} while(l<=p);
+		p = k - 1; // tam gdzie ostatnio zmienia³em - 1
+	} while(l<=p); // dopóki prawy jest wiêkszy lub równy od lewego indeksu
 }
 
 void halfFindSort(int* pTab, int nSize) {
@@ -131,13 +132,13 @@ void halfFindSort(int* pTab, int nSize) {
 		p = i - 1; // lewy i prawy koniec przedzia³u (indeks), na start to jest ca³a tablica
 		while(l <= p) {
 			m = (l + p) / 2; // srodek przedzia³u (indeks)
-			(x < pTab[m]) ? p = m - 1 : l = m + 1; // skrocony if
+			(x < pTab[m]) ? p = m - 1 : l = m + 1; // skrocony if, po zakonczeniu while bedziemy mieli indeks l, w ktorym bedziemy wstawiac x, l to indeks pierwszego elementu, ktory jest >= x
 		} // ta petla robi sie na poczatku raz po nic?
 		for(int j = i - 1; j >= l; j--)
 		{
-			pTab[j + 1] = pTab[j];
+			pTab[j + 1] = pTab[j]; // przesuwam wszystkie elementy >= x w prawo o 1
 		}
-		pTab[l] = x; // jeœli tu zamieniê x na pTab[i], to nie dzia³a, nie bardzo wiem dlaczego, bo wygl¹da mi na to, ¿e da³oby siê usun¹æ iksa
+		pTab[l] = x; 
 	}
 }
 
@@ -155,10 +156,8 @@ void sortuj(int* pTab, int l, int p) {
 		while(x < pTab[j]) j--;
 		if(i <= j) {
 			temp = pTab[i];
-			pTab[i] = pTab[j];
-			pTab[j] = temp;
-			i++;
-			j--; // to da sie skrocic chyba
+			pTab[i++] = pTab[j];
+			pTab[j--] = temp;
 		}
 	} while(i <= j);
 	if(l < j) sortuj(pTab, l, j);
@@ -169,6 +168,7 @@ void heapSort(int* pTab, int nSize) {
 	int l = nSize/2 ;
 	int p = nSize-1;
 	int x;
+
 	while(l > 0) {
 		l--;
 		update(pTab, l, p);
@@ -183,22 +183,22 @@ void heapSort(int* pTab, int nSize) {
 }
 
 void update(int* pTab,int l,int p) {
+	if( l >= p ) return;
 	int i = l;
-	int j= 2*i; // czy 2*i+1
+	int j= 2*i+1; // 2*i w pascalu
 	int x = pTab[i];
 	while(j <= p) {
-		if(j < p) {
-			if(pTab[j] < pTab[j + 1]) j++;
-		}
+		if(j < p && pTab[j] < pTab[j + 1] ) j++;
 		if(x >= pTab[j]) break;
 		pTab[i] = pTab[j];
 		i = j;
-		j = 2 * i; // czy 2*i+1
+		j = 2 * i+1; 
 	}
 	pTab[i] = x;
 }
 
 /*
+//! spróbowaæ jak najbardziej zoptymalizowaæ te kody, POPRAWIC I ZROZUMIEC HEAPSORT (tak jak jest w komentarzu), zrozumieæ po co tworzymy dodatkowe zmienne
 	program 2.8
 	sort stogowe - heapsort
 	nastepniki - nastepnik 0 to 1 i 2
@@ -229,12 +229,13 @@ void update(int* pTab,int l,int p) {
 
 
 /*
-	// w pascalu petla repeat while wykonuje sie dopoki warunek jest FALSZYWY
+	// w pascalu petla repeat until wykonuje sie dopoki warunek jest FALSZYWY
 
 	// program 2.5, 2.2
 	// sortowanie szybkie 2.10, dwie funkcje do napisania w nim, 3 parametry - tablice, lewe i prawe ograniczenie
 	// potrzeba namiastki funkcji, ktora wywola quicksorta, bo on ma 3 parametry, a my przekazujemy 2
 
+quicksort:
 i=0;j=nTabSize-1;
 x wybierz jako srodkowy
 do{
