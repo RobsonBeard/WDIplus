@@ -18,7 +18,9 @@ int main()
 	printf( "%d\n", FQDequeue( q ) );
 	printf( "%d\n", FQDequeue( q ) );
 	FQDel( q );
+	printf( "empty? %d\n", FQEmpty(q) );
 	printf( "%d\n", FQDequeue( q ) );
+	printf( "empty? %d\n", FQEmpty(q) );
 
 	return 0;
 }

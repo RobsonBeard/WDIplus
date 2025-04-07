@@ -129,7 +129,7 @@ void halfFindSort(int* pTab, int nSize) {
 	{
 		x = pTab[i];
 		l = 0;
-		p = i - 1; // lewy i prawy koniec przedzia³u (indeks), na start to jest ca³a tablica
+		p = i - 1; // lewy i prawy koniec przedzia³u (indeks)
 		while(l <= p) {
 			m = (l + p) / 2; // srodek przedzia³u (indeks)
 			(x < pTab[m]) ? p = m - 1 : l = m + 1; // skrocony if, po zakonczeniu while bedziemy mieli indeks l, w ktorym bedziemy wstawiac x, l to indeks pierwszego elementu, ktory jest >= x
@@ -147,14 +147,16 @@ void quickSort( int* pTab, int nSize ) {
 }
 
 void sortuj(int* pTab, int l, int p) {
-	int i = l;
+	int i = l; // lewy indeks
 	int temp;
-	int j = p;
-	int x = pTab[(l + p) / 2];
+	int j = p; // prawy indeks
+	int x = pTab[(l + p) / 2]; // wartosc srodkowego indeksu tablicy
 	do {
-		while(pTab[i] < x) i++;
-		while(x < pTab[j]) j--;
-		if(i <= j) {
+		// "dziele" tablice na elementy wieksze i mniejsze niz x?
+		while(pTab[i] < x) i++; // przesuwam lewy indeks w prawo
+		while(x < pTab[j]) j--;	// przesuwam prawy indeks w lewo
+		if(i <= j) // jesli lewy i prawy sie minely to zamieniam wartosci miejscami
+		{
 			temp = pTab[i];
 			pTab[i++] = pTab[j];
 			pTab[j--] = temp;
@@ -167,18 +169,33 @@ void sortuj(int* pTab, int l, int p) {
 void heapSort(int* pTab, int nSize) {
 	int l = nSize/2 ;
 	int p = nSize-1;
-	int x;
+	int temp;
 
-	while(l > 0) {
+	/*while( l > 0 ) {
 		l--;
-		update(pTab, l, p);
+		update( pTab, l, p );
+	}*/
+
+	// delikatnie musze zmienic for, w stosunku do while, bo w forze dekrementuje po wykonaniu sie petli (trzeba zmienic obie petle na raz, inaczej nie dziala miedzy innymi z powodu modyfikacji l)
+	for( int i = l-1; i >= 0; i-- )
+	{
+		update( pTab, i, p );
 	}
-	while(p > 0) {
-		x = pTab[0]; // na pierwszy wyraz
+
+	/*while( p > 0 ) {
+		temp = pTab[0]; 
 		pTab[0] = pTab[p];
-		pTab[p] = x;
+		pTab[p] = temp;
 		p--;
-		update(pTab, l, p);
+		update( pTab, l, p );
+	}*/
+
+	for( int i = p-1; i >= 0; i-- )
+	{
+		temp = pTab[0];
+		pTab[0] = pTab[i+1];
+		pTab[i+1] = temp;
+		update( pTab, 0, i ); // poprzednio we while szedlem z l az do 0, wiec tutaj jest 0 zamiast l
 	}
 }
 
@@ -197,8 +214,12 @@ void update(int* pTab,int l,int p) {
 	pTab[i] = x;
 }
 
+// troche nie ogarniam tego tworzenia zmiennych w funkcji, z jakiegos powodu bez nich sie psuje, moze musze zachowywac ich oryginalne wartosci?
+// zrozumiec heapsort
+
 /*
-//! spróbowaæ jak najbardziej zoptymalizowaæ te kody, POPRAWIC I ZROZUMIEC HEAPSORT (tak jak jest w komentarzu), zrozumieæ po co tworzymy dodatkowe zmienne
+	* notatki
+
 	program 2.8
 	sort stogowe - heapsort
 	nastepniki - nastepnik 0 to 1 i 2
@@ -255,7 +276,6 @@ rekurencyjnie dla prawej polowki
 
 
 /*
-jakas kolejka priorytetowa - (lifo albo fifo? ktores z tych?) na tablicy
 //TODO gdy zrobimy heapsort to probujmy odwrocic sortowanie na malejace
 czyli costam w ifach pozmieniac, no i zachowac te funkcje w komentarzu
 //!bez odwolan rekurencyjnych, ktore sa w internecie, bo bedzie karny projekt - mamy korzystac tylko z wirtha!

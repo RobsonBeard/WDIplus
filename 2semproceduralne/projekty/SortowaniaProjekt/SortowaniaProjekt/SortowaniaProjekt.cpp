@@ -1,7 +1,7 @@
 #include "Sort.h"
 
 #define PARAM_NO 2
-#define MY_DEBUG_CONST
+//#define MY_DEBUG_CONST
 
 typedef void ( *pFType )( int *pTab, int nSize ); // moj typ wskaznikowy na funkcje
 //? czy to ma byc w tym miejscu?
