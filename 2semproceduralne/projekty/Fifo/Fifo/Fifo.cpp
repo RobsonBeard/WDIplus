@@ -1,76 +1,109 @@
 #include "QFIFO.h"
 // zainkl interfejs kolejki
 
-void freeInfo( const void* pInfo);
+void freeInfo( const void* pInfo );
 QINFO* allocInfo( int a, int b, int c );
 void printInfo( const void* pInfo );
 
 int main()
 {
 	FQueue* q = FQCreate();
-	// sprawdzic q i komunikat
-	if( !q ) {
-		printf( "ERROR: Memory allocation error (chyba)" );
-		return 1;
-	}
-	
 
+	//! wszêdzie, gdzie nie wypisujê komunikatów w QFIFO.cpp, tylko zwracam NULL albo 0, muszê zrobiæ komunikaty w tym pliku
+	
+	if( !q ) {
+		printf( "ERROR: Memory allocation error" );
+		return 1;
+	}	
+
+	// dodac do kolejki 4 elementy (wydrukowac kolejke)
 	for( int i = 1; i <= 4; i++ )
 	{
-		// dodac do kolejki 4 elementy (wydrukowac kolejke)
 		QINFO* p = allocInfo( i, i + 1, i + 2 );
-		FQEnqueue(q,p);
+		if( !p ) {
+			printf( "ERROR: Memory allocation error or queue does not exist" );
+			return 2;
+		}
+		if( !FQEnqueue( q, p ) ) {
+			printf( "ERROR: Memory allocation error or queue does not exist" );
+			return 3;
+		}
 	}
 	FQPrint( q, printInfo );
 
+	printf( "\n\n" );
+
 	// usunac 3 elementy (wypisac info)
 	// wypisac pozostala kolejke
+	for( int i = 0; i < 3; i++ )
+	{
+		QINFO* p = FQDequeue( q );
+		printInfo( p );
+	}
+	printf("Pozostala kolejka:\n");
+	FQPrint( q, printInfo );
+
+	printf( "\n\n" );
 
 	// dodac 2 elementy (wydrukowac kolejke)
+	for( int i = 1; i <= 2; i++ )
+	{
+		QINFO* p = allocInfo( i * 20, i * 30, i * 40 );
+		if( !p ) {
+			printf( "ERROR: Memory allocation error or queue does not exist" );
+			return 4;
+		}
+		if( !FQEnqueue( q, p ) ) {
+			printf( "ERROR: Memory allocation error or queue does not exist" );
+			return 5;
+		}
+	}
+	FQPrint( q, printInfo );
+	
+	
 	// wyczyscic kolejke
-	
 	FQClear( q, freeInfo );
-	
+
+	printf( "\n\n" );
+
 	// dodac trzy elementy (wydrukowac kolejke)
+	for( int i = 1; i <= 3; i++ )
+	{
+		QINFO* p = allocInfo( i, i + 22, i + 33 );
+		if( !p ) {
+			printf( "ERROR: Memory allocation error or queue does not exist" );
+			return 2;
+		}
+		if( !FQEnqueue( q, p ) ) {
+			printf( "ERROR: Memory allocation error or queue does not exist" );
+			return 3;
+		}
+	}
+	FQPrint( q, printInfo );
+
+	printf( "\n\n" );
+
 	// usunac jeden element (Wypisac go) i wydrukowac kolejke
+	
+	QINFO* p = FQDequeue( q );
+	printInfo( p );
+	printf( "Pozostala kolejka:\n" );
+	FQPrint( q, printInfo );
+
+	printf( "\n\n" );
+
 	// usunac CALA kolejke
-	
 	FQRemove( &q, freeInfo );
-
-
-
-
-	/*
-		stare:
-	
-	// mozna funkcje sobie dopisac, ktora wypisze wszystkie elementy az do NULLa
-	// na nastepny raz ma byc wszystko zrobione
-
-	//! potestowac jeszcze te wszystkie funkcje i pozastanawiac sie
-
-
-	FQEnqueue( q, 10 );
-	FQEnqueue( q, 11 );
-	FQEnqueue( q, 12 );
-	FQEnqueue( q, 13 );
-
-	printf( "%d\n", FQDequeue( q ) );
-	printf( "%d\n", FQDequeue( q ) );
-	FQDel( q );
-	printf( "empty? %d\n", FQEmpty(q) );
-	printf( "%d\n", FQDequeue( q ) );
-	printf( "empty? %d\n", FQEmpty(q) );
-	*/
 
 
 	return 0;
 }
 
-void freeInfo( const void* pInfo) {
+void freeInfo( const void* pInfo ) {
 	// to pInfo zrzutowac na QINFO*
 
 	if( pInfo ) {
-		free( ((QINFO*)pInfo)->pTab );
+		free( ( (QINFO*)pInfo )->pTab );
 		free( (QINFO*)pInfo );
 	}
 }
@@ -87,7 +120,7 @@ QINFO* allocInfo( int a, int b, int c ) {
 	if( !q ) {
 		return NULL;
 	}
-	q->pTab = (int*)malloc(2*sizeof( int ));
+	q->pTab = (int*)malloc( 2 * sizeof( int ) );
 	if( !( q->pTab ) ) {
 		free( q );
 		return NULL;
@@ -98,6 +131,7 @@ QINFO* allocInfo( int a, int b, int c ) {
 	return q;
 }
 
-void printInfo( const void* pInfo ) {
-	printf( "key = %d   pTab[0] = %d   pTab[1] = %d\n", ( (QINFO*)pInfo )->key, ( (QINFO*)pInfo )->pTab[0], ( (QINFO*)pInfo )->pTab[1]);
+void printInfo( const void* pInfo )
+{
+	printf( "key = %d   pTab[0] = %d   pTab[1] = %d\n", ( (QINFO*)pInfo )->key, ( (QINFO*)pInfo )->pTab[0], ( (QINFO*)pInfo )->pTab[1] );
 }
