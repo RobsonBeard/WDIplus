@@ -1,7 +1,7 @@
 #include "Sort.h"
 
-void sortuj(int* pTab, int l, int p);
-void update(int* pTab, int l, int p);
+void sortuj( int* pTab, int l, int p );
+void update( int* pTab, int l, int p );
 
 
 int createTab( int** pTab, int nSize ) {
@@ -18,36 +18,34 @@ int createTab( int** pTab, int nSize ) {
 }
 
 void initTab( int* pTab, int nSize ) {
-	srand( (unsigned)time( NULL ) ); 
+	srand( (unsigned)time( NULL ) );
 	for( int i = 0; i < nSize; i++ ) {
-		*pTab++ = rand() % nSize; 
+		*pTab++ = rand() % nSize;
 	}
 }
 
 void printTabTest( int* pTab, int nSize ) {
-	for( int i = 0; i < nSize && i<50; i++ ) 
+	for( int i = 0; i < nSize && i < 50; i++ )
 	{
 		printf( "%d ", *pTab++ );
 		if( ( i + 1 ) % MAXLINE == 0 ) printf( "\n" );
 	}
-
 }
 
 void printTab( int* pTab, int nSize ) {
-	for( int i = 0; i < nSize ; i++ )
+	for( int i = 0; i < nSize; i++ )
 	{
-		printf( "%d ", *pTab++ ); 
+		printf( "%d ", *pTab++ );
 		if( ( i + 1 ) % MAXLINE == 0 ) printf( "\n" );
 	}
-
 }
 
-void bubbleSort( int* pTab, int nSize) {
-	for(int i = 1; i < nSize; i++)
+void bubbleSort( int* pTab, int nSize ) {
+	for( int i = 1; i < nSize; i++ )
 	{
-		for(int j = nSize - 1; j>=i ; j--)
+		for( int j = nSize - 1; j >= i; j-- )
 		{
-			if( pTab[j] < pTab[j - 1]) {
+			if( pTab[j] < pTab[j - 1] ) {
 				int temp = pTab[j];
 				pTab[j] = pTab[j - 1];
 				pTab[j - 1] = temp;
@@ -56,14 +54,14 @@ void bubbleSort( int* pTab, int nSize) {
 	}
 }
 
-void simpleSelectionSort( int* pTab, int nSize) {
-	for(int i = 0; i < nSize-1; i++)
+void simpleSelectionSort( int* pTab, int nSize ) {
+	for( int i = 0; i < nSize - 1; i++ )
 	{
 		int min = pTab[i];
 		int ix_min = i; // indeks minimum
-		for(int j = i+1; j < nSize; j++)
+		for( int j = i + 1; j < nSize; j++ )
 		{
-			if( pTab[j] < min) {
+			if( pTab[j] < min ) {
 				min = pTab[j];
 				ix_min = j;
 			}
@@ -73,26 +71,26 @@ void simpleSelectionSort( int* pTab, int nSize) {
 	}
 }
 
-void simpleInsertionSort( int* pTab, int nSize) {
-	for(int i = 1; i < nSize; i++)
+void simpleInsertionSort( int* pTab, int nSize ) {
+	for( int i = 1; i < nSize; i++ )
 	{
 		int x = pTab[i];
-		int j = i - 1; 
-		while(j>=0 && pTab[j] > x) {
+		int j = i - 1;
+		while( j >= 0 && pTab[j] > x ) {
 			pTab[j + 1] = pTab[j--];
 		}
 		pTab[j + 1] = x;
 	}
-	
+
 }
 
 
 void mixedSort( int* pTab, int nSize ) {
-	int l = 1; 
+	int l = 1;
 	int p = nSize - 1; // ostatni indeks tablicy
 	int k = nSize - 1;
 	int temp;
-	
+
 	do {
 		for( int i = p; i >= l; i-- ) // jadê w dó³
 		{
@@ -112,63 +110,63 @@ void mixedSort( int* pTab, int nSize ) {
 				temp = pTab[i - 1];
 				pTab[i - 1] = pTab[i];
 				pTab[i] = temp;
-				k = i; 
+				k = i;
 			}
 		}
 		p = k - 1; // tam gdzie ostatnio zmienia³em - 1
-	} while(l<=p); // dopóki prawy jest wiêkszy lub równy od lewego indeksu
+	} while( l <= p ); // dopóki prawy jest wiêkszy lub równy od lewego indeksu
 }
 
-void halfFindSort(int* pTab, int nSize) {
+void halfFindSort( int* pTab, int nSize ) {
 	int l;
 	int p;
 	int m;
 	int x;
 
-	for(int i = 1; i < nSize; i++) //for od drugiego elementu tablicy 
+	for( int i = 1; i < nSize; i++ ) //for od drugiego elementu tablicy 
 	{
 		x = pTab[i];
 		l = 0;
 		p = i - 1; // lewy i prawy koniec przedzia³u (indeks)
-		while(l <= p) {
-			m = (l + p) / 2; // srodek przedzia³u (indeks)
-			(x < pTab[m]) ? p = m - 1 : l = m + 1; // skrocony if, po zakonczeniu while bedziemy mieli indeks l, w ktorym bedziemy wstawiac x, l to indeks pierwszego elementu, ktory jest >= x
+		while( l <= p ) {
+			m = ( l + p ) / 2; // srodek przedzia³u (indeks)
+			( x < pTab[m] ) ? p = m - 1 : l = m + 1; // skrocony if, po zakonczeniu while bedziemy mieli indeks l, w ktorym bedziemy wstawiac x, l to indeks pierwszego elementu, ktory jest >= x
 		} // ta petla robi sie na poczatku raz po nic?
-		for(int j = i - 1; j >= l; j--)
+		for( int j = i - 1; j >= l; j-- )
 		{
 			pTab[j + 1] = pTab[j]; // przesuwam wszystkie elementy >= x w prawo o 1
 		}
-		pTab[l] = x; 
+		pTab[l] = x;
 	}
 }
 
 void quickSort( int* pTab, int nSize ) {
-	sortuj(pTab,0, nSize-1);
+	sortuj( pTab, 0, nSize - 1 );
 }
 
-void sortuj(int* pTab, int l, int p) {
+void sortuj( int* pTab, int l, int p ) {
 	int i = l; // lewy indeks
 	int temp;
 	int j = p; // prawy indeks
-	int x = pTab[(l + p) / 2]; // wartosc srodkowego indeksu tablicy
+	int x = pTab[( l + p ) / 2]; // wartosc srodkowego indeksu tablicy
 	do {
 		// "dziele" tablice na elementy wieksze i mniejsze niz x?
-		while(pTab[i] < x) i++; // przesuwam lewy indeks w prawo
-		while(x < pTab[j]) j--;	// przesuwam prawy indeks w lewo
-		if(i <= j) // jesli lewy i prawy sie minely to zamieniam wartosci miejscami
+		while( pTab[i] < x ) i++; // przesuwam lewy indeks w prawo
+		while( x < pTab[j] ) j--;	// przesuwam prawy indeks w lewo
+		if( i <= j ) // jesli lewy i prawy sie minely to zamieniam wartosci miejscami
 		{
 			temp = pTab[i];
 			pTab[i++] = pTab[j];
 			pTab[j--] = temp;
 		}
-	} while(i <= j);
-	if(l < j) sortuj(pTab, l, j);
-	if(i < p) sortuj(pTab, i, p);
+	} while( i <= j );
+	if( l < j ) sortuj( pTab, l, j );
+	if( i < p ) sortuj( pTab, i, p );
 }
 
-void heapSort(int* pTab, int nSize) {
-	int l = nSize/2 ;
-	int p = nSize-1;
+void heapSort( int* pTab, int nSize ) {
+	int l = nSize / 2;
+	int p = nSize - 1;
 	int temp;
 
 	/*while( l > 0 ) {
@@ -177,39 +175,40 @@ void heapSort(int* pTab, int nSize) {
 	}*/
 
 	// delikatnie musze zmienic for, w stosunku do while, bo w forze dekrementuje po wykonaniu sie petli (trzeba zmienic obie petle na raz, inaczej nie dziala miedzy innymi z powodu modyfikacji l)
-	for( int i = l-1; i >= 0; i-- )
+	
+	for( int i = l - 1; i >= 0; i-- )
 	{
 		update( pTab, i, p );
 	}
 
 	/*while( p > 0 ) {
-		temp = pTab[0]; 
+		temp = pTab[0];
 		pTab[0] = pTab[p];
 		pTab[p] = temp;
 		p--;
 		update( pTab, l, p );
 	}*/
 
-	for( int i = p-1; i >= 0; i-- )
+	for( int i = p - 1; i >= 0; i-- )
 	{
 		temp = pTab[0];
-		pTab[0] = pTab[i+1];
-		pTab[i+1] = temp;
+		pTab[0] = pTab[i + 1];
+		pTab[i + 1] = temp;
 		update( pTab, 0, i ); // poprzednio we while szedlem z l az do 0, wiec tutaj jest 0 zamiast l
 	}
 }
 
-void update(int* pTab,int l,int p) {
+void update( int* pTab, int l, int p ) {
 	if( l >= p ) return;
 	int i = l;
-	int j= 2*i+1; // 2*i w pascalu
+	int j = 2 * i + 1; // 2*i w pascalu
 	int x = pTab[i];
-	while(j <= p) {
-		if(j < p && pTab[j] < pTab[j + 1] ) j++;
-		if(x >= pTab[j]) break;
+	while( j <= p ) {
+		if( j < p && pTab[j] < pTab[j + 1] ) j++;
+		if( x >= pTab[j] ) break;
 		pTab[i] = pTab[j];
 		i = j;
-		j = 2 * i+1; 
+		j = 2 * i + 1;
 	}
 	pTab[i] = x;
 }
@@ -249,35 +248,35 @@ void update(int* pTab,int l,int p) {
 	*/
 
 
-/*
-	// w pascalu petla repeat until wykonuje sie dopoki warunek jest FALSZYWY
+	/*
+		// w pascalu petla repeat until wykonuje sie dopoki warunek jest FALSZYWY
 
-	// program 2.5, 2.2
-	// sortowanie szybkie 2.10, dwie funkcje do napisania w nim, 3 parametry - tablice, lewe i prawe ograniczenie
-	// potrzeba namiastki funkcji, ktora wywola quicksorta, bo on ma 3 parametry, a my przekazujemy 2
+		// program 2.5, 2.2
+		// sortowanie szybkie 2.10, dwie funkcje do napisania w nim, 3 parametry - tablice, lewe i prawe ograniczenie
+		// potrzeba namiastki funkcji, ktora wywola quicksorta, bo on ma 3 parametry, a my przekazujemy 2
 
-quicksort:
-i=0;j=nTabSize-1;
-x wybierz jako srodkowy
-do{
-	znajdz t[i]>x na lewo od x;
-	znajdz t[j]<x na prawo od x;
-	if i<=j
-		zamien
-		i++
-		j++
-} while (i<j)
+	quicksort:
+	i=0;j=nTabSize-1;
+	x wybierz jako srodkowy
+	do{
+		znajdz t[i]>x na lewo od x;
+		znajdz t[j]<x na prawo od x;
+		if i<=j
+			zamien
+			i++
+			j++
+	} while (i<j)
 
-rekurencyjnie dla lewej polowki
-rekurencyjnie dla prawej polowki
+	rekurencyjnie dla lewej polowki
+	rekurencyjnie dla prawej polowki
 
-*/
+	*/
 
 
 
-/*
-//TODO gdy zrobimy heapsort to probujmy odwrocic sortowanie na malejace
-czyli costam w ifach pozmieniac, no i zachowac te funkcje w komentarzu
-//!bez odwolan rekurencyjnych, ktore sa w internecie, bo bedzie karny projekt - mamy korzystac tylko z wirtha!
-// ma nie byc spacji przy rzutowaniu!! (double) a nie ( double ), po nazwie funkcji nie ma spacji, wylaczone formatowanie gdy zamknie sie srednik lub zamknie blok, bo mamy sobie samemu formatowac (chyba?)
-*/
+	/*
+	//TODO gdy zrobimy heapsort to probujmy odwrocic sortowanie na malejace
+	czyli costam w ifach pozmieniac, no i zachowac te funkcje w komentarzu
+	//!bez odwolan rekurencyjnych, ktore sa w internecie, bo bedzie karny projekt - mamy korzystac tylko z wirtha!
+	// ma nie byc spacji przy rzutowaniu!! (double) a nie ( double ), po nazwie funkcji nie ma spacji, wylaczone formatowanie gdy zamknie sie srednik lub zamknie blok, bo mamy sobie samemu formatowac (chyba?)
+	*/

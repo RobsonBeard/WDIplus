@@ -5,6 +5,8 @@ void freeInfo( const void* pInfo );
 QINFO* allocInfo( int a, int b, int c );
 void printInfo( const void* pInfo );
 
+//TODO: DOROBIC SPRAWDZANIE CZY FUNKCJA np. freeMem ISTNIEJE - wtedy blad
+
 int main()
 {
 	FQueue* q = FQCreate();
@@ -12,7 +14,7 @@ int main()
 	//! wszêdzie, gdzie nie wypisujê komunikatów w QFIFO.cpp, tylko zwracam NULL albo 0, muszê zrobiæ komunikaty w tym pliku
 	
 	if( !q ) {
-		printf( "ERROR: Memory allocation error" );
+		printf( "ERROR: Queue allocation error" );
 		return 1;
 	}	
 

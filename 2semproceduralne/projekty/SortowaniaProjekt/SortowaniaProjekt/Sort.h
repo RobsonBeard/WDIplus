@@ -11,7 +11,7 @@
 // w tym pliku same naglowki sortowan
 
 void bubbleSort( int* pTab, int nSize );
-void simpleSelectionSort( int* pTab, int nSize);
+void simpleSelectionSort( int* pTab, int nSize );
 void simpleInsertionSort( int* pTab, int nSize );
 void mixedSort( int* pTab, int nSize );
 void halfFindSort( int* pTab, int nSize );
