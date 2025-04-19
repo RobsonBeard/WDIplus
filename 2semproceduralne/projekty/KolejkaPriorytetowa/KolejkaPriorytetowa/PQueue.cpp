@@ -5,10 +5,38 @@ PQueue* PQInit( int qSize ) {
 }
 
 int PQisEmpty( PQueue* q ) {
-	// co tu musi byc?
-	
-	//return !q || q->nPQCurrSize;
-	return -420;
+	return !q || !(q->nPQCurrSize); // jesli kolejka nie istnieje lub jej CurrSize jest 0, to zwracam 1
+}
+
+int PQSize( PQueue* q ) {
+	return ( PQisEmpty( q ) ) ? 0 : q->nPQCurrSize; //! nie jestem pewien który tutaj size
+} 
+
+int PQMaxPrior( PQueue* q ) {
+	return ( PQisEmpty( q ) ) ? PRIOR_ERROR : q->pPQueue[0]->nPrior;
+}
+
+void PQClear( PQueue* q, void( __cdecl* freeMem )( const void* ) ) {
+	if( PQisEmpty( q ) || !freeMem) {
+		printf( "PQClear: Kolejka lub funkcja freeMem nie istnieje" );
+		return;
+	}
+
+	while( !PQisEmpty( q ) ) 
+		freeMem( PQDequeue( q ) ); 
+}
+
+PQINFO* PQDequeue( PQueue* q ) {
+	// zwraca informacje o najwyzszym priorytecie lub NULL gdy niepowodzenie, (trzeba pamietac o czyszczeniu pamieci)
+
+	if( PQisEmpty( q ) ) return NULL; // zwracam NULL a nie 0, bo wskaŸnik 
+
+	PQINFO* p = q->pPQueue[0]->pInfo; // biore wartosc glowy (pierwszego elementu)
+	//TODO: tu skoñczy³em, trzeba myœleæ
+	// tutaj updateDown? nie wiem
+	//FQDel( q ); // usuwam ten pierwszy element z kolejki
+
+	return p;
 }
 
 //UpdateDown()

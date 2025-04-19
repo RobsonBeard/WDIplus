@@ -1,3 +1,4 @@
+//! W PROJEKCIE JEST AKTUALNIEJSZA WERSJA TEGO PLIKU
 
 //-->>> Modul Kolejki PIORRYTETOWEJ <<---
 //UWAGA: mozna uzywac calloc() oraz 

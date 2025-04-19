@@ -48,7 +48,7 @@ int main()
 
 
 void freeInfo( const void* pInfo ) {
-	// to pInfo zrzutowac na QINFO*
+	// to pInfo zrzutowac na PQINFO*
 
 	if( pInfo ) {
 		free( ( (PQINFO*)pInfo )->pTab );
