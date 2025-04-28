@@ -1,17 +1,18 @@
 #include "Sort.h"
 
+#define MAXLINE 10
 #define PARAM_NO 2
 #define MY_DEBUG_CONST
 
 typedef void ( *pFType )( int* pTab, int nSize ); // moj typ wskaznikowy na funkcje
-//? czy to ma byc w tym miejscu?
 
 int createTab( int**, int );
 void initTab( int* pTab, int nSize );
 void printTab( int* pTab, int nSize );
 void printTabTest( int* pTab, int nSize );
-//? czy to ma byc w tym miejscu?
 
+
+// parametr wejsciowy:
 // Project -> Properties -> Debugging -> Command Arguments
 
 int main( int argc, char* argv[] )
@@ -30,7 +31,7 @@ int main( int argc, char* argv[] )
 
 	int* controlArray = NULL;
 	if( !createTab( &controlArray, nSize ) ) {
-		printf( "Memory allocation error!\n" );
+		printf( "controlArray - Memory allocation error!\n" );
 		return 2;
 	}
 
@@ -77,3 +78,40 @@ int main( int argc, char* argv[] )
 	return 0;
 }
 
+// tutaj te pomocnicze funkcje itp
+
+int createTab( int** pTab, int nSize ) {
+	*pTab = (int*)malloc( nSize * sizeof( int ) );
+	if( !*pTab ) // if(*pTab == NULL)
+	{
+		// tutaj nie robie komunikatu o bledzie, tylko zrobilismy typ funkcji jako int po to, zeby przez 0 lub 1 informowac czy funkcja sie powiodla
+		return 0;
+	}
+
+	//tutaj chce wyzerowac tablice
+	memset( *pTab, 0, nSize * sizeof( int ) ); //! kopiowac ilosc bajtow z malloca!
+	return 1;
+}
+
+void initTab( int* pTab, int nSize ) {
+	srand( (unsigned)time( NULL ) );
+	for( int i = 0; i < nSize; i++ ) {
+		*pTab++ = rand() % nSize;
+	}
+}
+
+void printTabTest( int* pTab, int nSize ) {
+	for( int i = 0; i < nSize && i < 50; i++ ) // tu jest dodany warunek, ¿eby zawsze wydrukowalo sie max 50 elementow
+	{
+		printf( "%d ", *pTab++ );
+		if( ( i + 1 ) % MAXLINE == 0 ) printf( "\n" );
+	}
+}
+
+void printTab( int* pTab, int nSize ) {
+	for( int i = 0; i < nSize; i++ )
+	{
+		printf( "%d ", *pTab++ );
+		if( ( i + 1 ) % MAXLINE == 0 ) printf( "\n" );
+	}
+}

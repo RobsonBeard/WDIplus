@@ -1,44 +1,9 @@
 #include "Sort.h"
 
 void sortuj( int* pTab, int l, int p );
-void update( int* pTab, int l, int p );
+void updateUp( int* pTab, int l, int p );
+void updateDown( int* pTab, int l, int p );
 
-
-int createTab( int** pTab, int nSize ) {
-	*pTab = (int*)malloc( nSize * sizeof( int ) );
-	if( !*pTab ) // if(*pTab == NULL)
-	{
-		// tutaj nie robie komunikatu o bledzie, tylko zrobilismy typ funkcji jako int po to, zeby przez 0 lub 1 informowac czy funkcja sie powiodla
-		return 0;
-	}
-
-	//tutaj chce wyzerowac tablice
-	memset( *pTab, 0, nSize * sizeof( int ) ); //! kopiowac ilosc bajtow z malloca!
-	return 1;
-}
-
-void initTab( int* pTab, int nSize ) {
-	srand( (unsigned)time( NULL ) );
-	for( int i = 0; i < nSize; i++ ) {
-		*pTab++ = rand() % nSize;
-	}
-}
-
-void printTabTest( int* pTab, int nSize ) {
-	for( int i = 0; i < nSize && i < 50; i++ )
-	{
-		printf( "%d ", *pTab++ );
-		if( ( i + 1 ) % MAXLINE == 0 ) printf( "\n" );
-	}
-}
-
-void printTab( int* pTab, int nSize ) {
-	for( int i = 0; i < nSize; i++ )
-	{
-		printf( "%d ", *pTab++ );
-		if( ( i + 1 ) % MAXLINE == 0 ) printf( "\n" );
-	}
-}
 
 void bubbleSort( int* pTab, int nSize ) {
 	for( int i = 1; i < nSize; i++ )
@@ -114,7 +79,7 @@ void mixedSort( int* pTab, int nSize ) {
 			}
 		}
 		p = k - 1; // tam gdzie ostatnio zmienia³em - 1
-	} while( l <= p ); // dopóki prawy jest wiêkszy lub równy od lewego indeksu
+	} while( l < p ); // dopóki prawy jest wiêkszy lub równy od lewego indeksu
 }
 
 void halfFindSort( int* pTab, int nSize ) {
@@ -130,8 +95,10 @@ void halfFindSort( int* pTab, int nSize ) {
 		p = i - 1; // lewy i prawy koniec przedzia³u (indeks)
 		while( l <= p ) {
 			m = ( l + p ) / 2; // srodek przedzia³u (indeks)
-			( x < pTab[m] ) ? p = m - 1 : l = m + 1; // skrocony if, po zakonczeniu while bedziemy mieli indeks l, w ktorym bedziemy wstawiac x, l to indeks pierwszego elementu, ktory jest >= x
-		} // ta petla robi sie na poczatku raz po nic?
+			if( x < pTab[m] )
+				p = m - 1;
+			else l = m + 1; // po zakonczeniu while bedziemy mieli indeks l, w ktorym bedziemy wstawiac x, l to indeks pierwszego elementu, ktory jest >= x
+		} 
 		for( int j = i - 1; j >= l; j-- )
 		{
 			pTab[j + 1] = pTab[j]; // przesuwam wszystkie elementy >= x w prawo o 1
@@ -169,36 +136,21 @@ void heapSort( int* pTab, int nSize ) {
 	int p = nSize - 1;
 	int temp;
 
-	/*while( l > 0 ) {
-		l--;
-		update( pTab, l, p );
-	}*/
-
-	// delikatnie musze zmienic for, w stosunku do while, bo w forze dekrementuje po wykonaniu sie petli (trzeba zmienic obie petle na raz, inaczej nie dziala miedzy innymi z powodu modyfikacji l)
-	
 	for( int i = l - 1; i >= 0; i-- )
 	{
-		update( pTab, i, p );
+		updateUp( pTab, i, p );
 	}
 
-	/*while( p > 0 ) {
+	for( ; p > 0; p-- ) //! bardzo ciekawy for
+	{
 		temp = pTab[0];
 		pTab[0] = pTab[p];
 		pTab[p] = temp;
-		p--;
-		update( pTab, l, p );
-	}*/
-
-	for( int i = p - 1; i >= 0; i-- )
-	{
-		temp = pTab[0];
-		pTab[0] = pTab[i + 1];
-		pTab[i + 1] = temp;
-		update( pTab, 0, i ); // poprzednio we while szedlem z l az do 0, wiec tutaj jest 0 zamiast l
+		updateUp( pTab, 0, p-1 ); // poprzednio we while szedlem z l az do 0, wiec tutaj jest 0 zamiast l
 	}
 }
 
-void update( int* pTab, int l, int p ) {
+void updateUp( int* pTab, int l, int p ) {
 	if( l >= p ) return;
 	int i = l;
 	int j = 2 * i + 1; // 2*i w pascalu
@@ -213,10 +165,40 @@ void update( int* pTab, int l, int p ) {
 	pTab[i] = x;
 }
 
-// troche nie ogarniam tego tworzenia zmiennych w funkcji, z jakiegos powodu bez nich sie psuje, moze musze zachowywac ich oryginalne wartosci?
-// zrozumiec heapsort
+void updateDown( int* pTab, int l, int p ) {
+	if( l >= p ) return;
+	int i = l;
+	int j = 2 * i + 1; // 2*i w pascalu
+	int x = pTab[i];
+	while( j <= p ) {
+		if( j < p && pTab[j] > pTab[j + 1] ) j++; // tu by³a zmiana warunku
+		if( x <= pTab[j] ) break; // i tu
+		pTab[i] = pTab[j];
+		i = j;
+		j = 2 * i + 1;
+	}
+	pTab[i] = x;
+}
 
 /*
+
+	stary while z heapsorta: 
+
+* while( l > 0 ) {
+		l--;
+		update( pTab, l, p );
+	}
+
+	// delikatnie musze zmienic for, w stosunku do while, bo w forze dekrementuje po wykonaniu sie petli (trzeba zmienic obie petle na raz, inaczej nie dziala miedzy innymi z powodu modyfikacji l)
+	while( p > 0 ) {
+		temp = pTab[0];
+		pTab[0] = pTab[p];
+		pTab[p] = temp;
+		p--;
+		update( pTab, l, p );
+	}
+
+
 	* notatki
 
 	program 2.8

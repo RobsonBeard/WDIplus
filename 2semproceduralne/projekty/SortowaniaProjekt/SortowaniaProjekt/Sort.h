@@ -6,8 +6,6 @@
 #include <memory.h>
 #include <time.h>
 
-#define MAXLINE 10
-
 // w tym pliku same naglowki sortowan
 
 void bubbleSort( int* pTab, int nSize );
@@ -17,7 +15,6 @@ void mixedSort( int* pTab, int nSize );
 void halfFindSort( int* pTab, int nSize );
 void quickSort( int* pTab, int nSize );
 void heapSort( int* pTab, int nSize );
-
 
 /*
  - wstawianie   simpleInsertion()
