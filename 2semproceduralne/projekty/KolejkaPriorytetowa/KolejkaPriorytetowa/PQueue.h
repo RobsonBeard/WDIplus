@@ -60,8 +60,11 @@ void PQClear( PQueue* q, void( __cdecl* freeMem )( const void* ) );    // czysci
 
 //-----------------------------------------
 // pomocnicze w implementacji 2 funkcje !!!!
-void UpdateDown();  // update heap down between index l and p  <--- modified Update() from HeapSort 
-void UpdateUp();    // update heap up between index l and p  
+void UpdateDown( PQItem** pQueue, int l, int p );  // update heap down between index l and p  <--- modified Update() from HeapSort 
+void UpdateUp( PQItem** pQueue, int l, int p );    // update heap up between index l and p  
 
 
 #endif // PQUEUE_H
+
+// warto rysowac w celu zrozumienia struktur danych
+// tablica to wskaznik na pierwszy element
