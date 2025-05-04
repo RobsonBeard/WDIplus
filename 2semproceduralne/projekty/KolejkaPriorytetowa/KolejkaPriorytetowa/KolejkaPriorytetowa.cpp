@@ -43,6 +43,53 @@ int main()
 		return 1;
 	}
 
+	printf( "rozmiar poczatkowy: %d\n", PQSize( q ) );
+
+	for( int i = 1; i <= 4; i++ )
+	{
+		PQINFO* p = allocInfo( i, i + 1, i + 2 );
+		if( !p ) {
+			printf( "ERROR: Memory allocation error or queue does not exist" );
+			return 2;
+		}
+		if( !PQEnqueue( q, p , 5*i) ) {
+			printf( "ERROR: Memory allocation error or queue does not exist" );
+			return 3;
+		}
+	}
+
+	printf( "curr size po dodaniu: %d\n", PQSize( q ) );
+	printf( "Czy pusta? %s\n", PQisEmpty( q ) ? "Tak" : "Nie" );
+	
+	PQPrint( q, 0, printInfo );
+	printf( "\n" );
+	PQPrint( q, 1, printInfo ); // roznica miedzy tym pierwszym indeksem
+	
+	printf( "\n" );
+	PQInfo* infoDoKosza = PQDequeue( q );
+	freeInfo( infoDoKosza ); // zeby nie bylo wycieku pamieci
+	//PQDequeue( q );
+	PQPrint( q, 0, printInfo );
+
+	printf( "Maks priorytet: %d\n", PQMaxPrior( q ) );
+	printf( "Czy pusta? %s\n", PQisEmpty( q ) ? "Tak" : "Nie" );
+
+	PQClear( q, freeInfo );
+	PQPrint( q, 0, printInfo );
+
+	PQINFO* p = allocInfo( 10, 20, 30 );
+	if( !p ) {
+		printf( "ERROR: Memory allocation error or queue does not exist" );
+		return 4;
+	}
+	if( !PQEnqueue( q, p, 69 ) ) {
+		printf( "ERROR: Memory allocation error or queue does not exist" );
+		return 5;
+	}
+
+	PQPrint( q, 0, printInfo );
+
+	PQRelease( &q, freeInfo );
 
 	return 0;
 }
@@ -67,10 +114,12 @@ PQINFO* allocInfo( int a, int b, int c ) {
 
 	PQINFO* q = (PQINFO*)malloc( sizeof( PQINFO ) );
 	if( !q ) {
+		printf( "allocInfo: blad alokacji pamieci" );
 		return NULL;
 	}
 	q->pTab = (int*)malloc( 2 * sizeof( int ) );
 	if( !( q->pTab ) ) {
+		printf( "allocInfo: blad alokacji pamieci" );
 		free( q );
 		return NULL;
 	}

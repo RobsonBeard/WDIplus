@@ -31,12 +31,12 @@ PQueue* PQInit(int qSize);     // kreuje kolejke o zadanym rozmiarze i zwraca ws
 int PQisEmpty(PQueue* q);  // zwraca 0 lub 1 - kolejka pusta/nie pusta 
 int PQSize(PQueue* q);     // zwraca ilosc elementow w kolejce, wyrazenie pytajnikowe
 int PQMaxPrior(PQueue* q); // zwraca najwiekszy priorytet w kolejce (z zerowej pozycji) lub PRIOR_ERROR
-//PQEnqueue();  // wstawia do kolejki informacje o zadanym priorytecie, zwraca 0 (niepowodzenie) lub 1 (powodzenie), to zrobic na razie na koncu, tak samo dequeue
+int PQEnqueue(PQueue* q, PQINFO* pNewInfo, int newInfoPrior );  // wstawia do kolejki informacje o zadanym priorytecie, zwraca 0 (niepowodzenie) lub 1 (powodzenie), to zrobic na razie na koncu, tak samo dequeue
 PQINFO* PQDequeue( PQueue* q );  // zwraca informacje o najwyzszym priorytecie lub NULL gdy niepowodzenie, (trzeba pamietac o czyszczeniu pamieci)
-void PQClear( PQueue* q, void( __cdecl* freeMem )( const void* ) );    // czysci cala kolejke zwalniajac pamiec alokowana przez uzytkownika (na info), nie znana struktura do zwolnienia 
+void PQClear( PQueue* q, void( __cdecl* freeMem )( const void* ) );    // czysci cala kolejke zwalniajac pamiec alokowana przez uzytkownika (na info), nieznana struktura do zwolnienia 
     // dlatego przekazac trzeba funkcje uzytkownika do zwolnienia pamieci przez parametr 
-//PQRelease();  // zwraca w parametrze we-wy NULL (kolejka) usuwaj¹c wszyskto wczesniej (czyszczenie kolejki)
-//PQPrint();    // drukuje w porzadku preorder (rekurencyjnie) od zadanej pozycji, aby wydrukowaæ info uzytkownika przekazac 
+void PQRelease( PQueue** q, void( __cdecl* freeMem )( const void* ) );  // zwraca w parametrze we-wy NULL (kolejka) usuwaj¹c wszyskto wczesniej (czyszczenie kolejki)
+void PQPrint( PQueue* q, int currentPos, void( __cdecl* printInfo )( const void* ) );    // drukuje w porzadku preorder (rekurencyjnie) od zadanej pozycji, aby wydrukowaæ info uzytkownika przekazac 
     // trzeba funkcje drukujaca ta informacje. Dodatkowo, drukuje priorytet w okraglych nawiasach oraz pozycje w 
     // kolejce w kwadratowych nawiasach
 

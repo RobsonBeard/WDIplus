@@ -5,8 +5,6 @@ void freeInfo( const void* pInfo );
 QINFO* allocInfo( int a, int b, int c );
 void printInfo( const void* pInfo );
 
-//TODO: DOROBIC SPRAWDZANIE CZY FUNKCJA np. freeMem ISTNIEJE - wtedy blad
-
 int main()
 {
 	FQueue* q = FQCreate();
@@ -100,6 +98,7 @@ int main()
 
 	return 0;
 }
+
 
 void freeInfo( const void* pInfo ) {
 	// to pInfo zrzutowac na QINFO*

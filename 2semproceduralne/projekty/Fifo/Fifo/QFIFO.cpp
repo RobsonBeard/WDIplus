@@ -41,8 +41,8 @@ QINFO* FQDequeue( FQueue* q ) {
 }
 
 void FQClear( FQueue* q, void( __cdecl* freeMem )( const void* ) ) {
-	if( FQEmpty( q ) ) {
-		printf( "FQClear: Kolejka nie istnieje" );
+	if( FQEmpty( q ) || !freeMem) {
+		printf( "FQClear: Kolejka lub funkcja freeMem nie istnieje" );
 		return;
 	}
 
@@ -52,8 +52,8 @@ void FQClear( FQueue* q, void( __cdecl* freeMem )( const void* ) ) {
 }
 
 void FQRemove( FQueue** q, void( __cdecl* freeMem )( const void* ) ) {
-	if( FQEmpty( *q ) ) {
-		printf( "FQRemove: Kolejka nie istnieje" );
+	if( !q || !*q || !freeMem ) {
+		printf( "FQRemove: Kolejka lub funkcja freeMem nie istnieje" );
 		return;
 	}
 
@@ -81,8 +81,8 @@ void FQDel( FQueue* q ) {
 }
 
 void FQPrint( FQueue* q, void( __cdecl* printInfo )( const void* ) ) {
-	if( FQEmpty( q ) ) {
-		printf( "FQPrint: Kolejka pusta lub nie istnieje" );
+	if( FQEmpty( q ) || !printInfo) {
+		printf( "FQPrint: Kolejka pusta lub nie istnieje lub funkcja printInfo nie istnieje" );
 		return;
 	}
 
