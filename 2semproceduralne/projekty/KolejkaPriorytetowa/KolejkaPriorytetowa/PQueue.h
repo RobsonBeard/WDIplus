@@ -42,18 +42,18 @@ void PQPrint( PQueue* q, int currentPos, void( __cdecl* printInfo )( const void*
 
 // ---------------- drugi krok
 
-//PQSetPrior(); // ustawia nowy priorytet dla zadanej informacji uzytkownika, nie znana struktura informacji, która trzeba wyszukac
+int PQSetPrior(PQueue* q, PQINFO* pInfoToFind, int newPrior, int( __cdecl* compareInfo )( const void*, const void* ) ); // ustawia nowy priorytet dla zadanej informacji uzytkownika, nie znana struktura informacji, która trzeba wyszukac
     // dlatego nalezy przekazac funkcje porownujaca informacje uzytkownika. Funkcja zwraca poprzedni priorytet lub PRIOR_ERROR 
     // czwarty parametr - adres funkcji - parametry: kolejka, adres, nowy priorytet, adres funkcji
-//PQsetPrior(); // ustawia nowy priorytet dla informacji uzytkownika bedacej na zadanej pozycji w kolejce (indeks w tablicy),
+int PQsetPrior(PQueue* q, int infoPos, int newPrior); // ustawia nowy priorytet dla informacji uzytkownika bedacej na zadanej pozycji w kolejce (indeks w tablicy),
     // Funkcja zwraca poprzedni priorytet. W przypadku bledu zwraca PRIOR_ERROR 
     // zwraca stary priorytet
 
-//PQGetPrior(); // zwraca priorytet informacji uzytkownika w kolejce lub PRIOR_ERROR, nie znana struktura informacji, która trzeba wyszukac
+int PQGetPrior( PQueue* q, PQINFO* pInfoToFind, int( __cdecl* compareInfo )( const void*, const void* ) ); // zwraca priorytet informacji uzytkownika w kolejce lub PRIOR_ERROR, nie znana struktura informacji, która trzeba wyszukac
     // dlatego nalezy przekazac funkcje porownujaca informacje uzytkownika  
-//PQgetPrior(); // zwraca priorytet informacji uzytkownika z zadanej pozycji w kolejce lub PRIOR_ERROR
+int PQgetPrior( PQueue* q, int infoPos ); // zwraca priorytet informacji uzytkownika z zadanej pozycji w kolejce lub PRIOR_ERROR
 
-//PQFind();     // zwraca indeks wyszukiwanej informacji uzytkownika, nie znana struktura informacji uzytkownika dlatego
+int PQFind( PQueue* q, PQINFO* pInfoToFind, int( __cdecl* compareInfo )( const void*, const void* ) );     // zwraca indeks wyszukiwanej informacji uzytkownika, nie znana struktura informacji uzytkownika dlatego
     // przekazac trzeba funkjce porownujaca informacje uzytkownika
     // Zwaraca POS_ERROR jesli nie ma info w kolejce
 

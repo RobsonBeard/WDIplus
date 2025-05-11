@@ -31,7 +31,8 @@ int PQMaxPrior( PQueue* q ) {
 void PQClear( PQueue* q, void( __cdecl* freeMem )( const void* ) ) {
 	// ma usuwac wszystkie PQItem z kolejki, najpierw usunac, potem zwolnic pamiec czyli freeMem( PQDequeue( ) ), dopoki kolejka nie jest pusta
 	// ale mozna tez to zrobic na piechote, od 0 do currentSize, freememem zwalniac PQInfo i free na PQItem, nullowac costam, na koncu currentsize ustawic na 0
-	
+	//! sprobowac to zrobic na piechote
+
 	if( !q || !freeMem ) {
 		printf( "PQClear: Kolejka lub funkcja freeMem nie istnieje" );
 		return;
@@ -173,3 +174,95 @@ void UpdateUp( PQItem** pQueue, int l, int p ){
 	pQueue[i] = x;
 }
 
+int PQSetPrior( PQueue* q, PQINFO* pInfoToFind, int newPrior, int( __cdecl* compareInfo )( const void*, const void* ) ) {
+	if( PQisEmpty(q) || !pInfoToFind || !compareInfo ) return PRIOR_ERROR;
+
+	int ixFound = POS_ERROR; // takie za³o¿enie by³o, ¿e POS_ERROR to indeks tablicy, ktorego nie ma
+
+	for( int i = 0; i < q->nPQCurrSize; i++ )
+	{
+		if( !compareInfo( q->pPQueue[i]->pInfo, pInfoToFind ) ) // gdy wynik compare da 0, to wejdzie do if'a
+		{
+			ixFound = i;
+			break;
+		}
+	}
+
+	if( ixFound == POS_ERROR ) return PRIOR_ERROR;
+
+	PQItem* pInfoFound = q->pPQueue[ixFound];
+	
+	int oldPrior = pInfoFound->nPrior; 
+
+	pInfoFound->nPrior = newPrior;
+
+	// trzeba naprawiæ kopiec, w zale¿noœci od tego, czy element ma pop³yn¹æ w górê, czy w dó³, czyli od nowego priorytetu
+
+	if( newPrior > oldPrior ) {
+		UpdateUp( q->pPQueue, 0, ixFound ); // naprawa w górê od 0 do znalezionego elementu
+	}
+	else {
+		UpdateDown( q->pPQueue, ixFound, q->nPQCurrSize - 1 ); // naprawa w dó³ od znalezionego elementu do koñca kopca
+	}
+	
+	return oldPrior;
+}
+
+//TODO: ewentualnie zrobiæ lepszy warunek na sprawdzenie, czy element o indeksie infoPos istnieje (tu i w getPrior)
+int PQsetPrior( PQueue* q, int infoPos, int newPrior ) {
+	if( PQisEmpty( q ) ) return PRIOR_ERROR;
+
+	// musze sprawdzic czy na danej pozycji jest jakiœ element i czy w ogóle pozycja z parametru ma sens
+	if( !q->pPQueue[infoPos] ) return PRIOR_ERROR; // jeœli nie istnieje element na zadanej pozycji, domyslam sie, ze jesli infoPos wychodzi poza kolejke, to tez zwroci sie null
+
+	PQItem* pInfoFound = q->pPQueue[infoPos];
+	
+	int oldPrior = pInfoFound->nPrior;
+	pInfoFound->nPrior = newPrior;
+
+	if( newPrior > oldPrior ) {
+		UpdateUp( q->pPQueue, 0, infoPos ); // naprawa w górê od 0 do znalezionego elementu
+	}
+	else {
+		UpdateDown( q->pPQueue, infoPos, q->nPQCurrSize - 1 ); // naprawa w dó³ od znalezionego elementu do koñca kopca
+	}
+
+	return oldPrior;
+}
+
+int PQGetPrior( PQueue* q, PQINFO* pInfoToFind, int( __cdecl* compareInfo )( const void*, const void* ) ) {
+	if( PQisEmpty( q ) || !pInfoToFind || !compareInfo ) return PRIOR_ERROR;
+
+	for( int i = 0; i < q->nPQCurrSize; i++ )
+	{
+		if( !compareInfo( q->pPQueue[i]->pInfo, pInfoToFind ) ) // gdy wynik compare da 0, to wejdzie do if'a
+		{
+			return q->pPQueue[i]->nPrior;
+		}
+	}
+
+	return PRIOR_ERROR;
+}
+
+int PQgetPrior( PQueue* q, int infoPos ) {
+	if( PQisEmpty( q ) ) return PRIOR_ERROR;
+
+	// musze sprawdzic czy na danej pozycji jest jakiœ element i czy w ogóle pozycja z parametru ma sens
+	if( !q->pPQueue[infoPos] ) return PRIOR_ERROR; // jeœli nie istnieje element na zadanej pozycji, domyslam sie, ze jesli infoPos wychodzi poza kolejke, to tez zwroci sie null
+
+	return q->pPQueue[infoPos]->nPrior;
+}
+
+int PQFind( PQueue* q, PQINFO* pInfoToFind, int( __cdecl* compareInfo )( const void*, const void* ) ) {
+	if( PQisEmpty( q ) || !pInfoToFind || !compareInfo ) return POS_ERROR;
+
+	for( int i = 0; i < q->nPQCurrSize; i++ )
+	{
+		if( !compareInfo( q->pPQueue[i]->pInfo, pInfoToFind ) ) // gdy wynik compare da 0, to wejdzie do if'a
+		{
+			return i; // indeks w pPQueue
+		}
+	}
+
+	return POS_ERROR;
+}

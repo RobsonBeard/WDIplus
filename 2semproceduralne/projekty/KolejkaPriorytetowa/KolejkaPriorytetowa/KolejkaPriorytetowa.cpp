@@ -53,7 +53,7 @@ int main()
 			return 2;
 		}
 		if( !PQEnqueue( q, p , 5*i) ) {
-			printf( "ERROR: Memory allocation error or queue does not exist" );
+			printf( "ERROR: Enqueue error" );
 			return 3;
 		}
 	}
@@ -62,6 +62,29 @@ int main()
 	printf( "Czy pusta? %s\n", PQisEmpty( q ) ? "Tak" : "Nie" );
 	
 	PQPrint( q, 0, printInfo );
+
+	//PQINFO* pTest = allocInfo(1,2,3);
+	PQINFO* pTest = allocInfo(4,5,6);
+	if( !pTest ) {
+		printf( "ERROR: Memory allocation error or queue does not exist" );
+		return 4;
+	}
+	//printf( "\n" );
+	//printInfo( pTest );
+
+	int oldPriorTest1 = PQSetPrior(q,pTest,4,compare);
+	if( oldPriorTest1 == PRIOR_ERROR || oldPriorTest1 == POS_ERROR ) {
+		printf( "ERROR: Error while modifying priors" );
+		return 5;
+	}
+
+	printf("\noldPriorTest1: %d\n",oldPriorTest1);
+	PQPrint( q, 0, printInfo );
+
+	int oldPriorTest2 = PQsetPrior( q, 2, 33 );
+	printf( "\noldPriorTest2: %d\n", oldPriorTest2 );
+	PQPrint( q, 0, printInfo );
+
 	printf( "\n" );
 	PQPrint( q, 1, printInfo ); // roznica miedzy tym pierwszym indeksem
 	
@@ -80,11 +103,11 @@ int main()
 	PQINFO* p = allocInfo( 10, 20, 30 );
 	if( !p ) {
 		printf( "ERROR: Memory allocation error or queue does not exist" );
-		return 4;
+		return 6;
 	}
 	if( !PQEnqueue( q, p, 69 ) ) {
 		printf( "ERROR: Memory allocation error or queue does not exist" );
-		return 5;
+		return 7;
 	}
 
 	PQPrint( q, 0, printInfo );
