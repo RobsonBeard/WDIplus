@@ -8,8 +8,7 @@ FQueue* FQCreate() {
 }
 
 int FQEmpty( FQueue* q ) {
-	// gdy nie ma kolejki tez ma zwracac 1, ale gdy nie ma kolejki, to q jest NULL, czyli jest 0, wiec jest ok
-	return !q || !( q->pHead ); // gdy q==0 lub q->pHead == 0, to zwroci 1, w przeciwnym wypadku zwroci 0
+	return !q || !( q->pHead ); // gdy q==0 lub q==NULL lub q->pHead == 0, to zwroci 1, w przeciwnym wypadku zwroci 0
 }
 
 int FQEnqueue( FQueue* q, QINFO* pNewInfo ) {
@@ -46,7 +45,6 @@ void FQClear( FQueue* q, void( __cdecl* freeMem )( const void* ) ) {
 		return;
 	}
 
-
 	while( !FQEmpty( q ) ) // dopóki kolejka nie jest pusta
 		freeMem( FQDequeue( q ) ); // zwalniam dynamicznie alokowane pInfo, ale przed tym zwalniam dynamicznie alokowan¹ tablicê pTab, która jest w pInfo, nie robiê Del, bo zrobi³ to ju¿ FQDequeue
 }
@@ -70,8 +68,6 @@ void FQDel( FQueue* q ) {
 
 	FQItem* p = q->pHead; // biore pierwszy element (glowe, dlatego to jest FIFO - first in first out)
 	q->pHead = p->pNext; // za niego podstawiam kolejny element (po prostu nastepnik tej naszej glowy), on ma ju¿ dowi¹zan¹ resztê kolejki, ogon zostaje taki sam
-
-	// chcialbym tu sprintowac q->pHead i p->pNext i zobaczyc, czy to jest to samo
 
 	if( !( q->pHead ) ) {
 		q->pTail = NULL; // jeœli g³owa w tym miejscu bêdzie NULL (czyli usunêliœmy ostatni element), to muszê ustawiæ równie¿ ogon na NULL (bo usuwaj¹c ten ostatni element usun¹³em równie¿ ogon, ale nigdzie wczeœniej tego nie zaznaczy³em)

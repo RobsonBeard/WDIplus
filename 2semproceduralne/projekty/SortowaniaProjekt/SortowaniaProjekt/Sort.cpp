@@ -1,8 +1,8 @@
 #include "Sort.h"
 
 void sortuj( int* pTab, int l, int p );
-void updateUp( int* pTab, int l, int p );
-void updateDown( int* pTab, int l, int p );
+void updateMaxHeap( int* pTab, int l, int p );
+void updateMinHeap( int* pTab, int l, int p );
 
 
 void bubbleSort( int* pTab, int nSize ) {
@@ -138,7 +138,7 @@ void heapSort( int* pTab, int nSize ) {
 
 	for( int i = l - 1; i >= 0; i-- )
 	{
-		updateUp( pTab, i, p );
+		updateMaxHeap( pTab, i, p );
 	}
 
 	for( ; p > 0; p-- ) //! bardzo ciekawy for
@@ -146,11 +146,11 @@ void heapSort( int* pTab, int nSize ) {
 		temp = pTab[0];
 		pTab[0] = pTab[p];
 		pTab[p] = temp;
-		updateUp( pTab, 0, p-1 ); // poprzednio we while szedlem z l az do 0, wiec tutaj jest 0 zamiast l
+		updateMaxHeap( pTab, 0, p-1 ); // poprzednio we while szedlem z l az do 0, wiec tutaj jest 0 zamiast l
 	}
 }
 
-void updateUp( int* pTab, int l, int p ) {
+void updateMaxHeap( int* pTab, int l, int p ) {
 	if( l >= p ) return;
 	int i = l;
 	int j = 2 * i + 1; // 2*i w pascalu
@@ -165,7 +165,7 @@ void updateUp( int* pTab, int l, int p ) {
 	pTab[i] = x;
 }
 
-void updateDown( int* pTab, int l, int p ) {
+void updateMinHeap( int* pTab, int l, int p ) {
 	if( l >= p ) return;
 	int i = l;
 	int j = 2 * i + 1; // 2*i w pascalu

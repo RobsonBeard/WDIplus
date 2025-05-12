@@ -8,7 +8,7 @@ PQueue* PQInit( int qSize ) {
 
 	newQueue->pPQueue = (PQItem**)calloc( qSize, sizeof( PQItem* ) ); // alokuje i wype³nia zerami qSize (czyli tyle ile rozmiar) elementów PQItem*
 	if( !newQueue->pPQueue ) {
-		free( newQueue );
+		free( newQueue ); // na tym etapie powiod³o siê stworzenie newQueue, wiêc przed returnem muszê wyczyœciæ newQueue
 		return NULL;
 	}
 
@@ -48,12 +48,12 @@ PQINFO* PQDequeue( PQueue* q ) {
 	// 2. usunac PQItem, freemem? - trzymam informacje (punkt 1.), wiec moge usunac
 	// 3. ostatni wrzucam do zerowego, robie update down itp
 	// zwraca informacje z indeksu 0
-	// wpisac ostatni do 0-wego
+	// wpisac ostatni do 0-wego  - robi sie to po to, aby usun¹æ element, który nie ma ju¿ dzieci, czyli jest liœciem, wtedy jest bezpiecznie
 	// uaktualnic w dol (update na dol)
 
 	if( PQisEmpty( q ) ) return NULL; // zwracam NULL a nie 0, bo wskaŸnik 
-	
-	PQItem* itemToRemove = q->pPQueue[0]; // potrzebuje tego do zwolnienia pamieci
+
+	PQItem* itemToRemove = q->pPQueue[0]; // potrzebuje tego do zwolnienia pamieci, najwyzszy priorytet
 	PQINFO* p = q->pPQueue[0]->pInfo; // biore wartosc korzenia (pierwszego elementu)
 
 	q->nPQCurrSize--;
@@ -62,8 +62,8 @@ PQINFO* PQDequeue( PQueue* q ) {
 	{
 		q->pPQueue[0] = q->pPQueue[q->nPQCurrSize]; // po to najpierw zdekrementowa³em nPQCurrSize, ¿eby teraz w ten sposób dostaæ siê do ostatniego elementu, przenoszê go na pocz¹tek
 		q->pPQueue[q->nPQCurrSize] = NULL;
-		UpdateDown(q->pPQueue,0,q->nPQCurrSize-1); // ostatni element nowego kopca bêdzie mia³ indeks = q->nPQCurrSize - 1, naprawiam kopiec
-	} 
+		UpdateDown( q->pPQueue, 0, q->nPQCurrSize - 1 ); // ostatni element nowego kopca bêdzie mia³ indeks = q->nPQCurrSize - 1, naprawiam kopiec
+	}
 	else
 	{
 		q->pPQueue[0] = NULL; // ustawiamy korzeñ na NULL, gdy kolejka jest pusta, robie w ten sposob, no bo juz nie potrzebuje UpdateDown
@@ -74,13 +74,13 @@ PQINFO* PQDequeue( PQueue* q ) {
 	return p;
 }
 
-int PQEnqueue( PQueue* q, PQINFO* pNewInfo, int newInfoPrior) {
+int PQEnqueue( PQueue* q, PQINFO* pNewInfo, int newInfoPrior ) {
 	// parametr: kolejka, informacja wstawiana, priorytet
 	// sprawdzic czy nie przepelnione, czy jest kolejka ( 2 rozne bledy )
 	// funkcja jest typu int - czy sie powiodlo czy nie
 	// dynamiczna alokacja pamieci, wstawiam informacje pod ten element
-    // wstawic na koncu
-    // uaktualnic w gore - tutaj przydalaby sie wiedza z odwrocenia kolejnosci sortowania heapsorta (z rosnacego na malejace), jest troszke prostsze, jest tylko jeden przodek zamiast dwoch potomkow, tu jakies sprytniejsze wyrazenie
+	// wstawic na koncu
+	// uaktualnic w gore - tutaj przydalaby sie wiedza z odwrocenia kolejnosci sortowania heapsorta (z rosnacego na malejace), jest troszke prostsze, jest tylko jeden przodek zamiast dwoch potomkow, tu jakies sprytniejsze wyrazenie
 
 	if( !q || q->nPQCurrSize >= q->nPQSize ) return 0; // jeœli lista nie istnieje lub kolejka jest pe³na
 	PQItem* newItem = (PQItem*)malloc( sizeof( PQItem ) );
@@ -92,7 +92,7 @@ int PQEnqueue( PQueue* q, PQINFO* pNewInfo, int newInfoPrior) {
 	q->pPQueue[q->nPQCurrSize] = newItem; // indeks pierwszego wolnego miejsca to q->nPQCurrSize
 	q->nPQCurrSize++; // rozmiar kolejki zwiekszyl sie
 
-	UpdateUp( q->pPQueue, 0, q->nPQCurrSize - 1 ); // wyniesienie nowego elementu w górê kopca, indeks tego nowego elementu to q->nPQCurrSize - 1
+	UpdateUp( q->pPQueue, 0, q->nPQCurrSize - 1 ); // wyniesienie nowego elementu w górê kopca, naprawa od 0 do indeksu tego nowego elementu q->nPQCurrSize - 1
 
 	return 1;
 }
@@ -105,9 +105,10 @@ void PQRelease( PQueue** q, void( __cdecl* freeMem )( const void* ) ) {
 
 	PQClear( *q, freeMem ); // usuwam wszystkie elementy listy
 
-	if( ( *q )->pPQueue ) {
+	if( ( *q )->pPQueue ) //? ten if mo¿na pomin¹æ czy nie?
+	{
 		free( ( *q )->pPQueue ); // zwalniam pamiêæ tablicy wskaŸników PQueue
-		( *q )->pPQueue = NULL; 
+		( *q )->pPQueue = NULL;
 	}
 
 	free( *q ); // zwalniam pamiec
@@ -125,13 +126,14 @@ void PQPrint( PQueue* q, int currentPos, void( __cdecl* printInfo )( const void*
 
 	PQItem* p = q->pPQueue[currentPos]; // biorê pierwszy element kolejki
 	printf( "(%d) [%d] -> ", p->nPrior, currentPos );
-	printInfo(p->pInfo);
+	printInfo( p->pInfo );
 
 	PQPrint( q, 2 * currentPos + 1, printInfo ); // rekurencyjne wywo³anie dla lewego i prawego dziecka
 	PQPrint( q, 2 * currentPos + 2, printInfo );
 }
 
-void UpdateDown( PQItem** pQueue, int l, int p ){
+void UpdateDown( PQItem** pQueue, int l, int p ) {
+	// naprawa od l do p (czyli najczesciej do konca kopca)
 	// analogicznie jak w sortowaniu stogowym ale zmienic
 	// przetestowac najpierw ta funkcje w sortowaniu malejacym!!!
 	//    (wybiera sie element o wiekszym priorytcie)
@@ -142,11 +144,11 @@ void UpdateDown( PQItem** pQueue, int l, int p ){
 
 	if( l >= p || ( 2 * l + 1 ) > p ) return; // gdy l==p, to wêze³ startowy jest ostatnim elementem kopca, wiêc nie ma sensu nic robiæ, gdy l>p, to l jest poza zakresem kopca, 2 * l + 1 to indeks lewego dziecka, gdy jest wiekszy od indeksu ostatniego elementu, to nie ma ju¿ dzieci do porównywania
 	int i = l;
-	int j = 2 * i + 1; 
+	int j = 2 * i + 1;
 	PQItem* x = pQueue[i];
 	while( j <= p ) {
-		if( j < p && pQueue[j]->nPrior < pQueue[j + 1]->nPrior ) j++; 
-		if( x->nPrior >= pQueue[j]->nPrior ) break; 
+		if( j < p && pQueue[j]->nPrior < pQueue[j + 1]->nPrior ) j++;
+		if( x->nPrior >= pQueue[j]->nPrior ) break;
 		pQueue[i] = pQueue[j];
 		i = j;
 		j = 2 * i + 1;
@@ -154,7 +156,8 @@ void UpdateDown( PQItem** pQueue, int l, int p ){
 	pQueue[i] = x;
 }
 
-void UpdateUp( PQItem** pQueue, int l, int p ){
+void UpdateUp( PQItem** pQueue, int l, int p ) {
+	// naprawa od l do p
 	// analog jak w UpdateDown
 	// tylko uaktualnienie w gore stogu i jest tylko jeden rodzic
 	// uwazac przy liczeniu indeksu rodzica, petla z dwoma warunkami, bo przy UpdateDown cos jest i dopiero w srodku jest dodatkowy warunek z break
@@ -165,7 +168,7 @@ void UpdateUp( PQItem** pQueue, int l, int p ){
 	int i = p; // indeks dziecka
 	int ixParent = ( i - 1 ) / 2; // indeks rodzica
 	PQItem* x = pQueue[i]; // element, który idzie w górê
-	while( i>l && x->nPrior > pQueue[ixParent]->nPrior ) // dopóki nie jesteœmy korzeniem (elementem o najw. prior.) i priorytet x jest wiêkszy ni¿ priorytet rodzica
+	while( i > l && x->nPrior > pQueue[ixParent]->nPrior ) // dopóki nie jesteœmy korzeniem (elementem o najw. prior.) i priorytet x jest wiêkszy ni¿ priorytet rodzica
 	{
 		pQueue[i] = pQueue[ixParent]; // przesuwam rodzica w dó³ na miejsce dziecka i przechodzê w górê kopca
 		i = ixParent;
@@ -175,7 +178,7 @@ void UpdateUp( PQItem** pQueue, int l, int p ){
 }
 
 int PQSetPrior( PQueue* q, PQINFO* pInfoToFind, int newPrior, int( __cdecl* compareInfo )( const void*, const void* ) ) {
-	if( PQisEmpty(q) || !pInfoToFind || !compareInfo ) return PRIOR_ERROR;
+	if( PQisEmpty( q ) || !pInfoToFind || !compareInfo ) return PRIOR_ERROR;
 
 	int ixFound = POS_ERROR; // takie za³o¿enie by³o, ¿e POS_ERROR to indeks tablicy, ktorego nie ma
 
@@ -183,18 +186,18 @@ int PQSetPrior( PQueue* q, PQINFO* pInfoToFind, int newPrior, int( __cdecl* comp
 	{
 		if( !compareInfo( q->pPQueue[i]->pInfo, pInfoToFind ) ) // gdy wynik compare da 0, to wejdzie do if'a
 		{
-			ixFound = i;
+			ixFound = i; // znalaz³o element
 			break;
 		}
 	}
 
-	if( ixFound == POS_ERROR ) return PRIOR_ERROR;
+	if( ixFound == POS_ERROR ) return PRIOR_ERROR; // nie znalaz³o elementu
 
-	PQItem* pInfoFound = q->pPQueue[ixFound];
-	
-	int oldPrior = pInfoFound->nPrior; 
+	PQItem* pInfoFound = q->pPQueue[ixFound]; // znaleziony element
 
-	pInfoFound->nPrior = newPrior;
+	int oldPrior = pInfoFound->nPrior; // potrzebne do zwrócenia
+
+	pInfoFound->nPrior = newPrior; // ustawiam nowy priorytet
 
 	// trzeba naprawiæ kopiec, w zale¿noœci od tego, czy element ma pop³yn¹æ w górê, czy w dó³, czyli od nowego priorytetu
 
@@ -204,19 +207,18 @@ int PQSetPrior( PQueue* q, PQINFO* pInfoToFind, int newPrior, int( __cdecl* comp
 	else {
 		UpdateDown( q->pPQueue, ixFound, q->nPQCurrSize - 1 ); // naprawa w dó³ od znalezionego elementu do koñca kopca
 	}
-	
+
 	return oldPrior;
 }
 
-//TODO: ewentualnie zrobiæ lepszy warunek na sprawdzenie, czy element o indeksie infoPos istnieje (tu i w getPrior)
 int PQsetPrior( PQueue* q, int infoPos, int newPrior ) {
 	if( PQisEmpty( q ) ) return PRIOR_ERROR;
 
-	// musze sprawdzic czy na danej pozycji jest jakiœ element i czy w ogóle pozycja z parametru ma sens
-	if( !q->pPQueue[infoPos] ) return PRIOR_ERROR; // jeœli nie istnieje element na zadanej pozycji, domyslam sie, ze jesli infoPos wychodzi poza kolejke, to tez zwroci sie null
+	// musze sprawdzic czy na danej pozycji jest jakiœ element i czy w ogóle pozycja z parametru ma sens (zastanawiam sie, czy nie wystarczy³by sam trzeci warunek)
+	if( infoPos < 0 || infoPos >= q->nPQCurrSize || !q->pPQueue[infoPos] ) return PRIOR_ERROR;
 
 	PQItem* pInfoFound = q->pPQueue[infoPos];
-	
+
 	int oldPrior = pInfoFound->nPrior;
 	pInfoFound->nPrior = newPrior;
 
@@ -247,8 +249,8 @@ int PQGetPrior( PQueue* q, PQINFO* pInfoToFind, int( __cdecl* compareInfo )( con
 int PQgetPrior( PQueue* q, int infoPos ) {
 	if( PQisEmpty( q ) ) return PRIOR_ERROR;
 
-	// musze sprawdzic czy na danej pozycji jest jakiœ element i czy w ogóle pozycja z parametru ma sens
-	if( !q->pPQueue[infoPos] ) return PRIOR_ERROR; // jeœli nie istnieje element na zadanej pozycji, domyslam sie, ze jesli infoPos wychodzi poza kolejke, to tez zwroci sie null
+	// musze sprawdzic czy na danej pozycji jest jakiœ element i czy w ogóle pozycja z parametru ma sens (zastanawiam sie, czy nie wystarczy³by sam trzeci warunek)
+	if( infoPos < 0 || infoPos >= q->nPQCurrSize || !q->pPQueue[infoPos] ) return PRIOR_ERROR; 
 
 	return q->pPQueue[infoPos]->nPrior;
 }

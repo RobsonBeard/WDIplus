@@ -34,9 +34,8 @@ int main()
 	*/
 
 	PQueue* q = PQInit( 10 ); //? ten parametr ma byc z argumentow funkcji main?
-	//! trzeba sprawdzic, czy ten parametr jest >0
 
-	// robie komunikaty dla funkcji, ktore nie maja ich w swojej implementacji
+	//! robie komunikaty dla funkcji, ktore nie maja ich w swojej implementacji
 
 	if( !q ) {
 		printf( "ERROR: Queue allocation error" );
