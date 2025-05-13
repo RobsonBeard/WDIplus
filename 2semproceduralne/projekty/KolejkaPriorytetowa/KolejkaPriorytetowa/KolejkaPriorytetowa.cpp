@@ -17,23 +17,8 @@ int compare( const void* firstInfo, const void* secondInfo );
 
 int main()
 {
-	/*
-	//---test, dopiero jak wszystko dziala, debuggerem mozna sprawdzic czy dobrze jest wszystko zalokowane w pamieci:
-	-wykreowac kolejke 20 - sto elementowa
-		- dodac 6 elementow z roznymi priorytetami i w ró¿nej kolejnosci priorytetów - wydrukowac
-		- usunac z kolejki( z najwiekszym priorytetem ) - wydrukowac
-		- dodac dwa elementy - wydrukowac
-		- wyszukac jeden elem
-		- zwiekszyc mu priorytet( unikalny ) - wydrukowac
-		- zmniejszyc priorytet innemu elementowi( unikalny ) - wydrukowac
-		- usunac cala kolejke
-
-		- przetestowac jak bedzie sie zachowywac modul jesli powtorza sie priorytety niektorych elementow
-		( zmienic priorytet np na maksymalny - powtorzy sie i sciagnac dwa razy, po kazdym drukowanie )
-
-	*/
-
-	PQueue* q = PQInit( 10 ); //? ten parametr ma byc z argumentow funkcji main?
+	// wykreowac kolejke 20 - sto elementowa
+	PQueue* q = PQInit( 20 ); //? ten parametr ma byc z argumentow funkcji main?
 
 	//! robie komunikaty dla funkcji, ktore nie maja ich w swojej implementacji
 
@@ -42,6 +27,117 @@ int main()
 		return 1;
 	}
 
+
+	//dodac 6 elementow z roznymi priorytetami i w ró¿nej kolejnosci priorytetów - wydrukowac
+	for( int i = 1; i <= 6; i++ )
+	{
+		PQINFO* p = allocInfo( i, i + 1, i + 2 );
+		if( !p ) {
+			printf( "ERROR: allocInfo - Memory allocation error" );
+			return 2;
+		}
+		if( !PQEnqueue( q, p, 5 * i ) ) {
+			printf( "ERROR: Enqueue error" );
+			return 3;
+		}
+	}
+	printf( "Dodane 6 elementow:\n" );
+	PQPrint( q, 0, printInfo );
+	printf( "\n" );
+	
+	// usunac z kolejki( z najwiekszym priorytetem ) - wydrukowac
+	PQINFO* el1 = PQDequeue( q );
+
+	if( !el1 ) {
+		printf( "ERROR: Dequeue error" );
+		return 4;
+	}
+
+	printf( "Po dequeue:\n" );
+	PQPrint( q, 0, printInfo );
+
+	//dodac dwa elementy - wydrukowac
+	PQINFO* el2 = allocInfo( 2, 1, 3 );
+	if( !el2 ) {
+		printf( "ERROR: allocInfo - Memory allocation error" );
+		return 5;
+	}
+
+	if( !PQEnqueue( q, el2, 7 ) ) {
+		printf( "ERROR: Enqueue error" );
+		return 6;
+	}
+
+	PQINFO* el3 = allocInfo( 10,13,14 );
+	if( !el3 ) {
+		printf( "ERROR: allocInfo - Memory allocation error" );
+		return 7;
+	}
+
+	if( !PQEnqueue( q, el3, 42 ) ) {
+		printf( "ERROR: Enqueue error" );
+		return 8;
+	}
+
+	printf( "\nPo dodaniu 2 elemetow:\n" );
+	PQPrint( q, 0, printInfo );
+
+	//wyszukac jeden elem
+	PQINFO* el4 = allocInfo(3,4,5);
+	
+	if( !el4 ) {
+		printf( "ERROR: allocInfo - Memory allocation error" );
+		return 9;
+	}
+
+	int foundPos = PQFind( q, el4, compare );
+
+	if( foundPos == POS_ERROR ) {
+		printf( "ERROR: PQFind error" );
+		return 11;
+	}
+
+	printf( "\nZnaleziona pozycja elementu: %d\n",foundPos );
+
+	//zwiekszyc mu priorytet( unikalny ) - wydrukowac
+	PQsetPrior( q,foundPos,33 );
+	printf( "\nPo zwiekszeniu mu priorytetu:\n" );
+	PQPrint( q, 0, printInfo );
+	
+
+	//zmniejszyc priorytet innemu elementowi( unikalny ) - wydrukowac
+	PQINFO* el5 = allocInfo(5,6,7);
+	if( !el5 ) {
+		printf( "ERROR: allocInfo - Memory allocation error" );
+		return 10;
+	}
+	PQSetPrior( q, el5, 9, compare );
+	printf( "\nPo zmniejszeniu priorytetu z 25 na 9:\n" );
+	PQPrint( q, 0, printInfo );
+
+	//przetestowac jak bedzie sie zachowywac modul jesli powtorza sie priorytety niektorych elementow
+	//( zmienic priorytet np na maksymalny - powtorzy sie i sciagnac dwa razy, po kazdym drukowanie )
+	PQsetPrior( q, 2, 42 ); // priorytet z 10 na 42, juz sie nie chcialem alokowac, dlatego podalem indeks
+	printf( "\nPo zwiekszeniu priorytetu z 10 na 42, aby sie powtarzal:\n" );
+	PQPrint( q, 0, printInfo );
+
+	PQINFO* el6 = PQDequeue( q );
+	PQINFO* el7 = PQDequeue( q );
+
+	printf( "\nPo dequeue dwa razy:\n" );
+	PQPrint( q, 0, printInfo );
+
+
+	freeInfo( el1 );
+	freeInfo( el4 );
+	freeInfo( el5 );
+	freeInfo( el6 );
+	freeInfo( el7 );
+	//usunac cala kolejke
+	PQRelease( &q, freeInfo );
+
+	/*
+		moje testy
 	printf( "rozmiar poczatkowy: %d\n", PQSize( q ) );
 
 	for( int i = 1; i <= 4; i++ )
@@ -112,6 +208,7 @@ int main()
 	PQPrint( q, 0, printInfo );
 
 	PQRelease( &q, freeInfo );
+	*/
 
 	return 0;
 }
