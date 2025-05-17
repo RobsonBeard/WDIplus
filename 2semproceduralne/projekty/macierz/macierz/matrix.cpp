@@ -76,6 +76,10 @@ void TransMatrix( double** pTab, int nDim ) {
 			pTab[j][i] = temp;
 		}
 	}
+#ifdef DEBUG
+	printf( "Po transponowaniu:\n" );
+	PrintMatrix( pTab, nDim );
+#endif 
 }
 
 void InverseMatrix( double** pInv, double** pTab, int nDim, double det ) {
@@ -103,7 +107,7 @@ double Det( double** pTab, int nDim ) {
 	}
 
 	if( nDim == 1 ) return **pTab;
-	if( nDim == 2 ) return pTab[0][0] * pTab[1][1] - pTab[0][1] * pTab[1][0]; // z szybszego wzoru
+	if( nDim == 2 ) return **pTab * pTab[1][1] - pTab[0][1] * pTab[1][0]; // z szybszego wzoru
 
 	double outcome = 0;
 	double sign = -1;
@@ -197,4 +201,9 @@ void ComplMatrix( double** pTabD, double** pTab, int nDim ) {
 	}
 
 	DeleteMatrix( &smallerMatrix, nDim - 1 );
+
+#ifdef DEBUG
+	printf( "Po zrobieniu macierzy dopelnien:\n" );
+	PrintMatrix( pTabD, nDim );
+#endif 
 }
