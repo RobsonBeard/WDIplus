@@ -7,7 +7,7 @@
 #define EPS 1e-15
 #define PARAMNO 2
 
-void ReadData( FILE* fin, double** pMatrix, int nDim ); 
+void ReadData( FILE* fin, double** pMatrix, int nDim );
 
 
 int main( int argc, char* argv[] )
@@ -53,7 +53,7 @@ int main( int argc, char* argv[] )
 		return 4;
 	}
 
-	ReadData(fin, pMatrix,nDim);
+	ReadData( fin, pMatrix, nDim );
 
 #ifdef DEBUG
 	//wydruk kontrolny wczytanych danych
@@ -62,7 +62,7 @@ int main( int argc, char* argv[] )
 #endif
 
 	// obl wyznacznik
-	double matrixDet = Det( pMatrix, nDim);
+	double matrixDet = Det( pMatrix, nDim );
 
 	if( fabs( matrixDet ) < EPS || matrixDet == DBL_MAX ) {
 		printf( "ERROR Det is equal to 0 or DBL_MAX\n" ); //? to mia³o byæ w ten sposób zrobione? gdzie sprawdziæ, czy wyznacznik jest równy 0? robiæ to z Epsilonem czy po prostu ==0?
@@ -81,8 +81,8 @@ int main( int argc, char* argv[] )
 		printf( "CreateMatrix failed in main\n" );
 		return 6;
 	}
-	InverseMatrix(inversedMatrix,pMatrix,nDim,matrixDet);
-	
+	InverseMatrix( inversedMatrix, pMatrix, nDim, matrixDet );
+
 #ifdef DEBUG
 	// wydruk wyniku (ma byæ w debugu czy nie?)
 	printf( "Macierz odwrotna:\n" );
@@ -92,7 +92,7 @@ int main( int argc, char* argv[] )
 
 	// zwolnic pamiec  (usuwanie macierzy)!!!
 	fclose( fin );
-	DeleteMatrix( &pMatrix,nDim );
+	DeleteMatrix( &pMatrix, nDim );
 	DeleteMatrix( &inversedMatrix, nDim );
 
 	return 0;
@@ -159,76 +159,76 @@ void ReadData( FILE* fin, double** pMatrix, int nDim ) {
 	fclose( fin );
 	*/
 
-/* testy funkcji
-	double** testMatrix1 = NULL;
-		if( !CreateMatrix( &testMatrix1, MATRIX_SIZE ) ) {
+	/* testy funkcji
+		double** testMatrix1 = NULL;
+			if( !CreateMatrix( &testMatrix1, MATRIX_SIZE ) ) {
+				printf( "CreateMatrix failed in main\n" );
+				return 1;
+			}
+
+	#ifdef DEBUG
+		PrintMatrix( testMatrix1, MATRIX_SIZE );
+	#endif
+
+
+
+		for( int i = 0; i < MATRIX_SIZE; i++ ) {
+			for( int j = 0; j < MATRIX_SIZE; j++ ) {
+				testMatrix1[i][j] = i * 10 + j;
+			}
+		}
+
+	#ifdef DEBUG
+		PrintMatrix( testMatrix1, MATRIX_SIZE );
+	#endif
+
+		TransMatrix( testMatrix1, MATRIX_SIZE );
+	#ifdef DEBUG
+		PrintMatrix( testMatrix1, MATRIX_SIZE );
+	#endif
+
+
+		DeleteMatrix( &testMatrix1, MATRIX_SIZE );
+	*/
+
+	/*
+		test liczenia wyznacznika
+		// test liczenia wyznacznika - ma wyjsc -71
+
+		double** detTestMatrix = NULL;
+		if( !CreateMatrix( &detTestMatrix, DET_TEST_SIZE ) ) {
 			printf( "CreateMatrix failed in main\n" );
-			return 1;
+			return 4;
 		}
 
-#ifdef DEBUG
-	PrintMatrix( testMatrix1, MATRIX_SIZE );
-#endif
+		detTestMatrix[0][0] = 1;
+		detTestMatrix[0][1] = -1;
+		detTestMatrix[0][2] = 2;
+		detTestMatrix[0][3] = 0;
 
+		detTestMatrix[1][0] = 0;
+		detTestMatrix[1][1] = 1;
+		detTestMatrix[1][2] = 0;
+		detTestMatrix[1][3] = -3;
 
+		detTestMatrix[2][0] = 3;
+		detTestMatrix[2][1] = 2;
+		detTestMatrix[2][2] = -2;
+		detTestMatrix[2][3] = 4;
 
-	for( int i = 0; i < MATRIX_SIZE; i++ ) {
-		for( int j = 0; j < MATRIX_SIZE; j++ ) {
-			testMatrix1[i][j] = i * 10 + j;
-		}
-	}
+		detTestMatrix[3][0] = 2;
+		detTestMatrix[3][1] = 3;
+		detTestMatrix[3][2] = 1;
+		detTestMatrix[3][3] = 1;
 
-#ifdef DEBUG
-	PrintMatrix( testMatrix1, MATRIX_SIZE );
-#endif
+	#ifdef DEBUG
+		PrintMatrix( detTestMatrix, DET_TEST_SIZE );
+		printf( "Wyznacznik wynosi: %.2lf\n\n", Det( detTestMatrix, DET_TEST_SIZE ) ); // wynik dobry
+	#endif
 
-	TransMatrix( testMatrix1, MATRIX_SIZE );
-#ifdef DEBUG
-	PrintMatrix( testMatrix1, MATRIX_SIZE );
-#endif
+		DeleteMatrix( &detTestMatrix, DET_TEST_SIZE );
 
-
-	DeleteMatrix( &testMatrix1, MATRIX_SIZE );
-*/
-
-/*
-	test liczenia wyznacznika
-	// test liczenia wyznacznika - ma wyjsc -71
-
-	double** detTestMatrix = NULL;
-	if( !CreateMatrix( &detTestMatrix, DET_TEST_SIZE ) ) {
-		printf( "CreateMatrix failed in main\n" );
-		return 4;
-	}
-
-	detTestMatrix[0][0] = 1;
-	detTestMatrix[0][1] = -1;
-	detTestMatrix[0][2] = 2;
-	detTestMatrix[0][3] = 0;
-
-	detTestMatrix[1][0] = 0;
-	detTestMatrix[1][1] = 1;
-	detTestMatrix[1][2] = 0;
-	detTestMatrix[1][3] = -3;
-
-	detTestMatrix[2][0] = 3;
-	detTestMatrix[2][1] = 2;
-	detTestMatrix[2][2] = -2;
-	detTestMatrix[2][3] = 4;
-
-	detTestMatrix[3][0] = 2;
-	detTestMatrix[3][1] = 3;
-	detTestMatrix[3][2] = 1;
-	detTestMatrix[3][3] = 1;
-
-#ifdef DEBUG
-	PrintMatrix( detTestMatrix, DET_TEST_SIZE );
-	printf( "Wyznacznik wynosi: %.2lf\n\n", Det( detTestMatrix, DET_TEST_SIZE ) ); // wynik dobry
-#endif
-
-	DeleteMatrix( &detTestMatrix, DET_TEST_SIZE );
-
-*/
+	*/
 
 	/* test Complement - trzeba przenieœæ nag³ówek
 
@@ -261,53 +261,53 @@ void ReadData( FILE* fin, double** pMatrix, int nDim ) {
 	DeleteMatrix( &testMatrix3, COMPLEMENT_TEST_SIZE - 1 );
 	*/
 
-/*
-	test liczenia macierzy odwrotnej
-		double** invTestMatrix1 = NULL;
-	if( !CreateMatrix( &invTestMatrix1, MATRIX_SIZE ) ) {
-		printf( "CreateMatrix failed in main\n" );
-		return 5;
-	}
+	/*
+		test liczenia macierzy odwrotnej
+			double** invTestMatrix1 = NULL;
+		if( !CreateMatrix( &invTestMatrix1, MATRIX_SIZE ) ) {
+			printf( "CreateMatrix failed in main\n" );
+			return 5;
+		}
 
-	invTestMatrix1[0][0] = 2;
-	invTestMatrix1[0][1] = 5;
-	invTestMatrix1[0][2] = 7;
+		invTestMatrix1[0][0] = 2;
+		invTestMatrix1[0][1] = 5;
+		invTestMatrix1[0][2] = 7;
 
-	invTestMatrix1[1][0] = 6;
-	invTestMatrix1[1][1] = 3;
-	invTestMatrix1[1][2] = 4;
+		invTestMatrix1[1][0] = 6;
+		invTestMatrix1[1][1] = 3;
+		invTestMatrix1[1][2] = 4;
 
-	invTestMatrix1[2][0] = 5;
-	invTestMatrix1[2][1] = -2;
-	invTestMatrix1[2][2] = -3;
-
-
-#ifdef DEBUG
-	PrintMatrix( invTestMatrix1, MATRIX_SIZE );
-#endif
-
-	double testDet = Det( invTestMatrix1, MATRIX_SIZE );
-
-	if( fabs( testDet ) < EPS || testDet == DBL_MAX ) {
-		printf( "ERROR Det is equal to 0 or DBL_MAX\n" ); //? to mia³o byæ w ten sposób zrobione?
-		return 6;
-	}
-
-	double** invTestMatrix2 = NULL;
-	if( !CreateMatrix( &invTestMatrix2, MATRIX_SIZE ) ) {
-		printf( "CreateMatrix failed in main\n" );
-		return 7;
-	}
-
-	InverseMatrix( invTestMatrix2, invTestMatrix1, MATRIX_SIZE, testDet ); // policzy³ poprawnie
+		invTestMatrix1[2][0] = 5;
+		invTestMatrix1[2][1] = -2;
+		invTestMatrix1[2][2] = -3;
 
 
-#ifdef DEBUG
-	PrintMatrix( invTestMatrix2, MATRIX_SIZE );
-#endif
+	#ifdef DEBUG
+		PrintMatrix( invTestMatrix1, MATRIX_SIZE );
+	#endif
+
+		double testDet = Det( invTestMatrix1, MATRIX_SIZE );
+
+		if( fabs( testDet ) < EPS || testDet == DBL_MAX ) {
+			printf( "ERROR Det is equal to 0 or DBL_MAX\n" ); //? to mia³o byæ w ten sposób zrobione?
+			return 6;
+		}
+
+		double** invTestMatrix2 = NULL;
+		if( !CreateMatrix( &invTestMatrix2, MATRIX_SIZE ) ) {
+			printf( "CreateMatrix failed in main\n" );
+			return 7;
+		}
+
+		InverseMatrix( invTestMatrix2, invTestMatrix1, MATRIX_SIZE, testDet ); // policzy³ poprawnie
 
 
-	DeleteMatrix( &invTestMatrix1, MATRIX_SIZE );
-	DeleteMatrix( &invTestMatrix2, MATRIX_SIZE );
+	#ifdef DEBUG
+		PrintMatrix( invTestMatrix2, MATRIX_SIZE );
+	#endif
 
-*/
+
+		DeleteMatrix( &invTestMatrix1, MATRIX_SIZE );
+		DeleteMatrix( &invTestMatrix2, MATRIX_SIZE );
+
+	*/
