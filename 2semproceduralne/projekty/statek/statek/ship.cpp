@@ -78,6 +78,7 @@ int root( int** pTab, int nRow, int nCol, int nDepth, int x, int y, int** pRoot,
 	}
 
 	// jesli wracamy (slepy zaulek), to ustawiamy w pRoot, ze ruch byl zly - ustawiam na 0
+	stepNo--; // i wtedy dekrementuje numer ruchu, bo nie chce go zaliczyc
 	pRoot[x][y] = 0; //! ale to ma problem przez œlepe zau³k, nie bêd¹ liczby po kolei
 
 	return 0;
