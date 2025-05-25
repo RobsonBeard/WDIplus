@@ -1,14 +1,15 @@
 #include "ship.h"
 
-#define N 3 // trzeba zmieniac w zaleznosci od podanego .txt, na razie testowo 3x3, ma byc 10x10
-#define M 3
+#define N 10 // trzeba zmieniac w zaleznosci od podanego .txt, na razie testowo 3x3, ma byc 10x10
+#define M 10
 #define SHIP_DEPTH 5
 
 #define PARAMNO 2
 
-int** CreateTab2D( int nCol, int nRow );
+int** CreateTab2D( int nRow, int nCol);
 void freeTab2D( int*** pTab );
-void printTab2D( int** pTab, int nCol, int nRow );
+void printTab2D( int** pTab, int nRow, int nCol );
+
 
 int main(int argc, char* argv[])
 {
@@ -24,29 +25,38 @@ int main(int argc, char* argv[])
         return 2;
     }
 
+    printf( "Tablica glebokosci:\n" );
     printTab2D( depthTab, N, M );
 
     int** pathTab = CreateTab2D( N, M );
     
+    if( root(depthTab,N,M,SHIP_DEPTH,0,0,pathTab,N-1,M-1) ) {
+        printf( "Tablica ze sciezka:\n" );
+        printTab2D( pathTab, N, M );
+    }
+    else {
+        printf( "Nie ma mozliwosci doplynac do portu!!\n" );
+    }
+
     freeTab2D( &depthTab );
     freeTab2D( &pathTab );
 
 	return 0;
 }
 
-int** CreateTab2D( int nCol, int nRow ) // to jest duzo prostszy naglowek niz matrix
+int** CreateTab2D( int nRow, int nCol) // to jest duzo prostszy naglowek niz matrix
 {
     // jest to druga metoda alokowania pamieci z pdf'a - ci¹g³y obszar pamieci, bez petli, jedna alokacja (calloc lub malloc) od razu wszystkie wiersze naraz
     // adres kolejnego wiersza to adres poprzedniego (np pTab[0] + ilosc elementow w wierszu), ale zeby tego nie pisac, to zrobic zmienna dodatkowa jako ptab[0] i zwiekszac ja o += nCol
     
-    if( nCol < 1 || nRow < 1 ) return NULL;
+    if( nRow < 1 || nCol < 1 ) return NULL;
     
     int** p = (int**)calloc(nRow,sizeof(int*)); // alokujemy od razu wszystkie wiersze naraz - nRow elementów, gdzie ka¿dy element ma rozmiar int*
     if( !p ) return NULL;
 
     p[0] = (int*)calloc( nRow * nCol, sizeof( int ) ); 
     if( !p[0] ) {
-        free( p[0] );
+        free( p );
         return NULL;
     } 
 
@@ -73,7 +83,7 @@ void freeTab2D( int*** pTab )
     *pTab = NULL;
 }
 
-void printTab2D( int** pTab, int nCol, int nRow ) {
+void printTab2D( int** pTab, int nRow, int nCol ) {
     // przerobione z macierzy, tylko na inty
 
     if( !pTab || nCol < 1 || nRow < 1 ) {
@@ -84,7 +94,7 @@ void printTab2D( int** pTab, int nCol, int nRow ) {
     for( int i = 0; i < nRow; i++ )
     {
         for( int j = 0; j < nCol; j++ ) {
-            printf( "%d ", pTab[i][j] );
+            printf( "%3d ", pTab[i][j] ); // tu zmieniac wyswietlanie
         }
         printf( "\n" );
     }

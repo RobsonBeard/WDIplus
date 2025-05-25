@@ -144,3 +144,7 @@ void freeTab2D( int*** pTab )
 // i wziac printtab2d z matrixa, tylko przerobic na prostok¹tn¹ macierz (ROWS, COLS), no i tez intow, nie doubli
 
 // potem do testu powstawiac jakies losowe wartosci w komorki i wydrukowac, a na koncu freeTab2D
+
+// nie wolno uzywac zmiennej globalnej - jak pamietac numery ruchu przy kazdym wywolaniu? nie moze byc to zmienna lokalna
+//! zmienna static zadeklarowana wewnatrz funkcji root (ona chyba jest o zasiegu jednego pliku)
+// (nie wiem czy to do tego zadania) mozna sie odwolac do zmiennej globalnej (czyli zadeklarowanej przed main na przyklad) z innego pliku .cpp, ale trzeba zadeklarowac jako extern

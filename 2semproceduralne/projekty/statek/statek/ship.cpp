@@ -9,49 +9,84 @@ int setTab( char* sFile, int** pTab, int nRow, int nCol ) {
 	{
 		for( int j = 0; j < nCol; j++ )
 		{
-			if( fscanf( fin, "%d", &( pTab[i][j] ) ) == EOF ) return 0; // tu fscanf przypisze po kolei wartoœci tablicy w formacie intow	
+			if( fscanf( fin, "%d", &( pTab[i][j] ) ) == EOF ) {
+				fclose( fin ); // tu w przypadku niepowodzenia (end of file)
+				return 0; // tu fscanf przypisze po kolei wartoœci tablicy w formacie intow	
+			} 
 		}
 	}
-
+	fclose( fin );
+	return 1;
 }
 
 
 int move( int** pTab, int nRow, int nCol, int nDepth,
-    int move, int x, int y, int* px, int* py, int** pRoot )
-{ // x  y - wsporzedne skad robimy nowy ruch
-  // wykonac kolejny ruch w kierunku move obliczajac nowe wspolrzedne *px *py
-       //(switch) 4 case'y: up right down left, w kazdym z nich licze *px *py, x- wiersz, y- kolumna (odwrotnie jak w ukladzie wspolrzednych!), case'y w jednej linijce!
-  // sprawdzic czy nowe indeksy *px i *py sa w zakresie indeksow tablicy
-    // a nastepnie sprawdzic warunek czy nie jest za plytko ">nDepth " oraz
-  // czy nie bylo sie juz w lokalizacji (*px,*py) - wg tabl pRoot (wart 0 w nowej lokalicacji)
+	int move, int x, int y, int* px, int* py, int** pRoot )
+{
+	int xNext = x; // tworzê te zmienne, bo ze wskaŸnikami jest taki problem, ¿e jak wyjdê poza tablicê, to *px i *py bêd¹ mia³y z³e wartoœci, a funkcja zwróci po prostu 0
+	int yNext = y;
 
-  //  jesli wszystkie warunki poprawne to zwracamy 1
-  //    else 0
+
+	// y - kolumna, x - wiersz -> odwrotnie jak w uk³adzie wspó³rzêdnych!!
+	switch( move )
+	{
+	case UP: xNext--; break; // modyfikujê wartoœæ, na któr¹ wskazuje px i py (czyli nowe wspolrzedne)
+	case LEFT: yNext--; break;
+	case DOWN:xNext++; break;
+	case RIGHT: yNext++; break;
+
+	default: return 0;
+	}
+
+	if( xNext < 0 || xNext >= nRow || yNext< 0 || yNext>= nCol ) // jeœli wychodzê poza zakres tablicy, to ruch jest niepoprawny
+		return 0;
+
+	if( pTab[xNext][yNext] <= nDepth ) // jeœli g³êbokoœæ jest za ma³a, to nie mogê tam pop³yn¹æ
+		return 0;
+
+	if( pRoot[xNext][yNext] ) // gdy pRoot[*px][*py] != 0, jeœli jest inne ni¿ 0, to wejdzie w if  
+		return 0; // pole zosta³o ju¿ odwiedzone, a nie chce p³ywaæ w kó³ko
+
+	*px = xNext;
+	*py = yNext;
+
+	return 1; // ruch jest mo¿liwy
 }
 
-//----------------------------------------------------------------------------------
 int root( int** pTab, int nRow, int nCol, int nDepth, int x, int y, int** pRoot,
-    int x_dest, int y_dest )
+	int x_dest, int y_dest )
 {
-    // nie wolno uzywac zmiennej globalnej - jak pamietac numery ruchu przy kazdym wywolaniu? nie moze byc to zmienna lokalna
-    //! zmienna static zadeklarowana wewnatrz funkcji root (ona chyba jest o zasiegu jednego pliku)
-    // (nie wiem czy to do tego zadania) mozna sie odwolac do zmiennej globalnej (czyli zadeklarowanej przed main na przyklad) z innego pliku .cpp, ale trzeba zadeklarowac jako extern
+	static int stepNo = 0; // zmienna statyczna bêdzie przechowywaæ kolejny numer ruchu
+	// gdyby wywo³ywaæ kilka razy funkcje root w programie, to za kolejnym razem nie zacznie liczyæ od 0, tylko od poprzedniej koñcowej wartoœci
 
-    // tabl pRoot pamieta droge   -   numer ruchu pole przez ktore odwiedzono (plynie statek) 
-  //                                0 pole nie odwiedzone (czyli zaczynam od 1)
-  // wstawic do tablicy pRoot kolejny numer ruchu (z inkrementacj¹)
 
-    //if( statek_dotarl do portu ) // kiedy x,y jest rowne x_dest, y_dest
-      //  return 1;
+	pRoot[x][y] = ++stepNo; // najpierw inkrementuje stepNo (przy kazdym wejsciu w root), a potem przypisuje do tablicy, czyli zaczynam od 1
 
-    //jesli nie:
-   // zdefiniowac nowe wspolrzedne (zmienne lokalne xnew, ynew), mozna zainicjowac na 0
-        // sprawdzic wszystkie mozliwosci ruchu (petla for)
-           //jesli ruch jest mozliwy w zadanym kierunku (jesli move jest 1) 
-              //jesli wykonanie kolejnego kroku sie powiodlo (jest 1) - rekurencyjnie root()
-   // return 1;
+	if( x == x_dest && y == y_dest )
+		return 1; // jesli statek dotarl do portu
 
-    // jesli wracamy to ustawiamy w pRoot ze ruch byl zly
-    //return 0;
+	int xNew = 0; // jesli jeszcze nie dotarl, definiuje nowe wspolrzedne (dzia³am na nie przez move)
+	int yNew = 0;
 
+	for( int direction = UP; direction <= RIGHT; direction++ ) // sprawdzam mozliwosc ruchu w kazdym kierunku, to dzia³a ze wzglêdu na w³aœciwoœci enum
+	{
+		if( move( pTab, nRow, nCol, nDepth, direction, x, y, &xNew, &yNew, pRoot ) ) // jesli ruch jest mozliwy w danym kierunku (zwrocilo 1)
+		{
+			if( root( pTab, nRow, nCol, nDepth, xNew, yNew, pRoot, x_dest, y_dest ) ) // jesli wykonanie kolejnego ruchu sie powiodlo (zwrocilo 1), rekurencja
+				return 1;
+		}
+	}
+
+	// jesli wracamy (slepy zaulek), to ustawiamy w pRoot, ze ruch byl zly - ustawiam na 0
+	pRoot[x][y] = 0; //! ale to ma problem przez œlepe zau³k, nie bêd¹ liczby po kolei
+
+	return 0;
+}
+
+void clearRoot( int** pRoot, int nRow, int nCol ) {
+	if( !pRoot || !pRoot[0] || nRow < 1 || nCol < 1 ) {
+		printf( "clearRoot: parameters error" );
+		return;
+	}
+	memset( pRoot[0], 0, nRow * nCol * sizeof( int ) ); // 1 argument - pocz¹tek bloku pamieci, 2 - co wpisuje, 3 - liczba bajtów do wype³nienia
 }

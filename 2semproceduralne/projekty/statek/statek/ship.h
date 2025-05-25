@@ -7,7 +7,7 @@
 
 typedef enum { UP, LEFT, DOWN, RIGHT } Directions;
 
-//todo: chyba docelowo pousuwaæ te komentarze, niech one zostan¹ w pliku ze szkicem
+//? usuwaæ te komentarze?
 
 int move( int** pTab, int nRow, int nCol, int nDepth,
 	int move, int x, int y, int* px, int* py, int** pRoot );
