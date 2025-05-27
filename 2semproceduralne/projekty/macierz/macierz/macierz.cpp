@@ -4,7 +4,7 @@
 //#define COMPLEMENT_TEST_SIZE 5
 //#define DET_TEST_SIZE 4
 
-#define EPS 1e-15
+#define EPS 1e-25
 #define PARAMNO 2
 
 void ReadData( FILE* fin, double** pMatrix, int nDim );
@@ -12,8 +12,6 @@ void ReadData( FILE* fin, double** pMatrix, int nDim );
 
 int main( int argc, char* argv[] )
 {
-	//TODO: przede wszystkim dowiedzieæ siê o rzeczach, gdzie s¹ pytajniki i o tym, co ma zwracaæ Det w przypadku b³êdu, bo wtedy trzeba bêdzie obs³u¿yæ b³¹d w kilku miejscach
-
 	// obliczyæ macierz odwrotn¹ 6x6 
 	// dane wejsciiowe czytane z pliku wejsciowego (parametr funkcji main)
 
@@ -27,7 +25,7 @@ int main( int argc, char* argv[] )
 
 	int nDim = 0; // zak³adam, ¿e muszê wydobyæ najpierw z pliku .txt rozmiar macierzy
 	FILE* fin = NULL; // uchwyt pliku
-	if( ( fin = fopen( argv[1], "r" ) ) == NULL ) // proba otworzenia pliku
+	if( ( fin = fopen( argv[1], "r" ) ) == NULL ) // proba otworzenia pliku, moznaby tez zrobic bez == null, tylko z wykrzyknikiem
 	{
 		printf( "Error open input file %s\n", argv[1] );
 		return 2;
@@ -64,8 +62,8 @@ int main( int argc, char* argv[] )
 	// obl wyznacznik
 	double matrixDet = Det( pMatrix, nDim );
 
-	if( fabs( matrixDet ) < EPS || matrixDet == DBL_MAX ) {
-		printf( "ERROR Det is equal to 0 or DBL_MAX\n" ); //? to mia³o byæ w ten sposób zrobione? gdzie sprawdziæ, czy wyznacznik jest równy 0? robiæ to z Epsilonem czy po prostu ==0?
+	if( fabs( matrixDet ) < EPS) {
+		printf( "ERROR Det is equal to 0\n" ); //? to mia³o byæ w ten sposób zrobione? gdzie sprawdziæ, czy wyznacznik jest równy 0? robiæ to z Epsilonem czy po prostu ==0?
 		return 5;
 	}
 
@@ -83,11 +81,9 @@ int main( int argc, char* argv[] )
 	}
 	InverseMatrix( inversedMatrix, pMatrix, nDim, matrixDet );
 
-#ifdef DEBUG
-	// wydruk wyniku (ma byæ w debugu czy nie?)
-	printf( "Macierz odwrotna:\n" );
-	PrintMatrix( inversedMatrix, nDim ); //? jest taki problem(?) ¿e zamiast 0 pokazuje -0, co pewnie wynika ze zmiennoprzecinkowych liczb
-#endif
+
+	printf( "Macierz odwrotna:\n" ); // to bez debuga, bo to wynik
+	PrintMatrix( inversedMatrix, nDim ); //! moze pokazywac np. -0 i to jest okej
 
 
 	// zwolnic pamiec  (usuwanie macierzy)!!!
@@ -101,13 +97,20 @@ int main( int argc, char* argv[] )
 void ReadData( FILE* fin, double** pMatrix, int nDim ) {
 	for( int i = 0; i < nDim; i++ )
 	{
+		double* v = *pMatrix++;
 		for( int j = 0; j < nDim; j++ )
 		{
-			if( fscanf( fin, "%lf", &( pMatrix[i][j] ) ) == EOF ) // tu fscanf przypisze po kolei wartoœci tablicy w formacie doubli
+			//if( fscanf( fin, "%lf", &( pMatrix[i][j] ) ) == EOF )
+			//{
+			//	printf( "ERROR fscanf in ReadData" );
+			//	return;
+			//}
+
+			if( fscanf( fin, "%lf", v++ ) == EOF ) // tu fscanf przypisze po kolei wartoœci tablicy w formacie doubli
 			{
 				printf( "ERROR fscanf in ReadData" );
 				return;
-			}
+			} // o wiele schludniejsza wersja
 		}
 	}
 }

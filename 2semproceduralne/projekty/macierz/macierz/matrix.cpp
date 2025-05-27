@@ -26,9 +26,8 @@ int CreateMatrix( double*** pTab, int nDim ) {
 		//(*pTab)[i] = (double*)calloc( nDim, sizeof( double ) );
 		if( !p[i] ) {
 			for( int j = 0; j < i; j++ )
-			{
 				free( p[j] );
-			}
+			
 			free( p ); // jak bêdzie b³¹d, to czyszczê wszystko, co by³o do tej pory zalokowane
 			return 0;
 		}
@@ -44,16 +43,12 @@ void DeleteMatrix( double*** pTab, int nDim ) {
 		return;
 	}
 
-	double** p = *pTab;
+	double** p = *pTab; // dla czytelnosci mozna tak zrobic, tak jak w CreateMatrix
 
 	for( int i = 0; i < nDim; i++ )
-	{
 		free( p[i] );
-		p[i] = NULL;
-	}
 
 	free( p );
-	//p = NULL;
 	*pTab = NULL;
 }
 
@@ -61,6 +56,7 @@ void DeleteMatrix( double*** pTab, int nDim ) {
 void TransMatrix( double** pTab, int nDim ) {
 	// od pierwszego ZA g³ówn¹ przek¹tn¹, w ostatnim wierszu nie ma nic do zamiany, druga petla idzie od i+1 do nDim-1 (chodzi o to ze w ostatnim przejsciu nie bedzie co zamieniac) - w paincie mozna fajnie narysowac
 	// czyli i!=j
+	// tutaj w pTab nie wolno aktualizowac adresu, bo potem uzywamy do indeksowannia 
 
 	if( !pTab || nDim < 1 ) {
 		printf( "ERROR TransMatrix - wrong or incomplete data\n" );
@@ -88,34 +84,31 @@ void InverseMatrix( double** pInv, double** pTab, int nDim, double det ) {
 		return;
 	}
 
-	double alpha = 1 / det;
 	ComplMatrix( pInv, pTab, nDim );
 	TransMatrix( pInv, nDim );
 	for( int i = 0; i < nDim; i++ )
 	{
 		for( int j = 0; j < nDim; j++ )
-		{
-			pInv[i][j] = alpha * pInv[i][j];
-		}
+			pInv[i][j] /= det; // to zamiast robic mnozenie przez alpha=1/det - szybciej
 	}
 }
 
 double Det( double** pTab, int nDim ) {
 	if( !pTab || nDim < 1 ) {
 		printf( "ERROR Det - wrong or incomplete data\n" );
-		return DBL_MAX; //? co zwracac w przypadku b³êdu?
+		return 0; //? co zwracac w przypadku b³êdu?
 	}
 
-	if( nDim == 1 ) return **pTab;
+	if( nDim == 1 ) return **pTab; // **pTab to jest to samo co pTab[0][0]
 	if( nDim == 2 ) return **pTab * pTab[1][1] - pTab[0][1] * pTab[1][0]; // z szybszego wzoru
 
 	double outcome = 0;
 	double sign = -1;
 
-	double** smallerMatrix = NULL;
+	double** smallerMatrix = NULL; // wazne, zeby kreowac te macierz poza petla for
 	if( !CreateMatrix( &smallerMatrix, nDim - 1 ) ) {
 		printf( "ERROR CreateMatrix failed in Det\n" );
-		return INT_MAX;
+		return 0;
 	}
 
 	//rozwiniecie wzgl 1-go wiersza, rekurencyjnie (wiersz o indeksie 1)
@@ -140,9 +133,12 @@ void PrintMatrix( double** pTab, int nDim ) {
 
 	for( int i = 0; i < nDim; i++ )
 	{
+		double* v = *pTab++; // moge to zrobic, bo parametr jest przekazywany jako kopia, chyba ze potrzebowalbym pTab do indeksowania, wtedy musialbym zrobic na poczatku programu jeszcze jedna kopie
+
 		for( int j = 0; j < nDim; j++ ) {
-			printf( "%.2lf ", pTab[i][j] );
+			printf( "%.2lf ", *v++ ); // moge napisac v[j]
 		}
+
 		printf( "\n" );
 	}
 	printf( "\n" );
@@ -159,9 +155,10 @@ void Complement( double** pTabO, double** pTabI, int nRow, int nCol, int nDim ) 
 
 	for( int i = 0; i < nDim; i++ )
 	{
+		if( i == nRow ) continue;
 		for( int j = 0; j < nDim; j++ )
 		{
-			if( i == nRow || j == nCol ) continue;
+			if( j == nCol ) continue;
 			// ale po miniêciu, czyli gdy j>ncol muszê wstawiæ do [j-1] element
 			// tak samo gdy i>nRow to do [i-1]
 			// najlepiej to po prostu narysowaæ
