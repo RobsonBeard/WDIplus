@@ -1,12 +1,23 @@
 #include "Tree.h"
 
+#define BSTTREE
+#define MAXBST 10
+
 int main()
 {
 	TreeItem* pRoot = NULL;
 	//LP_TreeItem p = NULL; // wychodzi na to samo
 
+#ifndef BSTTREE
 	pRoot = TreeFinallyBalanced( 10 );
-	
+#else
+	srand( (unsigned)time( NULL ) );
+	for( int i = 0; i < MAXBST; i++ ) {
+		//FindInsert( &pRoot, rand() % ( MAXBST << 1 ) );
+		pRoot = FindInsert2( pRoot, rand() % ( MAXBST << 1 ) );
+	}
+#endif
+
 	printf( "PreOrder: " );
 	preOrder( pRoot );
 	

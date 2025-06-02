@@ -1,5 +1,7 @@
 #include "Tree.h"
 
+void Visit( TreeItem* pRoot );
+
 void preOrder( TreeItem* pRoot ) {
 	if( !pRoot ) return; // koniec rekurencji
 
@@ -51,8 +53,8 @@ void freeTree1( TreeItem* pRoot ) {
 
 void freeTree2( TreeItem** pRoot ) {
 	if( !*pRoot ) return;
-	freeTree2( &((*pRoot)->pLeft) );
-	freeTree2( &(*pRoot)->pRight); // to co wyzej, ale skorzystalem z priorytetow
+	freeTree2( &( ( *pRoot )->pLeft ) );
+	freeTree2( &( *pRoot )->pRight ); // to co wyzej, ale skorzystalem z priorytetow
 	free( *pRoot );
 	*pRoot = NULL;
 }
@@ -64,4 +66,48 @@ TreeItem* freeTree3( TreeItem* pRoot ) {
 		free( pRoot );
 	}
 	return NULL;
+}
+
+
+// w sizeof() i (*pRoot) nie trzeba spacji przy nawiasach
+
+void FindInsert( TreeItem** pRoot, int x ) {
+	if( !*pRoot )
+	{
+		*pRoot = (TreeItem*)calloc( 1, sizeof( TreeItem ) );
+		( *pRoot )->key = x;
+		//( *pRoot )->pLeft = ( *pRoot )->pRight = NULL; // potrzebne gdy malloc
+	}
+	else // rekurencyjnie szukamy albo elementu albo gdzie wstawiæ
+	{
+		if( x < ( *pRoot )->key )
+			FindInsert( &( ( *pRoot )->pLeft ), x );
+		else if( x > ( *pRoot )->key )
+			FindInsert( &( ( *pRoot )->pRight ), x );
+		else Visit( *pRoot );
+	}
+}
+
+void Visit( TreeItem* pRoot ) {
+	printf( "key: %d\n", pRoot->key );
+}
+
+TreeItem* FindInsert2( TreeItem* pRoot, int x ) {
+	if( !pRoot )
+	{
+		TreeItem* v = (TreeItem*)calloc( 1, sizeof( TreeItem ) );
+		v->key = x; //? znowu u pana nie ma tego podkreslenia
+		//v->pLeft = v->pRight = NULL; // potrzebne gdy malloc
+		return v;
+	}
+
+
+	// rekurencyjnie szukamy albo elementu albo gdzie wstawiæ
+	if( x < pRoot->key )
+		pRoot->pLeft = FindInsert2( pRoot->pLeft, x );
+	else if( x > pRoot->key )
+		pRoot->pRight = FindInsert2( pRoot->pRight, x );
+	else Visit( pRoot );
+
+	return pRoot;
 }

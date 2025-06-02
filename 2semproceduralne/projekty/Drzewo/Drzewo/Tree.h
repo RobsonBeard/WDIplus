@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 typedef struct tagTreeItem
 {
@@ -22,5 +23,8 @@ void freeTree1( TreeItem* pRoot ); // nie nulluje drzewa! (czyli wskaznika)
 void freeTree2( TreeItem** pRoot ); // nulluje wskaznik do drzewa
 TreeItem* freeTree3( TreeItem* pRoot ); // nulluje wskaznik do drzewa
 
+void FindInsert( TreeItem** pRoot, int x ); // BST - Binary Search Tree (dla ka¿dego wêz³a drzewa na lewo s¹ mniejsze a na prawo wiêksze liœcie), w inorder wypisuje siê lista rosn¹ca
+
+TreeItem* FindInsert2( TreeItem* pRoot, int x );
 
 #endif
