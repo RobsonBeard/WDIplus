@@ -31,7 +31,6 @@ int PQMaxPrior( PQueue* q ) {
 void PQClear( PQueue* q, void( __cdecl* freeMem )( const void* ) ) {
 	// ma usuwac wszystkie PQItem z kolejki, najpierw usunac, potem zwolnic pamiec czyli freeMem( PQDequeue( ) ), dopoki kolejka nie jest pusta
 	// ale mozna tez to zrobic na piechote, od 0 do currentSize, freememem zwalniac PQInfo i free na PQItem, nullowac costam, na koncu currentsize ustawic na 0
-	//! sprobowac to zrobic na piechote
 
 	if( !q || !freeMem ) {
 		printf( "PQClear: Kolejka lub funkcja freeMem nie istnieje" );
@@ -134,10 +133,6 @@ void PQPrint( PQueue* q, int currentPos, void( __cdecl* printInfo )( const void*
 
 void UpdateDown( PQItem** pQueue, int l, int p ) {
 	// naprawa od l do p (czyli najczesciej do konca kopca)
-	// analogicznie jak w sortowaniu stogowym ale zmienic
-	// przetestowac najpierw ta funkcje w sortowaniu malejacym!!!
-	//    (wybiera sie element o wiekszym priorytcie)
-	// tak aby pierwszy element mial najwiêkszy proirytet
 
 	// l - indeks wêz³a, od którego zaczynamy naprawê kopca
 	// p - indeks ostatniego elementu w kopcu
@@ -162,7 +157,6 @@ void UpdateUp( PQItem** pQueue, int l, int p ) {
 	// tylko uaktualnienie w gore stogu i jest tylko jeden rodzic
 	// uwazac przy liczeniu indeksu rodzica, petla z dwoma warunkami, bo przy UpdateDown cos jest i dopiero w srodku jest dodatkowy warunek z break
 	// a tutaj ten warunek jest w naglowku petli i ten indeks ma byc >= l chyba, ale jesli l jest 0 to w pewnym momencie musze otrzymac -1, zeby sie petla przerwala
-	// dlatego trzeba tutaj uzyc jakiegos sprytnego wyrazenia
 
 	if( l >= p ) return;
 	int i = p; // indeks dziecka
