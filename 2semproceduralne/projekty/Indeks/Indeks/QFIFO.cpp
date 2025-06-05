@@ -1,23 +1,20 @@
 #include "QFIFO.h"
 
 FQueue* FQCreate() {
-	FQueue* q = (FQueue*)malloc( sizeof( FQueue ) );
-	if( !q ) return NULL;
-	q->pHead = q->pTail = NULL; // takie podstawienie wykonuje sie od prawej do lewej
-	return q;
+	return (FQueue*)calloc( 1, sizeof( FQueue) );
 }
 
 int FQEmpty( FQueue* q ) {
 	return !q || !( q->pHead ); // gdy q==0 lub q==NULL lub q->pHead == 0, to zwroci 1, w przeciwnym wypadku zwroci 0
 }
 
-int FQEnqueue( FQueue* q, QINFO* pNewInfo ) {
+int	FQEnqueue( FQueue* q, int newInfo ) {
 	if( !q ) return 0; // jeœli lista nie istnieje
 
 	FQItem* p = (FQItem*)malloc( sizeof( FQItem ) );
 	if( !p ) return 0; // jeœli alokacja pamiêci siê nie powiod³a
 
-	p->pInfo = pNewInfo;
+	p->lineNo = newInfo;
 	p->pNext = NULL; // bo to jest nasz ostatni, a musze inicjalizowac
 
 	if( !( q->pHead ) )
@@ -50,7 +47,7 @@ void FQClear( FQueue* q, void( __cdecl* freeMem )( const void* ) ) {
 }
 
 void FQRemove( FQueue** q, void( __cdecl* freeMem )( const void* ) ) {
-	if( !q || !(*q) || !freeMem ) {
+	if( !q || !*q || !freeMem ) {
 		printf( "FQRemove: Kolejka lub funkcja freeMem nie istnieje" );
 		return;
 	}

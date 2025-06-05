@@ -101,7 +101,6 @@ TreeItem* FindInsert2( TreeItem* pRoot, int x ) {
 		return v;
 	}
 
-
 	// rekurencyjnie szukamy albo elementu albo gdzie wstawiæ
 	if( x < pRoot->key )
 		pRoot->pLeft = FindInsert2( pRoot->pLeft, x );
