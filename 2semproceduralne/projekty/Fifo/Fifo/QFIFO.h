@@ -22,9 +22,9 @@ typedef struct
 FQueue* FQCreate();															// queue initiating  (NULL - fail)
 int     FQEmpty( FQueue* q );												// if FIFO empty returned 1 (gdy nie ma kolejki tez 1) else 0
 int		FQEnqueue( FQueue* q, QINFO* pNewInfo );							// insert new item at the end 
-QINFO*  FQDequeue( FQueue* q );												// take out the first item
-void    FQClear( FQueue* q, void (__cdecl* freeMem)( const void* ) );       // clears the queue
-void    FQRemove( FQueue** q, void ( __cdecl* freeMem )( const void* ) );   // clears the queue  (=QFClear()) and removes
+QINFO* FQDequeue( FQueue* q );												// take out the first item
+void    FQClear( FQueue* q, void( __cdecl* freeMem )( const void* ) );       // clears the queue
+void    FQRemove( FQueue** q, void( __cdecl* freeMem )( const void* ) );   // clears the queue  (=QFClear()) and removes
 void    FQDel( FQueue* q );													// removes only first item
 void    FQPrint( FQueue* q, void( __cdecl* printInfo )( const void* ) );	// drukowanie
 

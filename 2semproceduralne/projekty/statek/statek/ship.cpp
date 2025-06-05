@@ -9,7 +9,8 @@ int setTab( char* sFile, int** pTab, int nRow, int nCol ) {
 	{
 		for( int j = 0; j < nCol; j++ )
 		{
-			if( fscanf( fin, "%d", &( pTab[i][j] ) ) == EOF ) {
+			if( fscanf( fin, "%d", &( pTab[i][j] ) ) == EOF ) //! tutaj zastosowac sposob ze wskaznikami
+			{
 				fclose( fin ); // tu w przypadku niepowodzenia (end of file)
 				return 0; // tu fscanf przypisze po kolei wartoœci tablicy w formacie intow	
 			} 
@@ -32,8 +33,6 @@ int move( int** pTab, int nRow, int nCol, int nDepth,
 	case LEFT:	yNext--; break;
 	case DOWN:	xNext++; break;
 	case RIGHT: yNext++; break;
-
-	default: return 0; // jeœli jest takiœ kierunek poza enumem, to jest Ÿle, wiec wychodze z funkcji
 	}
 
 	if( xNext < 0 || xNext >= nRow || yNext< 0 || yNext>= nCol || pTab[xNext][yNext] <= nDepth || pRoot[xNext][yNext] ) 	
@@ -63,11 +62,11 @@ void clearRoot( int** pRoot, int nRow, int nCol ) {
 int root( int** pTab, int nRow, int nCol, int nDepth, int x, int y, int** pRoot,
 	int x_dest, int y_dest )
 {
-	static int stepNo = 0; // zmienna statyczna bêdzie przechowywaæ kolejny numer ruchu
-	// gdyby wywo³ywaæ kilka razy funkcje root w programie, to za kolejnym razem nie zacznie liczyæ od 0, tylko od poprzedniej koñcowej wartoœci
+	static int stepNo = 1; // zmienna statyczna bêdzie przechowywaæ kolejny numer ruchu
+	// gdyby wywo³ywaæ kilka razy funkcje root w programie, to za kolejnym razem nie zacznie liczyæ od 1, tylko od poprzedniej koñcowej wartoœci
 
 
-	pRoot[x][y] = ++stepNo; // najpierw inkrementuje stepNo (przy kazdym wejsciu w root), a potem przypisuje do tablicy, czyli zaczynam od 1
+	pRoot[x][y] = stepNo++; // przypisuje do tablicy, czyli zaczynam od 1 , potem inkrementuje stepNo (przy kazdym wejsciu w root)
 
 	if( x == x_dest && y == y_dest )
 		return 1; // jesli statek dotarl do portu

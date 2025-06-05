@@ -62,7 +62,7 @@ int main( int argc, char* argv[] )
 	// obl wyznacznik
 	double matrixDet = Det( pMatrix, nDim );
 
-	if( fabs( matrixDet ) < EPS) {
+	if( fabs( matrixDet ) < EPS ) {
 		printf( "ERROR Det is equal to 0\n" ); //? to mia³o byæ w ten sposób zrobione? gdzie sprawdziæ, czy wyznacznik jest równy 0? robiæ to z Epsilonem czy po prostu ==0?
 		return 5;
 	}

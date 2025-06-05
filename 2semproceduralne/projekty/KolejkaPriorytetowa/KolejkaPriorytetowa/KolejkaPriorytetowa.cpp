@@ -44,7 +44,7 @@ int main()
 	printf( "Dodane 6 elementow:\n" );
 	PQPrint( q, 0, printInfo );
 	printf( "\n" );
-	
+
 	// usunac z kolejki( z najwiekszym priorytetem ) - wydrukowac
 	PQINFO* el1 = PQDequeue( q );
 
@@ -68,7 +68,7 @@ int main()
 		return 6;
 	}
 
-	PQINFO* el3 = allocInfo( 10,13,14 );
+	PQINFO* el3 = allocInfo( 10, 13, 14 );
 	if( !el3 ) {
 		printf( "ERROR: allocInfo - Memory allocation error" );
 		return 7;
@@ -83,8 +83,8 @@ int main()
 	PQPrint( q, 0, printInfo );
 
 	//wyszukac jeden elem
-	PQINFO* el4 = allocInfo(3,4,5);
-	
+	PQINFO* el4 = allocInfo( 3, 4, 5 );
+
 	if( !el4 ) {
 		printf( "ERROR: allocInfo - Memory allocation error" );
 		return 9;
@@ -97,16 +97,16 @@ int main()
 		return 11;
 	}
 
-	printf( "\nZnaleziona pozycja elementu: %d\n",foundPos );
+	printf( "\nZnaleziona pozycja elementu: %d\n", foundPos );
 
 	//zwiekszyc mu priorytet( unikalny ) - wydrukowac
-	PQsetPrior( q,foundPos,33 );
+	PQsetPrior( q, foundPos, 33 );
 	printf( "\nPo zwiekszeniu mu priorytetu:\n" );
 	PQPrint( q, 0, printInfo );
-	
+
 
 	//zmniejszyc priorytet innemu elementowi( unikalny ) - wydrukowac
-	PQINFO* el5 = allocInfo(5,6,7);
+	PQINFO* el5 = allocInfo( 5, 6, 7 );
 	if( !el5 ) {
 		printf( "ERROR: allocInfo - Memory allocation error" );
 		return 10;
@@ -155,7 +155,7 @@ int main()
 
 	printf( "curr size po dodaniu: %d\n", PQSize( q ) );
 	printf( "Czy pusta? %s\n", PQisEmpty( q ) ? "Tak" : "Nie" );
-	
+
 	PQPrint( q, 0, printInfo );
 
 	//PQINFO* pTest = allocInfo(1,2,3);
@@ -182,7 +182,7 @@ int main()
 
 	printf( "\n" );
 	PQPrint( q, 1, printInfo ); // roznica miedzy tym pierwszym indeksem
-	
+
 	printf( "\n" );
 	PQInfo* infoDoKosza = PQDequeue( q );
 	freeInfo( infoDoKosza ); // zeby nie bylo wycieku pamieci

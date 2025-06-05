@@ -3,7 +3,7 @@
 FQueue* FQCreate() {
 	FQueue* q = (FQueue*)malloc( sizeof( FQueue ) );
 	if( !q ) return NULL;
-	q->pHead = q->pTail = NULL; // takie podstawienie wykonuje sie od prawej do lewej
+	q->pHead = q->pTail = NULL; // takie podstawienie wykonuje sie od prawej do lewej (gdyby by³ calloc, to on by automatycznie wyzerowa³)
 	return q;
 }
 
@@ -40,7 +40,7 @@ QINFO* FQDequeue( FQueue* q ) {
 }
 
 void FQClear( FQueue* q, void( __cdecl* freeMem )( const void* ) ) {
-	if( FQEmpty( q ) || !freeMem) {
+	if( FQEmpty( q ) || !freeMem ) {
 		printf( "FQClear: Kolejka lub funkcja freeMem nie istnieje" );
 		return;
 	}
@@ -50,7 +50,7 @@ void FQClear( FQueue* q, void( __cdecl* freeMem )( const void* ) ) {
 }
 
 void FQRemove( FQueue** q, void( __cdecl* freeMem )( const void* ) ) {
-	if( !q || !(*q) || !freeMem ) {
+	if( !q || !( *q ) ) {
 		printf( "FQRemove: Kolejka lub funkcja freeMem nie istnieje" );
 		return;
 	}
@@ -77,7 +77,7 @@ void FQDel( FQueue* q ) {
 }
 
 void FQPrint( FQueue* q, void( __cdecl* printInfo )( const void* ) ) {
-	if( FQEmpty( q ) || !printInfo) {
+	if( FQEmpty( q ) || !printInfo ) {
 		printf( "FQPrint: Kolejka pusta lub nie istnieje lub funkcja printInfo nie istnieje" );
 		return;
 	}

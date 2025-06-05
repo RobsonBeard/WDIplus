@@ -10,11 +10,11 @@ int main()
 	FQueue* q = FQCreate();
 
 	//! wszêdzie, gdzie nie wypisujê komunikatów w QFIFO.cpp, tylko zwracam NULL albo 0, muszê zrobiæ komunikaty w tym pliku
-	
+
 	if( !q ) {
 		printf( "ERROR: Queue allocation error" );
 		return 1;
-	}	
+	}
 
 	// dodac do kolejki 4 elementy (wydrukowac kolejke)
 	for( int i = 1; i <= 4; i++ )
@@ -40,7 +40,7 @@ int main()
 		QINFO* p = FQDequeue( q );
 		printInfo( p );
 	}
-	printf("Pozostala kolejka:\n");
+	printf( "Pozostala kolejka:\n" );
 	FQPrint( q, printInfo );
 
 	printf( "\n\n" );
@@ -59,8 +59,8 @@ int main()
 		}
 	}
 	FQPrint( q, printInfo );
-	
-	
+
+
 	// wyczyscic kolejke
 	FQClear( q, freeInfo );
 
@@ -84,7 +84,7 @@ int main()
 	printf( "\n\n" );
 
 	// usunac jeden element (Wypisac go) i wydrukowac kolejke
-	
+
 	QINFO* p = FQDequeue( q );
 	printInfo( p );
 	printf( "Pozostala kolejka:\n" );

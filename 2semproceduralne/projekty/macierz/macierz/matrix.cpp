@@ -27,7 +27,7 @@ int CreateMatrix( double*** pTab, int nDim ) {
 		if( !p[i] ) {
 			for( int j = 0; j < i; j++ )
 				free( p[j] );
-			
+
 			free( p ); // jak bêdzie b³¹d, to czyszczê wszystko, co by³o do tej pory zalokowane
 			return 0;
 		}
