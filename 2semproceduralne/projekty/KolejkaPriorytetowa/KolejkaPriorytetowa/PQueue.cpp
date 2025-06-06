@@ -29,15 +29,15 @@ int PQMaxPrior( PQueue* q ) {
 }
 
 void PQClear( PQueue* q, void( __cdecl* freeMem )( const void* ) ) {
-	// ma usuwac wszystkie PQItem z kolejki, najpierw usunac, potem zwolnic pamiec czyli freeMem( PQDequeue( ) ), dopoki kolejka nie jest pusta
 	// ale mozna tez to zrobic na piechote, od 0 do currentSize, freememem zwalniac PQInfo i free na PQItem, nullowac costam, na koncu currentsize ustawic na 0
+	// ^ lepiej zrobic to takim sposobem, jedna petla for
 
 	if( !q || !freeMem ) {
 		printf( "PQClear: Kolejka lub funkcja freeMem nie istnieje" );
 		return;
 	}
 
-	while( !PQisEmpty( q ) )
+	while( !PQisEmpty( q ) ) // dopoki kolejka nie jest pusta, zwalniam pamiec
 		freeMem( PQDequeue( q ) );
 }
 
@@ -54,10 +54,13 @@ PQINFO* PQDequeue( PQueue* q ) {
 
 	PQItem* itemToRemove = q->pPQueue[0]; // potrzebuje tego do zwolnienia pamieci, najwyzszy priorytet
 	PQINFO* p = itemToRemove->pInfo; // biore wartosc korzenia (pierwszego elementu)
-	//zwolnic pamiec 
+	free( itemToRemove );
+
 	q->nPQCurrSize--;
 
-	if( q->nPQCurrSize > 0 ) // jeœli kolejka nie jest pusta (czyli wczesniej nie miala tylko 1 elementu), to przenoszê ostatni element na miejsce pierwszego
+	int queueSize = PQSize( q ); // zmienna pomocniczna, bo potem wiele razy korzystam z CurrSize
+
+	if( queueSize > 0 ) // jeœli kolejka nie jest pusta (czyli wczesniej nie miala tylko 1 elementu), to przenoszê ostatni element na miejsce pierwszego
 	{
 		q->pPQueue[0] = q->pPQueue[q->nPQCurrSize]; // po to najpierw zdekrementowa³em nPQCurrSize, ¿eby teraz w ten sposób dostaæ siê do ostatniego elementu, przenoszê go na pocz¹tek
 		q->pPQueue[q->nPQCurrSize] = NULL;
@@ -69,7 +72,7 @@ PQINFO* PQDequeue( PQueue* q ) {
 		q->pPQueue[0] = NULL; // ustawiamy korzeñ na NULL, gdy kolejka jest pusta, robie w ten sposob, no bo juz nie potrzebuje UpdateDown
 	}
 
-	free( itemToRemove );
+	
 
 	return p;
 }
