@@ -7,13 +7,14 @@ int setTab( char* sFile, int** pTab, int nRow, int nCol ) {
 
 	for( int i = 0; i < nRow; i++ )
 	{
+		int* v = *pTab++; // sposób wskaŸnikowy podany w projekcie Macierzy
 		for( int j = 0; j < nCol; j++ )
 		{
-			if( fscanf( fin, "%d", &( pTab[i][j] ) ) == EOF ) //! tutaj zastosowac sposob ze wskaznikami
+			if( fscanf( fin, "%d", v++ ) == EOF )
 			{
 				fclose( fin ); // tu w przypadku niepowodzenia (end of file)
 				return 0; // tu fscanf przypisze po kolei wartoœci tablicy w formacie intow	
-			} 
+			}
 		}
 	}
 	fclose( fin );
@@ -29,19 +30,19 @@ int move( int** pTab, int nRow, int nCol, int nDepth,
 	// y - kolumna, x - wiersz -> odwrotnie jak w uk³adzie wspó³rzêdnych!!
 	switch( move )
 	{
-	case UP:	xNext--; break; // modyfikujê wartoœæ, na któr¹ wskazuje px i py (czyli nowe wspolrzedne)
+	case UP:	xNext--; break; // modyfikujê wartoœæ, na któr¹ bedzie wskazywac px i py (czyli nowe wspolrzedne)
 	case LEFT:	yNext--; break;
 	case DOWN:	xNext++; break;
 	case RIGHT: yNext++; break;
 	}
 
-	if( xNext < 0 || xNext >= nRow || yNext< 0 || yNext>= nCol || pTab[xNext][yNext] <= nDepth || pRoot[xNext][yNext] ) 	
+	if( xNext < 0 || xNext >= nRow || yNext < 0 || yNext >= nCol || pTab[xNext][yNext] <= nDepth || pRoot[xNext][yNext] )
 		return 0;
 
 	// opis warunków w ifie:
 	// jeœli wychodzê poza zakres tablicy, to ruch jest niepoprawny
 	// jeœli g³êbokoœæ jest za ma³a, to nie mogê tam pop³yn¹æ
-	
+
 	// gdy pRoot[*px][*py] != 0, jeœli jest inne ni¿ 0, to wejdzie w if  
 	// pole zosta³o ju¿ odwiedzone, a nie chce p³ywaæ w kó³ko
 
@@ -65,8 +66,7 @@ int root( int** pTab, int nRow, int nCol, int nDepth, int x, int y, int** pRoot,
 	static int stepNo = 1; // zmienna statyczna bêdzie przechowywaæ kolejny numer ruchu
 	// gdyby wywo³ywaæ kilka razy funkcje root w programie, to za kolejnym razem nie zacznie liczyæ od 1, tylko od poprzedniej koñcowej wartoœci
 
-
-	pRoot[x][y] = stepNo++; // przypisuje do tablicy, czyli zaczynam od 1 , potem inkrementuje stepNo (przy kazdym wejsciu w root)
+	pRoot[x][y] = stepNo++; // przypisuje do tablicy, czyli zaczynam od 1, potem inkrementuje stepNo (przy kazdym wejsciu w root)
 
 	if( x == x_dest && y == y_dest )
 		return 1; // jesli statek dotarl do portu

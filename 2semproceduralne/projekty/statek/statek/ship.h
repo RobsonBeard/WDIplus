@@ -22,10 +22,10 @@ int move( int** pTab, int nRow, int nCol, int nDepth,
 int root( int** pTab, int nRow, int nCol, int nDepth,
 	int x, int y, int** pRoot, int x_dest, int y_dest );   //--- rekurencyjna
 /* pTab tabl glebokosci   o romiarze nRow  i nCol
-    nDepth - glebokosc zanurzenia statku (!)
-    x, y - wspolrzedne skad robimy kolejny ruch
-    pRoot tablica kolejnych ruchow (w pole wstawia sie numer kolejnego ruchu)
-    x_dest, y_dest - wsporzedne portu
+	nDepth - glebokosc zanurzenia statku (!)
+	x, y - wspolrzedne skad robimy kolejny ruch
+	pRoot tablica kolejnych ruchow (w pole wstawia sie numer kolejnego ruchu)
+	x_dest, y_dest - wsporzedne portu
 */
 
 void clearRoot( int** pRoot, int nRow, int nCol ); // zeruje tablice jednym memsetem ilosc elementow*sizeof(int)

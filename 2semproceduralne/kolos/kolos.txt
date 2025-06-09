@@ -1,0 +1,100 @@
+operator przecinkowy
+int j = 4, k; int m = ( j = 0, k = 1 );
+
+najpierw j=4 i k=?
+
+pod int m jest przypisywana wartość operatora przecinkowego. najpierw wykonywane jest j=0, potem k=1, a całe wyrażenie przecinkowe zwraca wartość ostatniego wyrażenia, czyli m=1
+
+dla np. (x=5,y=10) zwracana jest wartość 10
+
+-------------------
+m++ - --j + !k
+int j=2,k=0
+int m = (k=1,j=0) => m = 0, k=1, j=0
+
+0 - -1 + 0 = 1
+
+
+
+gdy y=> x to zwraca y
+gdy y< x to zwraca x
+a=4
+b=8
+
+c = min( 2, min(a,b) )
+min(a,b) = min (4,8) = 8
+
+min (2,8) = 8
+
+(int) -x-j == (int)y > n < m
+
+int j= -1, m=1, n= -1;
+double x = 1.5, y= 0.01
+
+-1 - -1 == 0
+1
+
+f(1)
+y=-1
+x=1
+y=1 + 2 + 1
+y=4
+-----
+y=3
+czyli wyświetli się t[3] czyli 0
+
+
+int m=1; int k = (2, m = 3)
+czyli m=3, k=3, bo ostatnie po przecinku
+
+for(int j=3; j<4; j++) - wykona się raz
+
+k = k + j%2 czyli k = 3+ 3%2 czyli 3+1 czyli k=4
+
+B to jest 11
+
+022 to jest 2+ 2*8 = 18
+
+014 to jest 4+8 = 12
+
+i 12 to jest 12 
+wiec C lub D
+w D p=x wiec jest zle
+
+
+x = y = 19
+x= 19 i y = 19
+
+if( !(x%=2) ) czyli 
+
+x%=2 czyli x = x % 2 czyli 1
+if( !1 ) czyli if(0) - nie wejdzie do ifa
+
+ale już x = 1 wiec wypisze 1 
+
+
+int x = 15
+int y = -5
+
+for ( ; x>=0; x-=y)
+	if(x=0) x++;
+
+zaczynam petle 15>=0 -> 1 przejście
+x=0
+x = 0 - 5 czyli x = -5 -> nie wchodzę do petli
+
+f(3)
+
+nie mogę modyfikować consta
+
+for( int i=i, x=1 ;; )
+
+czyli i=1, x=1
+
+x<<1 nie ma przypisania!!
+wiec będzie tylko warunek od i
+czyli 5 razy
+
+
+162 / 16 = 10
+
