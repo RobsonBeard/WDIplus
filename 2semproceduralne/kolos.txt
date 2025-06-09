@@ -4,3 +4,5 @@ int j = 4, k; int m = ( j = 0, k = 1 );
 najpierw j=4 i k=?
 
 pod int m jest przypisywana wartość operatora przecinkowego. najpierw wykonywane jest j=0, potem k=1, a całe wyrażenie przecinkowe zwraca wartość ostatniego wyrażenia, czyli m=1
+
+dla np. (x=5,y=10) zwracana jest wartość 10

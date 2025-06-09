@@ -1,24 +1,15 @@
 #include "PQueue.h"
 
-// w pliku z funkcja main()
-
-// naglowek funkcji drukujacej info uzytkownika (parametr typu const void* )
-// naglowek funkcji porownujacej info uzytkowniak. Zwraca -1 pierwszy mniejszy, 1 jesli pierwszy wiekszy else 0.
-//          (parametry const void* )
-// naglowek funkcji zwalniajacej pamiec (parametr typu const void* )
-// implementacja tych trzech funkcji
-
-
-void freeInfo( const void* pInfo );
+void freeInfo( const void* pInfo ); // funkcja zwalniajaca pamiec
 PQINFO* allocInfo( int a, int b, int c );
-void printInfo( const void* pInfo );
-int compare( const void* firstInfo, const void* secondInfo );
+void printInfo( const void* pInfo ); // funkcja drukujaca info uzytkownika
+int compare( const void* firstInfo, const void* secondInfo ); // funkcja porownujaca info uzytkownika
 
 
 int main()
 {
 	// wykreowac kolejke 20 - sto elementowa
-	PQueue* q = PQInit( 20 ); //? ten parametr ma byc z argumentow funkcji main?
+	PQueue* q = PQInit( 20 );
 
 	//! robie komunikaty dla funkcji, ktore nie maja ich w swojej implementacji
 
@@ -136,7 +127,57 @@ int main()
 	//usunac cala kolejke
 	PQRelease( &q, freeInfo );
 
-	/*
+	return 0;
+}
+
+
+void freeInfo( const void* pInfo ) {
+	// to pInfo zrzutowac na PQINFO*
+
+	if( pInfo ) {
+		free( ( (PQINFO*)pInfo )->pTab );
+		free( (PQINFO*)pInfo );
+	}
+}
+
+PQINFO* allocInfo( int a, int b, int c ) {
+	PQINFO* q = (PQINFO*)malloc( sizeof( PQINFO ) ); // alokuje informacje
+
+	if( !q ) {
+		printf( "allocInfo: blad alokacji pamieci" );
+		return NULL;
+	}
+
+	q->pTab = (int*)malloc( 2 * sizeof( int ) ); // alokuje pTab (pole struktury)
+	if( !( q->pTab ) ) {
+		printf( "allocInfo: blad alokacji pamieci" );
+		free( q );
+		return NULL;
+	}
+
+	q->pTab[0] = b; // wstawiam do kluczy
+	q->pTab[1] = c;
+	q->nKey = a;
+
+	return q; // zwracam wskaznik na informacje
+}
+
+void printInfo( const void* pInfo )
+{
+	printf( "key = %d   pTab[0] = %d   pTab[1] = %d\n", ( (PQINFO*)pInfo )->nKey, ( (PQINFO*)pInfo )->pTab[0], ( (PQINFO*)pInfo )->pTab[1] );
+}
+
+int compare( const void* firstInfo, const void* secondInfo ) {
+	// porownanie pola Key
+	// zwraca 1, 0, -1 w zaleznosci od porownania
+	if( ( (PQINFO*)firstInfo )->nKey > ( (PQINFO*)secondInfo )->nKey ) return 1;
+	if( ( (PQINFO*)firstInfo )->nKey < ( (PQINFO*)secondInfo )->nKey ) return -1;
+	return 0;
+}
+
+
+
+/*
 		moje testy
 	printf( "rozmiar poczatkowy: %d\n", PQSize( q ) );
 
@@ -209,54 +250,3 @@ int main()
 
 	PQRelease( &q, freeInfo );
 	*/
-
-	return 0;
-}
-
-
-void freeInfo( const void* pInfo ) {
-	// to pInfo zrzutowac na PQINFO*
-
-	if( pInfo ) {
-		free( ( (PQINFO*)pInfo )->pTab );
-		free( (PQINFO*)pInfo );
-	}
-}
-
-PQINFO* allocInfo( int a, int b, int c ) {
-	// zaalokowac infomracje
-	// sprawdzic (jak blad to NULL)
-	// alokacja pTab (pole struktury)
-	// sprawdzic (blad to free na info i zwrocic NULL)
-	// wstawic a do klucza oraz b i c odpowiednio do 0-wego i pierwszego elementu tablicy
-	// zwrocic wskaznik na info
-
-	PQINFO* q = (PQINFO*)malloc( sizeof( PQINFO ) );
-	if( !q ) {
-		printf( "allocInfo: blad alokacji pamieci" );
-		return NULL;
-	}
-	q->pTab = (int*)malloc( 2 * sizeof( int ) );
-	if( !( q->pTab ) ) {
-		printf( "allocInfo: blad alokacji pamieci" );
-		free( q );
-		return NULL;
-	}
-	q->pTab[0] = b;
-	q->pTab[1] = c;
-	q->nKey = a;
-	return q;
-}
-
-void printInfo( const void* pInfo )
-{
-	printf( "key = %d   pTab[0] = %d   pTab[1] = %d\n", ( (PQINFO*)pInfo )->nKey, ( (PQINFO*)pInfo )->pTab[0], ( (PQINFO*)pInfo )->pTab[1] );
-}
-
-int compare( const void* firstInfo, const void* secondInfo ) {
-	// porownanie pola Key
-	// zwraca 1, 0, -1 w zaleznosci od porownania
-	if( ( (PQINFO*)firstInfo )->nKey > ( (PQINFO*)secondInfo )->nKey ) return 1;
-	if( ( (PQINFO*)firstInfo )->nKey < ( (PQINFO*)secondInfo )->nKey ) return -1;
-	return 0;
-}
