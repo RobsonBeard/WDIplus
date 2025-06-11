@@ -15,7 +15,7 @@ PQueue* PQInit( int qSize ) {
 		free( newQueue ); // na tym etapie powiod³o siê stworzenie newQueue, wiêc przed returnem muszê wyczyœciæ newQueue
 		return NULL;
 	}
-
+	
 	newQueue->nPQSize = qSize;
 	return newQueue;
 }

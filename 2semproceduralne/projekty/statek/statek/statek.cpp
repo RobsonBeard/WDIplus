@@ -14,7 +14,7 @@ void printTab2D( int** pTab, int nRow, int nCol );
 int main( int argc, char* argv[] )
 {
 	if( argc != PARAMNO ) {
-		printf( "ERROR wrong parameters, Usage: %s <file_name>\n", argv[0] ); // podpowiadam jak ma wygladac sciezka
+		printf( "Usage: %s <file_name>\n", argv[0] ); // podpowiadam jak ma wygladac sciezka
 		return 1;
 	}
 
@@ -93,8 +93,9 @@ void printTab2D( int** pTab, int nRow, int nCol ) {
 
 	for( int i = 0; i < nRow; i++ )
 	{
+		int* v = *pTab++;
 		for( int j = 0; j < nCol; j++ ) {
-			printf( "%3d ", pTab[i][j] ); // tu zmieniac wyswietlanie
+			printf( "%3d ", *v++); // tu zmieniac wyswietlanie
 		}
 		printf( "\n" );
 	}

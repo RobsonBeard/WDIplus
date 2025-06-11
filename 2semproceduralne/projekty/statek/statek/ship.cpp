@@ -2,8 +2,7 @@
 
 int setTab( char* sFile, int** pTab, int nRow, int nCol ) {
 
-	FILE* fin = NULL; // uchwyt pliku
-	fin = fopen( sFile, "r" );
+	FILE*  fin = fopen( sFile, "r" );
 	if( !fin ) return 0;
 
 	for( int i = 0; i < nRow; i++ )
@@ -25,19 +24,19 @@ int setTab( char* sFile, int** pTab, int nRow, int nCol ) {
 int move( int** pTab, int nRow, int nCol, int nDepth,
 	int move, int x, int y, int* px, int* py, int** pRoot )
 {
-	int xNext = x; // tworzê te zmienne, bo ze wskaŸnikami jest taki problem, ¿e jak wyjdê poza tablicê, to *px i *py bêd¹ mia³y z³e wartoœci, a funkcja zwróci po prostu 0, wtedy musia³bym wróciæ z tymi wartoœciami
-	int yNext = y;
+	*px = x;
+	*py = y;
 
 	// y - kolumna, x - wiersz -> odwrotnie jak w uk³adzie wspó³rzêdnych!!
 	switch( move )
 	{
-	case UP:	xNext--; break; // modyfikujê wartoœæ, na któr¹ bedzie wskazywac px i py (czyli nowe wspolrzedne)
-	case LEFT:	yNext--; break;
-	case DOWN:	xNext++; break;
-	case RIGHT: yNext++; break;
+	case UP:	(*px)--; break; // modyfikujê wartoœæ, na któr¹ bedzie wskazywac px i py (czyli nowe wspolrzedne)
+	case LEFT:	(*py)--; break;
+	case DOWN:	(*px)++; break;
+	case RIGHT: (*py)++; break;
 	}
 
-	if( xNext < 0 || xNext >= nRow || yNext < 0 || yNext >= nCol || pTab[xNext][yNext] <= nDepth || pRoot[xNext][yNext] )
+	if( *px < 0 || *px >= nRow || *py < 0 || *py >= nCol || pTab[*px][*py] <= nDepth || pRoot[*px][*py] )
 		return 0;
 
 	// opis warunków w ifie:
@@ -47,9 +46,6 @@ int move( int** pTab, int nRow, int nCol, int nDepth,
 	// gdy pRoot[*px][*py] != 0, jeœli jest inne ni¿ 0, to wejdzie w if  
 	// pole zosta³o ju¿ odwiedzone, a nie chce p³ywaæ w kó³ko
 
-	*px = xNext; // i przypisuje te wyliczone wartoœci do parametrow wyjsciowych
-	*py = yNext;
-
 	return 1; // ruch jest mo¿liwy
 }
 
@@ -58,7 +54,7 @@ void clearRoot( int** pRoot, int nRow, int nCol ) {
 		printf( "clearRoot: parameters skulik error\n" );
 		return;
 	}
-	memset( pRoot[0], 0, nRow * nCol * sizeof( int ) ); // 1 argument - pocz¹tek bloku pamieci, 2 - co wpisuje, 3 - liczba bajtów do wype³nienia
+	memset( *pRoot, 0, nRow * nCol * sizeof( int ) ); // 1 argument - pocz¹tek bloku pamieci, 2 - co wpisuje, 3 - liczba bajtów do wype³nienia
 }
 
 int root( int** pTab, int nRow, int nCol, int nDepth, int x, int y, int** pRoot,
