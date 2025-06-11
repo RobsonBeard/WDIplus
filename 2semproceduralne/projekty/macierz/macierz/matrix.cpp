@@ -96,13 +96,13 @@ void InverseMatrix( double** pInv, double** pTab, int nDim, double det ) {
 double Det( double** pTab, int nDim ) {
 	if( !pTab || nDim < 1 ) {
 		printf( "ERROR Det - wrong or incomplete data\n" );
-		return 0; //? co zwracac w przypadku b³êdu?
+		return 0; 
 	}
 
 	if( nDim == 1 ) return **pTab; // **pTab to jest to samo co pTab[0][0]
 	if( nDim == 2 ) return **pTab * pTab[1][1] - pTab[0][1] * pTab[1][0]; // z szybszego wzoru
 
-	double outcome = 0;
+	double calculatedDet = 0;
 	double sign = -1;
 
 	double** smallerMatrix = NULL; // wazne, zeby kreowac te macierz poza petla for
@@ -116,13 +116,13 @@ double Det( double** pTab, int nDim ) {
 	{
 		Complement( smallerMatrix, pTab, 1, j, nDim ); // i nie musze nawet alokowac pamieci dla nowej tablicy w petli, bo po prostu nadpisuje wartosci
 
-		outcome += sign * pTab[1][j] * Det( smallerMatrix, nDim - 1 ); // * Det(tablica po complement, nDim-1), wzor na wyznacznik
+		calculatedDet += sign * pTab[1][j] * Det( smallerMatrix, nDim - 1 ); // * Det(tablica po complement, nDim-1), wzor na wyznacznik
 		sign = -sign;
 	}
 
 	DeleteMatrix( &smallerMatrix, nDim - 1 ); // trzeba pamietac o zwolnieniu pamieci
 
-	return outcome;
+	return calculatedDet;
 }
 
 void PrintMatrix( double** pTab, int nDim ) {
@@ -146,7 +146,6 @@ void PrintMatrix( double** pTab, int nDim ) {
 
 void Complement( double** pTabO, double** pTabI, int nRow, int nCol, int nDim ) {
 	// dim jest wiekszej tablicy
-	// zapewne da siê to zrobiæ efektywniej, ale dzia³a
 
 	if( !pTabO || !pTabI || nDim < 2 || nRow < 0 || nCol < 0 || nRow >= nDim || nCol >= nDim ) {
 		printf( "ERROR Complement - wrong or incomplete data\n" );

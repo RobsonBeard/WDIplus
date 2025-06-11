@@ -3,7 +3,8 @@
 int setTab( char* sFile, int** pTab, int nRow, int nCol ) {
 
 	FILE* fin = NULL; // uchwyt pliku
-	if( ( ( fin = fopen( sFile, "r" ) ) == NULL ) ) return 0;
+	fin = fopen( sFile, "r" );
+	if( !fin ) return 0;
 
 	for( int i = 0; i < nRow; i++ )
 	{
@@ -54,7 +55,7 @@ int move( int** pTab, int nRow, int nCol, int nDepth,
 
 void clearRoot( int** pRoot, int nRow, int nCol ) {
 	if( !pRoot || !pRoot[0] || nRow < 1 || nCol < 1 ) {
-		printf( "clearRoot: parameters skulik error" );
+		printf( "clearRoot: parameters skulik error\n" );
 		return;
 	}
 	memset( pRoot[0], 0, nRow * nCol * sizeof( int ) ); // 1 argument - pocz¹tek bloku pamieci, 2 - co wpisuje, 3 - liczba bajtów do wype³nienia

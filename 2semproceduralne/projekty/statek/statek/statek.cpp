@@ -21,7 +21,7 @@ int main( int argc, char* argv[] )
 	int** depthTab = CreateTab2D( N, M );
 
 	if( !setTab( argv[1], depthTab, N, M ) ) {
-		printf( "ERROR setTab failed in main" );
+		printf( "ERROR setTab failed in main\n" );
 		return 2;
 	}
 

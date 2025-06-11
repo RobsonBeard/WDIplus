@@ -32,7 +32,7 @@ int main( int argc, char* argv[] )
 	}
 	if( fscanf( fin, "%d", &nDim ) == EOF ) // tutaj fscanf przypisze wartoœæ pierwszej liczby do zmiennej nDim (format int - %d da³em)
 	{
-		printf( "ERROR fscanf in main" );
+		printf( "ERROR fscanf in main\n" );
 		return 3;
 	}
 
@@ -108,7 +108,7 @@ void ReadData( FILE* fin, double** pMatrix, int nDim ) {
 
 			if( fscanf( fin, "%lf", v++ ) == EOF ) // tu fscanf przypisze po kolei wartoœci tablicy w formacie doubli
 			{
-				printf( "ERROR fscanf in ReadData" );
+				printf( "ERROR fscanf in ReadData\n" );
 				return;
 			} // o wiele schludniejsza wersja
 		}

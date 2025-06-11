@@ -14,7 +14,7 @@ int main()
 	//! robie komunikaty dla funkcji, ktore nie maja ich w swojej implementacji
 
 	if( !q ) {
-		printf( "ERROR: Queue allocation error" );
+		printf( "ERROR: Queue allocation error\n" );
 		return 1;
 	}
 
@@ -24,11 +24,11 @@ int main()
 	{
 		PQINFO* p = allocInfo( i, i + 1, i + 2 );
 		if( !p ) {
-			printf( "ERROR: allocInfo - Memory allocation error" );
+			printf( "ERROR: allocInfo - Memory allocation error\n" );
 			return 2;
 		}
 		if( !PQEnqueue( q, p, 5 * i ) ) {
-			printf( "ERROR: Enqueue error" );
+			printf( "ERROR: Enqueue error\n" );
 			return 3;
 		}
 	}
@@ -40,7 +40,7 @@ int main()
 	PQINFO* el1 = PQDequeue( q );
 
 	if( !el1 ) {
-		printf( "ERROR: Dequeue error" );
+		printf( "ERROR: Dequeue error\n" );
 		return 4;
 	}
 
@@ -50,23 +50,23 @@ int main()
 	//dodac dwa elementy - wydrukowac
 	PQINFO* el2 = allocInfo( 2, 1, 3 );
 	if( !el2 ) {
-		printf( "ERROR: allocInfo - Memory allocation error" );
+		printf( "ERROR: allocInfo - Memory allocation error\n" );
 		return 5;
 	}
 
 	if( !PQEnqueue( q, el2, 7 ) ) {
-		printf( "ERROR: Enqueue error" );
+		printf( "ERROR: Enqueue error\n" );
 		return 6;
 	}
 
 	PQINFO* el3 = allocInfo( 10, 13, 14 );
 	if( !el3 ) {
-		printf( "ERROR: allocInfo - Memory allocation error" );
+		printf( "ERROR: allocInfo - Memory allocation error\n" );
 		return 7;
 	}
 
 	if( !PQEnqueue( q, el3, 42 ) ) {
-		printf( "ERROR: Enqueue error" );
+		printf( "ERROR: Enqueue error\n" );
 		return 8;
 	}
 
@@ -77,14 +77,14 @@ int main()
 	PQINFO* el4 = allocInfo( 3, 4, 5 );
 
 	if( !el4 ) {
-		printf( "ERROR: allocInfo - Memory allocation error" );
+		printf( "ERROR: allocInfo - Memory allocation error\n" );
 		return 9;
 	}
 
 	int foundPos = PQFind( q, el4, compare );
 
 	if( foundPos == POS_ERROR ) {
-		printf( "ERROR: PQFind error" );
+		printf( "ERROR: PQFind error\n" );
 		return 11;
 	}
 
@@ -99,7 +99,7 @@ int main()
 	//zmniejszyc priorytet innemu elementowi( unikalny ) - wydrukowac
 	PQINFO* el5 = allocInfo( 5, 6, 7 );
 	if( !el5 ) {
-		printf( "ERROR: allocInfo - Memory allocation error" );
+		printf( "ERROR: allocInfo - Memory allocation error\n" );
 		return 10;
 	}
 	PQSetPrior( q, el5, 9, compare );
@@ -144,13 +144,13 @@ PQINFO* allocInfo( int a, int b, int c ) {
 	PQINFO* q = (PQINFO*)malloc( sizeof( PQINFO ) ); // alokuje informacje
 
 	if( !q ) {
-		printf( "allocInfo: blad alokacji pamieci" );
+		printf( "allocInfo: blad alokacji pamieci\n" );
 		return NULL;
 	}
 
 	q->pTab = (int*)malloc( 2 * sizeof( int ) ); // alokuje pTab (pole struktury)
 	if( !( q->pTab ) ) {
-		printf( "allocInfo: blad alokacji pamieci" );
+		printf( "allocInfo: blad alokacji pamieci\n" );
 		free( q );
 		return NULL;
 	}

@@ -37,7 +37,7 @@ void PQClear( PQueue* q, void( __cdecl* freeMem )( const void* ) ) {
 	// ^ lepiej zrobic to takim sposobem, jedna petla for
 
 	if( !q || !freeMem ) {
-		printf( "PQClear: Kolejka lub funkcja freeMem nie istnieje" );
+		printf( "PQClear: Kolejka lub funkcja freeMem nie istnieje\n" );
 		return;
 	}
 
@@ -49,7 +49,6 @@ PQINFO* PQDequeue( PQueue* q ) {
 	// 1. "pobraæ" informacje - utworzyc now¹ zmienn¹ wskaŸnikow¹, wskazuj¹c¹ PQINFO (zadeklarowac i poodstawic PQINFO)
 	// 2. usunac PQItem, freemem? - trzymam informacje (punkt 1.), wiec moge usunac
 	// 3. ostatni wrzucam do zerowego, robie update down itp
-	// zwraca informacje z indeksu 0
 	// wpisac ostatni do 0-wego  - robi sie to po to, aby usun¹æ element, który nie ma ju¿ dzieci, czyli jest liœciem, wtedy jest bezpiecznie
 
 	if( PQisEmpty( q ) ) return NULL; // zwracam NULL a nie 0, bo wskaŸnik 
@@ -96,7 +95,7 @@ int PQEnqueue( PQueue* q, PQINFO* pNewInfo, int newInfoPrior ) {
 
 void PQRelease( PQueue** q, void( __cdecl* freeMem )( const void* ) ) {
 	if( !q || !*q ) {
-		printf( "PQRelease: Kolejka lub funkcja freeMem nie istnieje" );
+		printf( "PQRelease: Kolejka lub funkcja freeMem nie istnieje\n" );
 		return;
 	}
 
@@ -114,7 +113,7 @@ void PQPrint( PQueue* q, int currentPos, void( __cdecl* printInfo )( const void*
 
 	if( currentPos >= PQSize( q ) ) return; // jeœli indeks jest poza rozmiarem kolejki
 	if( PQisEmpty( q ) || !printInfo ) {
-		printf( "PQPrint: Kolejka pusta lub nie istnieje lub funkcja printInfo nie istnieje" );
+		printf( "PQPrint: Kolejka pusta lub nie istnieje lub funkcja printInfo nie istnieje\n" );
 		return;
 	}
 
