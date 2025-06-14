@@ -1,1 +1,150 @@
-test pisania do pliku 420
+                                       a (  7)   5  17  23  25  27 
+                                      ac (  4)   5  22  25  27 
+                                accumsan (  3)  17  23  25 
+                              adipiscing (  2)   4  19 
+                                  Aenean (  1)  27 
+                                 Aliquam (  2)  17  27 
+                                 aliquet (  1)  27 
+                                    amet (  9)   4   8  11  17  19  25  27 
+                                    ante (  4)   5  22  23 
+                                    arcu (  2)  23  25 
+                                     asd (  1)   4 
+                                   asda1 (  1)   3 
+                                      at (  7)   5  17  22  25  27 
+                                  auctor (  2)  21  27 
+                                   augue (  1)  14 
+                                bibendum (  2)  25 
+                                 blandit (  2)  17  25 
+                                 commodo (  2)  17 
+                             consectetur (  3)   4  19  27 
+                               consequat (  1)  25 
+                               convallis (  2)  21  25 
+                                    Cras (  2)  17  21 
+                                  cursus (  4)   5  15  19  27 
+                                 dapibus (  3)  10  21  23 
+                                    diam (  3)   4  25  27 
+                                  dictum (  2)  14  22 
+                               dignissim (  2)   7  22 
+                                     dis (  2)  25  27 
+                                   dolor (  2)   4  19 
+                                   Donec (  5)   5  22  23  25 
+                                     dui (  2)  25  27 
+                                    Duis (  1)  15 
+                               efficitur (  1)  25 
+                                 egestas (  4)   4   5  21 
+                                    eget (  5)  17  21  22  23  27 
+                               elementum (  2)  17  23 
+                                    elit (  5)   4   8  15  19  27 
+                                    else (  1)   2 
+                                    enim (  2)  25  27 
+                                    eros (  1)  23 
+                                     est (  5)   6  25  27 
+                                      et (  9)   4   8  17  22  25  27 
+                                   Etiam (  4)   4  19  21 
+                                      eu (  7)   6  16  17  22  23  27 
+                                      ex (  1)  27 
+                                facilisi (  2)   8  25 
+                               facilisis (  1)  27 
+                                faucibus (  1)  27 
+                                   felis (  1)   4 
+                               fermentum (  1)  27 
+                                 feugiat (  1)  25 
+                               fringilla (  1)  17 
+                                   Fusce (  4)  11  22  25  27 
+                                 gravida (  3)  25  27 
+                               hendrerit (  2)  25  27 
+                                 iaculis (  1)  21 
+                                      id (  4)   6  17  22  25 
+                                      if (  1)   1 
+                               imperdiet (  1)  17 
+                                      In (  8)   4  14  15  21  25  27 
+                                 Integer (  2)   8  17 
+                                interdum (  2)   4  15 
+                                   ipsum (  5)   4  17  19  23  25 
+                                   justo (  2)  17 
+                                 lacinia (  1)  22 
+                                   lacus (  4)  14  21  22  23 
+                                 laoreet (  2)  25 
+                                  lectus (  2)  27 
+                                     leo (  3)   5  17  18 
+                                  libero (  5)   5   6  22  25 
+                                  ligula (  2)  17  27 
+                                lobortis (  4)   4   7  11  16 
+                                   Lorem (  6)   4  19  23  27 
+                                   magna (  2)  23  27 
+                                  magnis (  2)  25  27 
+                               malesuada (  3)   5  23 
+                                   massa (  5)   5  11  16  22 
+                                  mattis (  3)  11  17  22 
+                                  Mauris (  3)   4  25  27 
+                                 maximus (  2)  17  25 
+                                   metus (  1)  17 
+                                      mi (  2)   6  15 
+                                molestie (  3)  19  27 
+                                  mollis (  1)  25 
+                                  montes (  2)  25  27 
+                                   Morbi (  2)   6  23 
+                                     mus (  2)  25  27 
+                                     Nam (  2)  17  22 
+                                nascetur (  2)  25  27 
+                                 natoque (  2)  25  27 
+                                     nec (  3)  22  25 
+                                   neque (  2)  22  27 
+                                    nibh (  1)  17 
+                                    nisi (  3)  19  22  23 
+                                    nisl (  1)  27 
+                                     non (  4)  22  23  25  27 
+                                   Nulla (  7)   8  21  23  25  27 
+                                    nunc (  3)  21  27 
+                                    odio (  3)  25  27 
+                                    Orci (  2)  25  27 
+                                  ornare (  2)  22  27 
+                              parturient (  2)  25  27 
+                               penatibus (  2)  25  27 
+                                pharetra (  1)  25 
+                               Phasellus (  2)  23  25 
+                                placerat (  1)  22 
+                                   porta (  4)   5  25  27 
+                               porttitor (  1)  25 
+                                 posuere (  1)  27 
+                                 pretium (  2)  21  27 
+                                   Proin (  1)  27 
+                                pulvinar (  3)   4  27 
+                                   purus (  4)   5  17  22  27 
+                                    quam (  2)  17  27 
+                                    quis (  6)   5  21  22  25 
+                                 Quisque (  2)  25 
+                                 rhoncus (  4)   5  11  23  27 
+                               ridiculus (  2)  25  27 
+                                   risus (  2)   5  23 
+                                  rutrum (  1)  27 
+                                sagittis (  1)  17 
+                                  sapien (  2)  17  25 
+                             scelerisque (  1)  17 
+                                     sed ( 11)  11  16  17  22  23  25  27 
+                                     sem (  1)  23 
+                                     sit (  9)   4   8  11  17  19  25  27 
+                                 sodales (  4)   4   5   6  21 
+                            sollicitudin (  4)  25  27 
+                             Suspendisse (  2)   5  23 
+                                  tellus (  2)   9  21 
+                                  tempor (  3)  21  25 
+                                  tempus (  3)   4  23 
+                               tincidunt (  4)  17  23  25 
+                                  tortor (  4)  17  22  27 
+                               tristique (  1)  17 
+                                  turpis (  4)  15  22  25  27 
+                             ullamcorper (  2)  17  25 
+                               ultricies (  2)  25  27 
+                                    urna (  3)  17  21  25 
+                                      ut (  4)  11  21  23 
+                                  varius (  6)   4  12  16  25  27 
+                                vehicula (  3)   5  17  23 
+                                     vel (  4)   5  21  23  27 
+                                   velit (  2)  19  27 
+                               venenatis (  1)  25 
+                              Vestibulum (  2)   5  14 
+                                   vitae (  6)   5   6  21  23 
+                                 viverra (  2)  25  27 
+                                volutpat (  1)  25 
+                               vulputate (  1)  25 

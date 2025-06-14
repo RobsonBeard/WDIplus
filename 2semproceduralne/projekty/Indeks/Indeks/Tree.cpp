@@ -4,51 +4,41 @@
 void Visit( TreeItem* pRoot, int line );
 int compStr( char* s1, char* s2 );
 
+//todo: pododawaæ mo¿e warunki do returnow, czyli np !fout i komunikaty moze?
 
-void inOrder( TreeItem* pRoot ) {
-	if( !pRoot ) return; // koniec rekurencji
+void inOrder( TreeItem* pRoot, FILE* fout ) {
+	if( !pRoot ) return;
 
-	inOrder( pRoot->pLeft );
-	//printf( "%d ", pRoot->key );
-	printf( "slowo: %40s, ilosc wystapien: %3d, numery linii: ", pRoot->str, pRoot->counter ); // zmienic formatowanie ewentualnie
-	FQPrint(pRoot->pList);
-	printf( "\n" );
-	inOrder( pRoot->pRight );
-}
+	inOrder( pRoot->pLeft,fout ); // lewe poddrzewo
 
-TreeItem* TreeFinallyBalanced( int n ) {
-	if( n < 1 ) return NULL; // nie ma drzewa
+	//printf( "slowo: %40s, ilosc wystapien: %3d, numery linii: ", pRoot->str, pRoot->counter ); // wersja z wypisywaniem do konsoli
+	//fprintf(fout, "slowo: %40s, ilosc wystapien: %3d, numery linii: ", pRoot->str, pRoot->counter ); // inne formatowanie 
 
-	int nl = n / 2; // liczba elementow w lewym poddrzewie
-	int np = n - nl - 1; // liczba elementow w prawym poddrzewie (tworze wezel, wiec jego tez musze wyrzucic - stad -1 na koncu)
-
-	printf( "Podaj key: " );
-	int x;
-	if(scanf( "%d", &x )!=1) return NULL; // chce zeby kompilator sie odczepil od bledu
-
-	TreeItem* p = (TreeItem*)calloc( 1, sizeof( TreeItem ) ); // od razu mi wyzeruje strukture - ustawia wskazniki na NULL, nie musze p->pLeft=p->pRight=NULL
-	if( !p ) return NULL;
-	p->key = x; 
-	p->pLeft = TreeFinallyBalanced( nl );
-	p->pRight = TreeFinallyBalanced( np );
-
-	return p;
+	fprintf(fout, "%40s (%3d) ", pRoot->str, pRoot->counter ); 
+	FQPrint(pRoot->pList,fout);
+	//printf( fout,"\n" ); // wersja z wypisywaniem do konsoli
+	fprintf( fout,"\n" );
+	inOrder( pRoot->pRight,fout ); // prawe poddrzewo
 }
 
 TreeItem* freeTree( TreeItem* pRoot ) {
 	if( pRoot ) {
-		pRoot->pLeft = freeTree( pRoot->pLeft ); // tutaj coœ w stylu "lekcewa¿e zwracan¹ wartoœæ"
-		freeTree( pRoot->pRight );
-		free( pRoot->pList );
+		pRoot->pLeft = freeTree( pRoot->pLeft ); 
+		freeTree( pRoot->pRight ); // tutaj coœ w stylu "lekcewa¿e zwracan¹ wartoœæ"
+		FQRemove( &( pRoot->pList ) );
+		free( pRoot->str );
 		free( pRoot );
 	}
 	return NULL;
 }
 
 void Visit( TreeItem* pRoot, int line ) {
-	//printf( "key: %d\n", pRoot->key ); // stare
+	if( !pRoot ) return;
+
 	pRoot->counter++;
-	FQEnqueue( pRoot->pList, line );
+
+	if(pRoot->pList->pTail->lineNo != line ) // dodaje tylko jesli sie nie powtarza
+		FQEnqueue( pRoot->pList, line );
 }
 
 int compStr( char* s1, char* s2 ) {
@@ -79,11 +69,7 @@ TreeItem* FindInsert( TreeItem* pRoot, char* str, int line ) {
 		TreeItem* v = (TreeItem*)calloc( 1, sizeof( TreeItem ) ); // to mi nulluje wszystko co jest w TreeItem, a chce jeszcze stworzyc kolejke
 		if( !v ) return NULL;
 
-		//v->str = str; // nie moge tak zrobic, bo caly czas bym nadpisywal slowo
-		// takze robie tak jak w funkcji compare!
-		v->str = (char*)calloc( 1, strlen( str ) + 1 );
-		if( !v->str ) return NULL;
-		strcpy( v->str, str );
+		v->str = str; // tworzenie tego stringa jest w funkcji czytajacej plik
 
 		v->pList = FQCreate(); // mam sprawdzac czy kolejka sie zrobila?
 		FQEnqueue( v->pList, line ); // to musi byæ tu aby za ka¿dym razem przypisywa³o do odpowiedniej ga³êzi a nie do korzenia
@@ -94,9 +80,11 @@ TreeItem* FindInsert( TreeItem* pRoot, char* str, int line ) {
 	}
 
 	// rekurencyjnie szukamy albo elementu albo gdzie wstawiæ
-	if( compStr( str, pRoot->str ) < 0 )
+	int comparedStrings = compStr( str, pRoot->str );
+
+	if( comparedStrings < 0 )
 		pRoot->pLeft = FindInsert( pRoot->pLeft, str,line );
-	else if( compStr( str, pRoot->str ) > 0 )
+	else if( comparedStrings > 0 )
 		pRoot->pRight = FindInsert( pRoot->pRight, str,line );
 	else Visit( pRoot, line ); // gdy slowo juz istnieje
 

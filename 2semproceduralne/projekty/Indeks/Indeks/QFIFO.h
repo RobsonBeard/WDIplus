@@ -27,7 +27,7 @@ int		FQDequeue( FQueue* q);
 void    FQClear( FQueue* q);       
 void    FQRemove( FQueue** q);   
 void    FQDel( FQueue* q );													
-void    FQPrint( FQueue* q );	
+void    FQPrint( FQueue* q, FILE* fout );	
 
 #endif // !QFIFO_H
 

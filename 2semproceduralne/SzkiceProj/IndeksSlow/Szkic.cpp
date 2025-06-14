@@ -47,7 +47,7 @@ Dzieki temu bedzie mozna bardzo latwo wypisac numery linii w jakich wystapilo sl
 od pierwszego elementu do ostatniego
 ----------
 
-Przy wstawianiu do drzewa nie alokowac nowej pamieci ale podwiazac wsk na slowo pod wskaznik w elemencie drzewa
+!!!Przy wstawianiu do drzewa nie alokowac nowej pamieci ale podwiazac wsk na slowo pod wskaznik w elemencie drzewa
 
 
 Wydruk do pliku:
@@ -96,6 +96,9 @@ mozna olac sprawdzanie alokacji pamieci
 w Visit? musze sprawdzac, porównaæ nowe s³owo z Tailem? zeby sie jakos numery linii nie powtarzaly
 
 w FindInsert zrobic przed tym duzym if else if porownywanie strcmp, nie w srodku
+
+
+
 
 nieobowiazkowe:
 realloc() czyli alokowac 5 znakow na start, jesli okaze sie, ze jest wiecej, to realokowac pamiec na wiecej

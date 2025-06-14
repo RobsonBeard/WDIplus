@@ -73,7 +73,7 @@ void FQDel( FQueue* q ) {
 	free( p ); // zwalniam pamiec
 }
 
-void FQPrint( FQueue* q ) {
+void FQPrint( FQueue* q, FILE* fout ) {
 	if( FQEmpty( q ) ) {
 		printf( "FQPrint: Kolejka pusta lub nie istnieje" );
 		return;
@@ -82,7 +82,9 @@ void FQPrint( FQueue* q ) {
 	FQItem* p = q->pHead; // biorê pierwszy element kolejki
 	while( p ) // dopóki nie jest on NULLem
 	{
-		printf( "%3d ", p->lineNo ); //! zmienic formatowanie ewentualnie
+		//printf( "%3d ", p->lineNo ); // wersja do konsoli
+		fprintf( fout, "%3d ", p->lineNo ); // zmienic formatowanie ewentualnie
+
 		p = p->pNext; // i zamieniam p na kolejny element kolejki, ostatni element kolejki jako pNext bêdzie mia³ NULL, wtedy skoncze wypisywac
 	}
 }

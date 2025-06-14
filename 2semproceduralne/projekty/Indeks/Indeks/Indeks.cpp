@@ -2,10 +2,10 @@
 #include <ctype.h>
 #define PARAMNO 3
 
-int ReadFile( char* sFile );
-int WriteFile( char* sFile );
-
-
+int ReadFile( char* sFile, TreeItem** pRoot ); // robie wskaznik do wskaznika pRoot bo chce go modyfikowac
+int WriteFile( char* sFile, TreeItem* pRoot );
+int isCorrectFirstIdentifierSign( char c );
+int isCorrectOtherIdentifierSign( char c );
 
 int main( int argc, char* argv[] )
 {
@@ -14,68 +14,69 @@ int main( int argc, char* argv[] )
 		return 1;
 	}
 
-	ReadFile( argv[1] );
-	//WriteFile( argv[2] );
+	TreeItem* pRoot = NULL;
 
+	ReadFile( argv[1], &pRoot );
+	WriteFile( argv[2], pRoot );
 
-
+	pRoot = freeTree( pRoot );
 
 	return 0;
 }
 
-int ReadFile( char* sFile ) {
+int ReadFile( char* sFile, TreeItem** pRoot ) {
+
 	FILE* fin = fopen( sFile, "r" ); // uchwyt pliku
 	if( !fin ) return 0;
 
-	TreeItem* pRoot = NULL;
-
-	char c;
-	char str[41];
+	char str[41] = {0};
 	int pos = 0;
 	int lineCounter = 1;
+	char c;
 
-	// slowo to dowolny ciag znakow zaczynajacy sie od podkreslenia lub litery i potem sa litery lub cyfry lub podkreslenia
-	// slowo wstawiam do drzewa, ale jesli juz istnieje to zwiekszam licznik i zamieniam numer wiersza
+	while( ( c = fgetc( fin ) ) != EOF ) {
 
-	// a wiec musze sprawdzic 1 znak osobno, potem reszte znakow i jesli lamie zasade identyfikatora to pomijam slowo?
-	// albo najpierw zapisuje ca³e s³owo a potem sprawdzam czy jest identyfikatorem
-
-	//! na razie uproszczona wersja
-
-	while( !feof( fin ) ) {
-		c = fgetc( fin );
-		//printf( "%c", c );
-		if( c == '\n' ) lineCounter++;
-		if( (( c >= 'a' && c <= 'z' ) || ( c >= 'A' && c <= 'Z' ) || ( c >= 0 && c <= 9 ) || c == '_' ) && pos<=40 ) {
-			str[pos++] = c;
-		}
-		else {
-			str[pos] = '\0'; // jesli nie spelnia warunku to musze skonczyc slowo (na przyklad wystapila spacja albo zly znak)
-			if( pos > 0 ) {
-				//printf( "Slowo: %s, linia: %d\n", str, lineCounter ); // daje taki warunek bo wypisywalo stringi z samymi spacjami
-				// i tu musze zapisywac do drzewa
-				pRoot = FindInsert( pRoot, str,lineCounter );
-			}
+		if( isCorrectFirstIdentifierSign( c ) )
+		{
 			pos = 0;
-		}
-	}
-	
-	str[pos] = '\0'; // musze tez zakonczyc ostatniego stringa
-	pRoot = FindInsert( pRoot, str, lineCounter );
+			str[pos++] = c; // tu sprawdzalem pierwszy znak, wiec go dodam
 
-	inOrder( pRoot );
+			while( ( c = fgetc( fin ) ) != EOF && isCorrectOtherIdentifierSign( c ) )
+				if( pos < 40 ) str[pos++] = c;
+
+			if( c == '\n' ) lineCounter++; // po wyjsciu z while mam pierwszy znak który przerywa identyfikator, wiec sprawdzam, czy jest to przypadkiem \n
+
+			str[pos] = '\0'; // musze zakonczyc slowo, wiec daje znak 0
+
+
+			char* newIdentifier = (char*)calloc( 1, 41 ); // alokuje pamiec, kopiuje do niej tego zrobionego stringa i wrzucam do drzewa
+			if( !newIdentifier ) return  NULL;
+			strcpy( newIdentifier, str );
+
+			*pRoot = FindInsert( *pRoot, newIdentifier, lineCounter );
+
+		}
+		else if( c == '\n' ) lineCounter++; // jesli nie ma identyfikatora, ale byl \n, to zwiekszam numer linii	
+	}
 
 	fclose( fin );
 	return 1;
 }
 
-int WriteFile( char* sFile ) {
+int WriteFile( char* sFile, TreeItem* pRoot ) {
 	FILE* fout = fopen( sFile, "w" ); // uchwyt pliku
 	if( !fout ) return 0;
 
-	fprintf( fout, "test pisania do pliku %d", 420 ); // dziala
+	inOrder( pRoot, fout );
 
 	fclose( fout );
 	return 1;
 }
 
+int isCorrectFirstIdentifierSign( char c ) {
+	return ( c == '_' || ( c >= 'a' && c <= 'z' ) || ( c >= 'A' && c <= 'Z' ) );
+}
+
+int isCorrectOtherIdentifierSign( char c ) {
+	return ( c == '_' || ( c >= 'a' && c <= 'z' ) || ( c >= 'A' && c <= 'Z' ) || ( c >= '0' && c <= '9' ) );
+}
