@@ -106,3 +106,5 @@ int AllocAddMemBets( int*** pTab, int nCurrSize ) {
     memset(*pTab+nCurrsize,0,ALLOCBET)
     return ALLOCBET
 }
+
+czyli my wstawiamy do drzewa SLOWA

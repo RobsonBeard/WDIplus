@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <string.h>
+#include <limits.h>
 
 typedef struct tagFQItem
 {
@@ -25,7 +27,7 @@ int		FQDequeue( FQueue* q);
 void    FQClear( FQueue* q);       
 void    FQRemove( FQueue** q);   
 void    FQDel( FQueue* q );													
-//void    FQPrint( FQueue* q, void( __cdecl* printInfo )( const void* ) );	
+void    FQPrint( FQueue* q );	
 
 #endif // !QFIFO_H
 

@@ -27,32 +27,32 @@ int	FQEnqueue( FQueue* q, int newInfo ) {
 	return 1;
 }
 
-QINFO* FQDequeue( FQueue* q ) {
+int FQDequeue( FQueue* q ) {
 	if( FQEmpty( q ) ) return NULL; // zwracam NULL a nie 0, bo wskaŸnik 
 
-	QINFO* p = q->pHead->pInfo; // biore wartosc glowy (pierwszego elementu)
+	int p = q->pHead->lineNo; // biore wartosc glowy (pierwszego elementu)
 	FQDel( q ); // usuwam ten pierwszy element z kolejki
 
 	return p;
 }
 
-void FQClear( FQueue* q, void( __cdecl* freeMem )( const void* ) ) {
-	if( FQEmpty( q ) || !freeMem) {
-		printf( "FQClear: Kolejka lub funkcja freeMem nie istnieje" );
+void FQClear( FQueue* q ) {
+	if( FQEmpty( q )) {
+		printf( "FQClear: Kolejka nie istnieje" );
 		return;
 	}
 
 	while( !FQEmpty( q ) ) // dopóki kolejka nie jest pusta
-		freeMem( FQDequeue( q ) ); // zwalniam dynamicznie alokowane pInfo, ale przed tym zwalniam dynamicznie alokowan¹ tablicê pTab, która jest w pInfo, nie robiê Del, bo zrobi³ to ju¿ FQDequeue
+		FQDequeue( q ); 
 }
 
-void FQRemove( FQueue** q, void( __cdecl* freeMem )( const void* ) ) {
-	if( !q || !*q || !freeMem ) {
-		printf( "FQRemove: Kolejka lub funkcja freeMem nie istnieje" );
+void FQRemove( FQueue** q) {
+	if( !q || !*q ) {
+		printf( "FQRemove: Kolejka nie istnieje" );
 		return;
 	}
 
-	FQClear( *q, freeMem ); // usuwam wszystkie elementy listy
+	FQClear( *q ); // usuwam wszystkie elementy listy
 	free( *q ); // zwalniam pamiec
 	*q = NULL; // kolejnosc ma znaczenie, jesli najpierw zNULLuje wskaznik, to potem nie bede mial adresu do zwolnienia pamieci
 }
@@ -73,16 +73,16 @@ void FQDel( FQueue* q ) {
 	free( p ); // zwalniam pamiec
 }
 
-void FQPrint( FQueue* q, void( __cdecl* printInfo )( const void* ) ) {
-	if( FQEmpty( q ) || !printInfo) {
-		printf( "FQPrint: Kolejka pusta lub nie istnieje lub funkcja printInfo nie istnieje" );
+void FQPrint( FQueue* q ) {
+	if( FQEmpty( q ) ) {
+		printf( "FQPrint: Kolejka pusta lub nie istnieje" );
 		return;
 	}
 
 	FQItem* p = q->pHead; // biorê pierwszy element kolejki
 	while( p ) // dopóki nie jest on NULLem
 	{
-		printInfo( p->pInfo ); // wypisujê jego zawartoœæ, funkcja printInfo jest w .cpp, tutaj przekazana jako parametr
+		printf( "%3d ", p->lineNo ); //! zmienic formatowanie ewentualnie
 		p = p->pNext; // i zamieniam p na kolejny element kolejki, ostatni element kolejki jako pNext bêdzie mia³ NULL, wtedy skoncze wypisywac
 	}
 }
