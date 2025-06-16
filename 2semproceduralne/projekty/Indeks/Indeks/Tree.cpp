@@ -7,7 +7,7 @@ int compStr( char* s1, char* s2 );
 //todo: pododawaæ mo¿e warunki do returnow, czyli np !fout i komunikaty moze?
 
 void inOrder( TreeItem* pRoot, FILE* fout ) {
-	if( !pRoot ) return;
+	if( !pRoot ) return; // stop rekurencji
 
 	inOrder( pRoot->pLeft,fout ); // lewe poddrzewo
 
@@ -16,7 +16,9 @@ void inOrder( TreeItem* pRoot, FILE* fout ) {
 
 	fprintf(fout, "%40s (%3d) ", pRoot->str, pRoot->counter ); 
 	FQPrint(pRoot->pList,fout);
+
 	//printf( fout,"\n" ); // wersja z wypisywaniem do konsoli
+
 	fprintf( fout,"\n" );
 	inOrder( pRoot->pRight,fout ); // prawe poddrzewo
 }
@@ -33,21 +35,26 @@ TreeItem* freeTree( TreeItem* pRoot ) {
 }
 
 void Visit( TreeItem* pRoot, int line ) {
-	if( !pRoot ) return;
+	if( !pRoot || !pRoot->pList ) return;
 
 	pRoot->counter++;
 
-	if(pRoot->pList->pTail->lineNo != line ) // dodaje tylko jesli sie nie powtarza
+	if(FQEmpty(pRoot->pList)|| pRoot->pList->pTail->lineNo != line ) // dodaje tylko jesli sie nie powtarza. musi byc warunek, ze kolejka jest pusta, bo inaczej nie doda numeru linii dla pierwszego elementu
 		FQEnqueue( pRoot->pList, line );
 }
 
 int compStr( char* s1, char* s2 ) {
 	// idea jest taka, ze chce porownac dwa stringi, ale nie interesuje mnie wielkosc znakow, wiec musze przekonwertowac je do samych duzych albo malych liter. musze dzialac na kopiach, poniewaz zmienilbym inaczej oryginalne stringi
 	// kiedy stringi s¹ takie same to zwróci 0
-	char* str1 = (char*)calloc( 1, strlen( s1 ) + 1 ); // alokuje pamieci
-	char* str2 = (char*)calloc( 1, strlen( s2 ) + 1 );
 
-	if( !str1 || !str2 ) return INT_MAX; //? co zwracac?
+	char* str1 = (char*)calloc( 1, strlen( s1 ) + 1 ); // alokuje pamieci
+	if( !str1 ) return INT_MAX; //? co zwracac?
+
+	char* str2 = (char*)calloc( 1, strlen( s2 ) + 1 );
+	if( !str2 ) {
+		free( str1 );
+		return INT_MAX; //? co zwracac?
+	} 
 
 	strcpy( str1, s1 ); // przekopiowuje z parametrow
 	strcpy( str2, s2 );
@@ -69,10 +76,15 @@ TreeItem* FindInsert( TreeItem* pRoot, char* str, int line ) {
 		TreeItem* v = (TreeItem*)calloc( 1, sizeof( TreeItem ) ); // to mi nulluje wszystko co jest w TreeItem, a chce jeszcze stworzyc kolejke
 		if( !v ) return NULL;
 
-		v->str = str; // tworzenie tego stringa jest w funkcji czytajacej plik
+		v->pList = FQCreate();
+		if( !v->pList ) {
+			free( v );
+			return NULL;
+		}
 
-		v->pList = FQCreate(); // mam sprawdzac czy kolejka sie zrobila?
 		FQEnqueue( v->pList, line ); // to musi byæ tu aby za ka¿dym razem przypisywa³o do odpowiedniej ga³êzi a nie do korzenia
+		
+		v->str = str; // tworzenie tego stringa jest w funkcji czytajacej plik
 
 		v->counter = 1; // slowo pojawilo sie pierwszy raz, wiec ustawiam counter na 1
 

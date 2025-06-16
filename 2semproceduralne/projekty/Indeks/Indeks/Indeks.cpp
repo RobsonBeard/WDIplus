@@ -16,8 +16,15 @@ int main( int argc, char* argv[] )
 
 	TreeItem* pRoot = NULL;
 
-	ReadFile( argv[1], &pRoot );
-	WriteFile( argv[2], pRoot );
+	if( !ReadFile( argv[1], &pRoot ) ) {
+		printf( "ERROR: ReadFile in main\n" );
+		return 1;
+	}
+
+	if( !WriteFile( argv[2], pRoot ) ) {
+		printf( "ERROR: WriteFile in main\n" );
+		return 2;
+	}
 
 	pRoot = freeTree( pRoot );
 
@@ -50,11 +57,14 @@ int ReadFile( char* sFile, TreeItem** pRoot ) {
 
 
 			char* newIdentifier = (char*)calloc( 1, 41 ); // alokuje pamiec, kopiuje do niej tego zrobionego stringa i wrzucam do drzewa
-			if( !newIdentifier ) return  NULL;
+			if( !newIdentifier ) {
+				printf( "ERROR: memory allocation in ReadFile\n" );
+				fclose( fin );
+				return 0;
+			} 
 			strcpy( newIdentifier, str );
 
 			*pRoot = FindInsert( *pRoot, newIdentifier, lineCounter );
-
 		}
 		else if( c == '\n' ) lineCounter++; // jesli nie ma identyfikatora, ale byl \n, to zwiekszam numer linii	
 	}
@@ -65,7 +75,16 @@ int ReadFile( char* sFile, TreeItem** pRoot ) {
 
 int WriteFile( char* sFile, TreeItem* pRoot ) {
 	FILE* fout = fopen( sFile, "w" ); // uchwyt pliku
-	if( !fout ) return 0;
+	if( !fout ) {
+		printf( "ERROR WriteFile: error in opening file\n" );
+		return 0;
+	} 
+
+	if( !pRoot ) {
+		printf( "Tree is empty\n" ); // nie ma co wpisac wtedy
+		fclose( fout );
+		return 0;
+	}
 
 	inOrder( pRoot, fout );
 

@@ -95,7 +95,7 @@ void printTab2D( int** pTab, int nRow, int nCol ) {
 	{
 		int* v = *pTab++;
 		for( int j = 0; j < nCol; j++ ) {
-			printf( "%3d ", *v++); // tu zmieniac wyswietlanie
+			printf( "%3d ", *v++); 
 		}
 		printf( "\n" );
 	}
