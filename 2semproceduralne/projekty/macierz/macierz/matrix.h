@@ -6,7 +6,7 @@
 #include <math.h>
 #include <float.h>
 
-#define DEBUG //? czy w tym miejscu debug jest ok?
+#define DEBUG 
 
 int CreateMatrix( double*** pTab, int nDim );   //!!! zwraca  0  gdy error  1 - ok
 void DeleteMatrix( double*** pTab, int nDim );  // *pTab=NULL

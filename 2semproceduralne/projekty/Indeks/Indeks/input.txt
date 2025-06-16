@@ -139,3 +139,104 @@ int AllocAddMemBets( int*** pTab, int nCurrSize ) {
 }
 
 czyli my wstawiamy do drzewa SLOWA
+
+#include "Tree.h"
+#include "QFIFO.h"
+
+void Visit( TreeItem* pRoot, int line );
+int compStr( char* s1, char* s2 );
+
+
+void inOrder( TreeItem* pRoot, FILE* fout ) {
+	if( !pRoot ) return; // stop rekurencji
+
+	inOrder( pRoot->pLeft,fout ); 
+
+	//printf( "slowo: %40s, ilosc wystapien: %3d, numery linii: ", pRoot->str, pRoot->counter ); // wersja z wypisywaniem do konsoli
+	//fprintf(fout, "slowo: %40s, ilosc wystapien: %3d, numery linii: ", pRoot->str, pRoot->counter ); // inne formatowanie 
+
+	fprintf(fout, "%40s (%3d) ", pRoot->str, pRoot->counter ); 
+	FQPrint(pRoot->pList,fout);
+
+	//printf( fout,"\n" ); // wersja z wypisywaniem do konsoli
+
+	fprintf( fout,"\n" );
+	inOrder( pRoot->pRight,fout ); // prawe poddrzewo
+}
+
+TreeItem* freeTree( TreeItem* pRoot ) {
+	if( pRoot ) {
+		pRoot->pLeft = freeTree( pRoot->pLeft ); 
+		freeTree( pRoot->pRight );
+		FQRemove( &( pRoot->pList ) );
+		free( pRoot->str );
+		free( pRoot );
+	}
+	return NULL;
+}
+
+void Visit( TreeItem* pRoot, int line ) {
+	if( !pRoot || !pRoot->pList ) return;
+
+	pRoot->counter++;
+
+	if(FQEmpty(pRoot->pList)|| pRoot->pList->pTail->lineNo != line ) 
+		FQEnqueue( pRoot->pList, line );
+}
+
+int compStr( char* s1, char* s2 ) {
+	
+	char* str1 = (char*)calloc( 1, strlen( s1 ) + 1 ); // alokuje pamieci
+	if( !str1 ) return INT_MAX; //? co zwracac?
+
+	char* str2 = (char*)calloc( 1, strlen( s2 ) + 1 );
+	if( !str2 ) {
+		free( str1 );
+		return INT_MAX; //? co zwracac?
+	} 
+
+	strcpy( str1, s1 ); // przekopiowuje z parametrow
+	strcpy( str2, s2 );
+
+	_strlwr( str1 ); 
+	_strlwr( str2 );
+
+	int cmpOutput = strcmp( str1, str2 ); // porownuje stringi
+
+	free( str1 ); // zwalniam pamieci
+	free( str2 );
+
+	return cmpOutput;
+}
+
+TreeItem* FindInsert( TreeItem* pRoot, char* str, int line ) {
+	if( !pRoot ) 
+	{
+		TreeItem* v = (TreeItem*)calloc( 1, sizeof( TreeItem ) );
+		if( !v ) return NULL;
+
+		v->pList = FQCreate();
+		if( !v->pList ) {
+			free( v );
+			return NULL;
+		}
+
+		FQEnqueue( v->pList, line );
+		
+		v->str = str;
+
+		v->counter = 1; // slowo pojawilo sie pierwszy raz, wiec ustawiam counter na 1
+
+		return v;
+	}
+
+	int comparedStrings = compStr( str, pRoot->str );
+
+	if( comparedStrings < 0 )
+		pRoot->pLeft = FindInsert( pRoot->pLeft, str,line );
+	else if( comparedStrings > 0 )
+		pRoot->pRight = FindInsert( pRoot->pRight, str,line );
+	else Visit( pRoot, line ); // gdy slowo juz istnieje
+
+	return pRoot;
+}

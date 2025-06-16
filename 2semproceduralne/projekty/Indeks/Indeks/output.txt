@@ -1,495 +1,58 @@
-                                 _strlwr (  2) 100 101 
-                                 _strupr (  1) 101 
-                                       a ( 10)   6  18  24  26  28  72  84  85 
-a123456789a123456789a123456789a123456789 (  1)   5 
-                                     aby (  1)  37 
-                                      ac (  4)   6  23  26  28 
-                                accumsan (  3)  18  24  26 
-                              adipiscing (  2)   5  20 
-                                  Aenean (  1)  28 
-                                     ale (  2)  67  78 
-                           alfabetycznej (  1)  48 
-                                 Aliquam (  2)  18  28 
-                                 aliquet (  1)  28 
-                         AllocAddMemBets (  1) 133 
-                                ALLOCBET (  2) 137 139 
-                             ALLOCPLAYER (  1) 134 
-                                alokacja (  1)  65 
-                                alokacji (  1) 122 
-                                alokowac (  4)  78  96  97 132 
-                                 alokuje (  1)  96 
-                                    amet (  9)   5   9  12  18  20  26  28 
-                                    ante (  4)   6  23  24 
-                                    arcu (  2)  24  26 
-                                    argc (  1)  52 
-                                    argv (  1)  52 
-                                     asd (  1)   4 
-                                   asda1 (  1)   3 
-                                      at (  7)   6  18  23  26  28 
-                                  auctor (  2)  22  28 
-                                   augue (  1)  15 
-                                  bardzo (  1)  74 
-                                    beda (  1)  48 
-                                  bedzie (  1)  74 
-                                bibendum (  2)  26 
-                            biblioteczna (  2)  98  99 
-                            biblioteczne (  1)  94 
-                          bibliotecznych (  1)  91 
-                               binarnego (  1)  62 
-                                 blandit (  2)  18  26 
-                                      bo (  2)  37  92 
-                                     BST (  3)  29  34  56 
-                                budujACA (  1)  55 
-                                     byc (  3)  65  71  92 
-                                    byla (  1)  37 
-                                    bylo (  2)  46  70 
-                                       C (  1)  94 
-                                  calloc (  1)  96 
-                                    char (  3)  52  90 
-                                    ciag (  1)  42 
-                                      co (  1)  70 
-                                 commodo (  2)  18 
-                                 compStr (  1)  90 
-                             consectetur (  3)   5  20  28 
-                               consequat (  1)  26 
-                               convallis (  2)  22  26 
-                                 counter (  1)  66 
-                                    Cras (  2)  18  22 
-                                  cursus (  4)   6  16  20  28 
-                                   cyfry (  1)  42 
-                                     czy (  2)  54 116 
-                                   czyli (  4)  43  49 132 141 
-                                    czym (  1)  35 
-                                   czyta (  1) 117 
-                                  czytac (  1) 120 
-                                czytanie (  1) 114 
-                               dadawanie (  1)  37 
-                                 dapibus (  3)  11  22  24 
-                                 DDRZEWO (  1)  55 
-                              definujemy (  1)  63 
-                          diakrytycznych (  1)  44 
-                                    diam (  3)   5  26  28 
-                                  dictum (  2)  15  23 
-                               dignissim (  2)   8  23 
-                                     dis (  2)  26  28 
-                                     dla (  5)  44  62  63  71  72 
-                                      do ( 12)  33  49  56  66  67  75  78  81  98  99 120 141 
-                                   dodac (  1)  96 
-                               Dodatkowo (  1)  65 
-                                dodawane (  1)  49 
-                                dodawany (  1)  36 
-                               dokladnie (  1)  43 
-                                   dolor (  2)   5  20 
-                                   Donec (  5)   6  23  24  26 
-                              dostaniemy (  1)  82 
-                                    dowi (  1) 120 
-                                 dowolny (  2)  42  46 
-                                   drugi (  1)  99 
-                                drugiego (  1)  98 
-                               drukujaca (  1)  56 
-                                  drzewa (  8)  33  62  71  78  79  82 120 141 
-                                 drzewie (  1)  35 
-                                  drzewo (  3)  48  58  82 
-                                     dui (  2)  26  28 
-                                    Duis (  1)  16 
-                                  duzych (  1)  92 
-                                   duzym (  1) 126 
-                                     dwa (  1)  71 
-                                   dwoma (  1)  69 
-                                   DZEWO (  1)  29 
-                                  Dzieki (  2)  74 112 
-                               efficitur (  1)  26 
-                                 egestas (  4)   5   6  22 
-                                    eget (  5)  18  22  23  24  28 
-                               elemencie (  1)  78 
-                                elementu (  4)  62  71  72  75 
-                               elementum (  2)  18  24 
-                                    elit (  5)   5   9  16  20  28 
-                                    else (  2)   2 126 
-                                    enim (  2)  26  28 
-                             epowtarzaja (  1)  38 
-                                    eros (  1)  24 
-                                     est (  5)   7  26  28 
-                                      et (  9)   5   9  18  23  26  28 
-                                   Etiam (  4)   5  20  22 
-                                      eu (  7)   7  17  18  23  24  28 
-                                      ex (  1)  28 
-                                facilisi (  2)   9  26 
-                               facilisis (  1)  28 
-                                faucibus (  1)  28 
-                                   felis (  1)   5 
-                               fermentum (  1)  28 
-                                 feugiat (  1)  26 
-                                   fgetc (  1) 114 
-                                    fifo (  4)  37  67  69 110 
-                              FindInsert (  1) 126 
-                                    free (  1) 103 
-                               freememow (  1) 113 
-                               fringilla (  1)  18 
-                                 funckja (  1) 102 
-                                 funkcja (  5)  98  99 100 101 116 
-                                 funkcje (  4)  55  56  89  94 
-                                 funkcji (  1)  90 
-                                   Fusce (  4)  12  23  26  28 
-                                  global (  1) 111 
-                                   glowa (  1)  36 
-                                 gravida (  3)  26  28 
-                                       h (  6)  98  99 100 101 102 111 
-                               hendrerit (  2)  26  28 
-                                       i ( 10)  33  42  48  55  70  82  92 102 
-                                 iaculis (  1)  22 
-                                      id (  4)   7  18  23  26 
-                           identyfikator (  2)  43 120 
-                          identyfikatora (  1) 117 
-                          identyfikatory (  1)  33 
-                                      if (  4)   1 126 135 
-                                   ilosc (  1)  84 
-                                 iloscia (  1)  48 
-                               imperdiet (  1)  18 
-                                      In (  8)   5  15  16  22  26  28 
-                                  indeks (  1)  83 
-                              IndeksSlow (  1)  56 
-                          indentyfikator (  1) 116 
-                                    Info (  1) 111 
-                                 inorder (  2)  48  82 
-                                     int (  8)  52  70  90 111 133 
-                                 Integer (  2)   9  18 
-                                interdum (  2)   5  16 
-                                   ipsum (  5)   5  18  20  24  26 
-                                istnieje (  1)  35 
-                                     jak (  6)  36  46  49  63  64 120 
-                                  jakich (  1)  74 
-                                   jakos (  2) 116 124 
-                                      je (  1)  33 
-                                  jednej (  1)  85 
-                                   jesli (  2)  35 132 
-                                    jest (  6)  35  36  43  54 116 132 
-                                 jeszcze (  1)  72 
-                                  jezyku (  1)  43 
-                                   justo (  2)  18 
-                                     juz (  2)  35  46 
-                                 kolejno (  1)  82 
-                              kolejnosci (  1)  48 
-                                 kolejny (  1)  36 
-                                   koncu (  2)  37  67 
-                                  koniec (  2)  59 117 
-                                   kopie (  2)  96  97 
-                                  ktorej (  1)  34 
-                                 ktorych (  1)  85 
-                                  ktorym (  1)  36 
-                                 lacinia (  1)  23 
-                                   lacus (  4)  15  22  23  24 
-                                lancuchy (  2)  92 102 
-                                 laoreet (  2)  26 
-                                   latwo (  1)  74 
-                                  lectus (  2)  28 
-                                     leo (  3)   6  18  19 
-                                  libero (  5)   6   7  23  26 
-                                  liczby (  2)  49  66 
-                                 licznik (  1)  35 
-                                  ligula (  2)  18  28 
-                                   linie (  1) 120 
-                                   linii (  9)  34  36  38  67  70  74  85 124 
-                                  liscie (  2)  39  64 
-                                   lista (  3)  36  48  67 
-                                   liste (  1)  74 
-                                   listy (  4)  37  63  71  72 
-                                   liter (  1)  93 
-                                  litery (  2)  42 
-                                lobortis (  4)   5   8  12  17 
-                                   Lorem (  6)   5  20  24  28 
-                                     lub (  4)  42 120 
-                                      ma (  2)  92 112 
-                                   magna (  2)  24  28 
-                                  magnis (  2)  26  28 
-                                    main (  1)  52 
-                                    male (  2) 100 101 
-                               malesuada (  3)   6  24 
-                                  malych (  1)  92 
-                                   massa (  5)   6  12  17  23 
-                                  mattis (  3)  12  18  23 
-                                  Mauris (  3)   5  26  28 
-                                 maximus (  2)  18  26 
-                                  memset (  1) 137 
-                                   metus (  1)  18 
-                                      mi (  2)   7  16 
-                                   modul (  1)  69 
-                                molestie (  3)  20  28 
-                                  mollis (  1)  26 
-                                  montes (  2)  26  28 
-                                   Morbi (  2)   7  24 
-                                   mozna (  2)  74 122 
-                                     mus (  2)  26  28 
-                                    musi (  2)  65  71 
-                                   musze (  2)  96 124 
-                                      my (  1) 141 
-                                      na ( 17)  37  38  46  48  64  65  67  78  96  97 100 101 117 132 
-                             naglowkowym (  1)  62 
-                               najlepiej (  1) 116 
-                            najmniejszej (  1)  49 
-                             najwiekszej (  1)  49 
-                                  nalezy (  1)  89 
-                                     Nam (  2)  18  23 
-                                 Napisac (  2)  33  89 
-                                napisana (  1)  90 
-                                nascetur (  2)  26  28 
-                                 natoque (  2)  26  28 
-                                nawiasie (  1)  84 
-                                  nazwie (  1)  62 
-                               nCurrSize (  3) 133 134 137 
-                                     nec (  3)  23  26 
-                                   neque (  2)  23  28 
-                                    nibh (  1)  18 
-                                     nie (  6)  38  43  78 112 124 126 
-                                    niej (  1)  55 
-                          nieobowiazkowe (  1) 131 
-                              niezalezne (  1)  92 
-                                    nisi (  3)  20  23  24 
-                                    nisl (  1)  28 
-                                     non (  4)  23  24  26  28 
-                                    nowe (  2) 119 124 
-                                   nowej (  1)  78 
-                                      np (  1)  56 
-                                    null (  1)  97 
-                                   Nulla (  7)   9  22  24  26  28 
-                                   numer (  2)  36  70 
-                                 numerem (  1)  34 
-                                 numerow (  1)  67 
-                                  Numery (  4)  38  74  85 124 
-                                    nunc (  3)  22  28 
-                                       o (  1)  62 
-                                      od (  5)  37  42  48  75  92 
-                                    odio (  3)  26  28 
-                              odpowiedni (  1)  62 
-                             odpowiednia (  1) 102 
-                             odpowienida (  2)  98  99 
-                              odwiedzane (  1)  82 
-                                   okaze (  1) 132 
-                                    olac (  1) 122 
-                                    oraz (  2)  35  67 
-                                    Orci (  2)  26  28 
-                                  ornare (  2)  23  28 
-                              ostatniego (  1)  76 
-                                otworzyc (  1)  55 
-                                     owo (  1) 124 
-                                  pamiec (  3)  96  97 132 
-                                 pamieci (  2)  78 123 
-                              pamietania (  1)  66 
-                                parametr (  4)  46  54  98  99 
-                               parametru (  2)  96  97 
-                              parturient (  2)  26  28 
-                               penatibus (  2)  26  28 
-                                   petla (  1) 117 
-                                   petle (  1) 116 
-                                pharetra (  1)  26 
-                               Phasellus (  2)  24  26 
-                                   pHead (  1)  70 
-                              pierwszego (  2)  75  96 
-                                pierwszy (  1)  98 
-                                   pInfo (  1) 111 
-                                  pisane (  1)  70 
-                                placerat (  1)  23 
-                                  Player (  3) 134 
-                                   pLeft (  1)  63 
-                                    plik (  3)  46  55  56 
-                                   pliku (  5)  33  43  62  81 118 
-                                      po (  1) 114 
-                                     pod (  1)  78 
-                               poddrzewa (  1)  63 
-                            podkreslenia (  2)  42  43 
-                                Podobnie (  1)  63 
-                               podwiazac (  1)  78 
-                                podwojna (  1)  36 
-                                    pole (  2)  65  66 
-                                   polem (  1)  70 
-                                polskich (  1)  44 
-                                ponownie (  1)  36 
-                             poprzenidch (  1)  46 
-                                     por (  1) 124 
-                                porownac (  1) 102 
-                             porownujaca (  2)  89 102 
-                            porownywanie (  1) 126 
-                                   porta (  4)   6  26  28 
-                               porttitor (  1)  26 
-                             posortowana (  1)  37 
-                             posortowany (  1)  83 
-                                 posuere (  1)  28 
-                                   potem (  3)  42  84  85 
-                              powtarzaly (  1) 125 
-                                 pretium (  2)  22  28 
-                                  pRight (  1)  63 
-                                 PROBLEM (  1)  32 
-                                 program (  1)  33 
-                           programowania (  1)  43 
-                                programu (  2)  46  54 
-                                   Proin (  1)  28 
-                              projektach (  1)  46 
-                                  Prosze (  1)  69 
-                                prywatna (  1) 116 
-                                   przed (  2)  71 126 
-                              Przegladac (  1)  82 
-                            przelgadajac (  1)  74 
-                                    przy (  2)  35  78 
-                                    pTab (  4) 133 134 136 137 
-                                   pTail (  1)  70 
-                                   pTemp (  3) 134 135 137 
-                                pulvinar (  3)   5  28 
-                                   purus (  4)   6  18  23  28 
-                                    quam (  2)  18  28 
-                                    quis (  6)   6  22  23  26 
-                                 Quisque (  2)  26 
-                                    razu (  1)  37 
-                                 realloc (  2) 132 134 
-                              realokowac (  1) 132 
-                                  return (  2) 135 138 
-                                 rhoncus (  4)   6  12  24  28 
-                               ridiculus (  2)  26  28 
-                                   risus (  2)   6  24 
-                                  rutrum (  1)  28 
-                                       s (  1) 124 
-                                      s1 (  1)  90 
-                                      s2 (  1)  90 
-                                      sa (  2)  42  49 
-                                sagittis (  1)  18 
-                                    sama (  1)  64 
-                                  sapien (  2)  18  26 
-                             scelerisque (  1)  18 
-                                     sed ( 11)  12  17  18  23  24  26  28 
-                                     sem (  1)  24 
-                                     sie (  5)  38  42  84 124 132 
-                                     sit (  9)   5   9  12  18  20  26  28 
-                                  sizeof (  1) 134 
-                                 skoncze (  1) 120 
-                                    slow (  1)  84 
-                                   slowa (  4)  33  48  65 141 
-                                   slowo (  8)  34  35  36  42  65  74  78  84 
-                                 sodales (  4)   5   6   7  22 
-                            sollicitudin (  4)  26  28 
-                                  sposob (  1)  82 
-                               sprawdzac (  3) 116 119 124 
-                             sprawdzanie (  1) 122 
-                               sprawdzic (  1)  54 
-                                  srodku (  1) 127 
-                           standardowego (  1)  94 
-                                   start (  1) 132 
-                               stosujemy (  1)  94 
-                                    str1 (  5)  96  98 100 103 
-                                    str2 (  4)  97  99 101 105 
-                                  strcmp (  2) 102 126 
-                                  strcpy (  1)  98 
-                                  string (  5)  98  99 100 101 102 
-                                  strlen (  1)  96 
-                               strukture (  1)  64 
-                             Suspendisse (  2)   6  24 
-                                   szkic (  2)  30  94 
-                                      ta (  1)  64 
-                                 tablicy (  1)  65 
-                                  Tailem (  1) 124 
-                                     tak (  1)  49 
-                                      te (  1)  71 
-                                    tego (  1) 117 
-                                teksowym (  1)  43 
-                              tekstowego (  1)  33 
-                                tekstowy (  1)  46 
-                                  tellus (  2)  10  22 
-                                  tempor (  3)  22  26 
-                                  tempus (  3)   5  24 
-                                    temu (  2)  74 112 
-                                     ten (  1)  82 
-                                   teraz (  1)  63 
-                               tincidunt (  4)  18  24  26 
-                                      to (  7)  34  35  42  43 116 120 132 
-                                  tortor (  4)  18  23  28 
-                                TreeItem (  2)  62  64 
-                               tristique (  1)  18 
-                                  trzeba (  1) 117 
-                                  turpis (  4)  16  23  26  28 
-                                     txt (  1)  56 
-                                   tylko (  1)  63 
-                                     tym (  2) 116 126 
-                                     typ (  3)  62  71  72 
-                                   typem (  1)  71 
-                                   typie (  1)  65 
-                              ULATWIENIA (  1)  44 
-                             ullamcorper (  2)  18  26 
-                               ultricies (  2)  26  28 
-                                uproscic (  1) 111 
-                                    urna (  3)  18  22  26 
-                                      ut (  4)  12  22  24 
-                                   UWAGA (  2)  41  88 
-                                   uwage (  1) 117 
-                                  uzywac (  1)  43 
-                                  varius (  6)   5  13  17  26  28 
-                                vehicula (  3)   6  18  24 
-                                     vel (  4)   6  22  24  28 
-                                   velit (  2)  20  28 
-                               venenatis (  1)  26 
-                              Vestibulum (  2)   6  15 
-                                   Visit (  1) 124 
-                                   vitae (  6)   6   7  22  24 
-                                 viverra (  2)  26  28 
-                                volutpat (  1)  26 
-                               vulputate (  1)  26 
-                                       w ( 26)  34  35  36  43  46  48  55  62  64  65  74  78  82  84  85 100 101 111 116 124 126 
-                               wczesniej (  2)  71  72 
-                             wczystujacy (  1)  33 
-                              wczytujaca (  1)  55 
-                                 wejsciu (  1)  46 
-                              wewnetrzna (  1) 117 
-                                   wezly (  1)  82 
-                                    wiec (  1)  46 
-                                  wiecej (  2) 132 133 
-                                wkopiowc (  2)  98  99 
-                                  wlasna (  2)  89 116 
-                                     wna (  1) 124 
-                                   wolno (  1)  43 
-                                    wraz (  1)  34 
-                                     wsk (  2)  64  78 
-                                wskaznik (  3)  65  67  78 
-                               wskazniki (  1)  71 
-                            wskazniklami (  1)  70 
-                             wstawiajacy (  1)  33 
-                                wstawiam (  1) 120 
-                               wstawiamy (  1) 141 
-                              wstawianiu (  1)  78 
-                                wszyskto (  1)  85 
-                                wszystko (  2) 100 101 
-                                      wW (  1)  82 
-                                  Wydruk (  1)  81 
-                             wydrukowane (  1)  48 
-                                 Wyjsciu (  1)  48 
-                             wykorzystac (  1)  69 
-                               wylacznie (  2)  90  94 
-                                   wynik (  2) 102 106 
-                                 wypisac (  1)  74 
-                                wypisuje (  1)  84 
-                               wypisywac (  1)  82 
-                               wystapien (  6)  35  36  48  66  84 
-                               wystapilo (  4)  34  36  74  85 
-                                 wywalic (  1) 112 
-                                 wywolac (  2)  55  56 
-                                       z (  7)  33  34  36  48  69  90 124 
-                             zaczynajacy (  1)  42 
-                                 zamiast (  1) 111 
-                                zamienic (  2) 100 101 
-                                 zamknac (  1)  55 
-                              zapamietac (  1) 102 
-                             zapamietany (  1) 105 
-                          zapamietywania (  1)  67 
-                                  zawsze (  1)  67 
-                             zdefiniowac (  1)  62 
-                                      ze (  1) 132 
-                                    zeby (  1) 124 
-                              zewnetrzna (  1) 116 
-                            zmodyfikowac (  1) 110 
-                                   znaki (  1) 117 
-                                  znakow (  3)  42  44 132 
-                                 znakowa (  1)  65 
-                                 znakowe (  3)  65  92 102 
-                                   znaku (  1) 115 
-                                  zrobic (  2) 116 126 
-                                    zuje (  1) 120 
-                               zwiekszny (  1)  35 
-                                 zwolnic (  3)  57 103 104 
-                                 zwracac (  1) 117 
-                                 zwrocic (  1) 105 
+                                     aby (  1)  49 
+                                    brak (  1)  49 
+                                     byl (  1)  49 
+                                  calloc (  2)  11  24 
+                                    cerr (  1)  73 
+                                       d (  1)  99 
+                                    else (  1)  30 
+                                   empty (  1)  77 
+                                  exists (  1)  92 
+                                    free (  2)  65  84 
+                                     gdy (  1)  49 
+                                       h (  3)   2   3   4 
+                                      if ( 10)  22  25  28  39  49  59  72  76  85  91 
+                                 include (  3)   2   3   4 
+                                    Info (  3)  27  41  99 
+                                     int (  5)  15  20  37  41 
+                                      is (  1)  77 
+                                     juz (  1)  81 
+                                 kolejki (  1)  50 
+                               komunikat (  1)  49 
+                                 missing (  3)  50  61  73 
+                                       n ( 10)  50  61  73  77  92 
+                                     not (  1)  92 
+                                    NULL (  3)  39  66  86 
+                                       p ( 14)  24  25  27  28  30  31  82  83  84  96  97  99 100 
+                                   pHead (  6)  17  28  41  82  83  96 
+                                   pNext (  3)  30  83 100 
+                                      po (  1)  81 
+                                  printf (  5)  50  61  77  92  99 
+                                   pTail (  3)  30  31  86 
+                                       q ( 34)   6  15  17  20  22  28  30  31  37  39  41  42  47  49  53  57  59  64  65  66  69  72  76  82  83  85  86  89  91  96 
+                                  QClear (  1)  50 
+                                    QDel (  2)  73  77 
+                                 QFClear (  2)  47  64 
+                                QFCreate (  1)   9 
+                                   QFDel (  3)   6  42  69 
+                               QFDequeue (  2)  37  53 
+                                 QFEmpty (  6)  15  28  39  53  76  85 
+                               QFEnqueue (  1)  20 
+                                   QFifo ( 11)   6   9  11  15  20  37  47  57  69  89 
+                                  QFItem (  5)  24  82  96 
+                                 QFPrint (  2)  89  92 
+                                QFRemove (  1)  57 
+                                 QRemove (  1)  61 
+                                   Queue (  6)   4  50  61  73  77  92 
+                                     Res (  2)  41  43 
+                                  return ( 12)  11  17  22  25  33  39  43  51  62  74  78  93 
+                                  sizeof (  2)  11  24 
+                                 sprawdz (  1)  49 
+                             sprawdzeniu (  1)  81 
+                                   stdio (  1)   2 
+                                  stdlib (  1)   3 
+                                      to (  1)  81 
+                                    void (  5)   6  47  57  69  89 
+                                   while (  2)  53  97 
+                              wykonywane (  1)  81 
+                               wylacznie (  1)  81 
+                                       x (  2)  20  27 

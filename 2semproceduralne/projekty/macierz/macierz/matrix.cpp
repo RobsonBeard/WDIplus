@@ -79,7 +79,7 @@ void TransMatrix( double** pTab, int nDim ) {
 }
 
 void InverseMatrix( double** pInv, double** pTab, int nDim, double det ) {
-	if( !pTab || !pInv || nDim < 2 || !det ) {
+	if( !pTab || !pInv || nDim < 2  ) {
 		printf( "ERROR InverseMatrix - wrong or incomplete data\n" );
 		return;
 	}
@@ -102,14 +102,14 @@ double Det( double** pTab, int nDim ) {
 	if( nDim == 1 ) return **pTab; // **pTab to jest to samo co pTab[0][0]
 	if( nDim == 2 ) return **pTab * pTab[1][1] - pTab[0][1] * pTab[1][0]; // z szybszego wzoru
 
-	double calculatedDet = 0;
-	double sign = -1;
-
 	double** smallerMatrix = NULL; // wazne, zeby kreowac te macierz poza petla for
 	if( !CreateMatrix( &smallerMatrix, nDim - 1 ) ) {
 		printf( "ERROR CreateMatrix failed in Det\n" );
 		return 0;
 	}
+
+	double calculatedDet = 0;
+	double sign = -1;
 
 	//rozwiniecie wzgl 1-go wiersza, rekurencyjnie (wiersz o indeksie 1)
 	for( int j = 0; j < nDim; j++ )
@@ -185,7 +185,7 @@ void ComplMatrix( double** pTabD, double** pTab, int nDim ) {
 
 	for( int i = 0; i < nDim; i++ )
 	{
-		int sign = ( !( i % 2 ) ) ? 1 : -1;
+		int sign = ( i % 2 ) ? -1 : 1;
 
 		for( int j = 0; j < nDim; j++ )
 		{

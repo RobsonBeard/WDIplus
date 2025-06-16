@@ -4,8 +4,6 @@
 void Visit( TreeItem* pRoot, int line );
 int compStr( char* s1, char* s2 );
 
-//todo: pododawaæ mo¿e warunki do returnow, czyli np !fout i komunikaty moze?
-
 void inOrder( TreeItem* pRoot, FILE* fout ) {
 	if( !pRoot ) return; // stop rekurencji
 
