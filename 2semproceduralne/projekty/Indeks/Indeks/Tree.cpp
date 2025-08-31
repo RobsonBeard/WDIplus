@@ -9,13 +9,13 @@ void inOrder( TreeItem* pRoot, FILE* fout ) {
 
 	inOrder( pRoot->pLeft,fout ); // lewe poddrzewo
 
-	//printf( "slowo: %40s, ilosc wystapien: %3d, numery linii: ", pRoot->str, pRoot->counter ); // wersja z wypisywaniem do konsoli
-	//fprintf(fout, "slowo: %40s, ilosc wystapien: %3d, numery linii: ", pRoot->str, pRoot->counter ); // inne formatowanie 
+	printf( "slowo: %40s, ilosc wystapien: %3d, numery linii: ", pRoot->str, pRoot->counter ); // wersja z wypisywaniem do konsoli
+	FQPrintConsole(pRoot->pList); // wersja z wypisywaniem do konsoli
+	printf( "\n" ); // wersja z wypisywaniem do konsoxli
 
+	//fprintf(fout, "slowo: %40s, ilosc wystapien: %3d, numery linii: ", pRoot->str, pRoot->counter ); // inne formatowanie 
 	fprintf(fout, "%40s (%3d) ", pRoot->str, pRoot->counter ); 
 	FQPrint(pRoot->pList,fout);
-
-	//printf( fout,"\n" ); // wersja z wypisywaniem do konsoli
 
 	fprintf( fout,"\n" );
 	inOrder( pRoot->pRight,fout ); // prawe poddrzewo
