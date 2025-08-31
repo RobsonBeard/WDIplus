@@ -43,7 +43,7 @@ int ReadFile( char* sFile, TreeItem** pRoot ) {
 
 	while( ( c = fgetc( fin ) ) != EOF ) {
 
-		if( isCorrectFirstIdentifierSign( c ) )
+		if( isCorrectFirstIdentifierSign( c ) ) //! tu dopiero alokowac to 41 elementow i potem juz nie alokowac nowego identyfikatora
 		{
 			pos = 0;
 			str[pos++] = c; // tu sprawdzalem pierwszy znak, wiec go dodam
