@@ -25,7 +25,7 @@ int PQisEmpty( PQueue* q ) {
 }
 
 int PQSize( PQueue* q ) {
-	return (!q) ? PRIOR_ERROR : q->nPQCurrSize; // zwracam aktualny rozmiar
+	return ( PQisEmpty( q ) ) ? 0 : q->nPQCurrSize; // zwracam aktualny rozmiar
 }
 
 int PQMaxPrior( PQueue* q ) {
@@ -55,17 +55,17 @@ PQINFO* PQDequeue( PQueue* q ) {
 
 	PQItem* itemToRemove = q->pPQueue[0]; // potrzebuje tego do zwolnienia pamieci, najwyzszy priorytet
 	PQINFO* p = itemToRemove->pInfo; // biore wartosc korzenia (pierwszego elementu)
-	free( q->pPQueue[0] );
+	free( itemToRemove );
 
-	//q->nPQCurrSize--; // zmniejszam rozmiar kolejki
+	q->nPQCurrSize--; // zmniejszam rozmiar kolejki
 
-	int queueSize = --q->nPQCurrSize; // zmienna pomocniczna, bo potem wiele razy korzystam z CurrSize
+	int queueSize = PQSize( q ); // zmienna pomocniczna, bo potem wiele razy korzystam z CurrSize
 
 	if( queueSize > 0 ) // jeœli kolejka nie jest pusta (czyli wczesniej nie miala tylko 1 elementu), to przenoszê ostatni element na miejsce pierwszego
 	{
 		q->pPQueue[0] = q->pPQueue[queueSize]; // po to najpierw zdekrementowa³em nPQCurrSize, ¿eby teraz w ten sposób dostaæ siê do ostatniego elementu, przenoszê go na pocz¹tek
-	}
 		q->pPQueue[queueSize] = NULL;
+	}
 	if( queueSize > 1 )
 		UpdateDown( q->pPQueue, 0, queueSize - 1 ); // ostatni element nowego kopca bêdzie mia³ indeks = q->nPQCurrSize - 1, naprawiam kopiec
 
@@ -84,12 +84,12 @@ int PQEnqueue( PQueue* q, PQINFO* pNewInfo, int newInfoPrior ) {
 	newItem->nPrior = newInfoPrior;
 
 	q->pPQueue[queueSize] = newItem; // indeks pierwszego wolnego miejsca to q->nPQCurrSize, czyli queueSize
+	q->nPQCurrSize++; // rozmiar kolejki zwiekszyl sie
 
 
 	if( queueSize > 0 ) // jezeli pierwotny rozmiar byl > 0 to trzeba zrobic update
-		UpdateUp( q->pPQueue, 0, queueSize ); // wyniesienie nowego elementu w górê kopca, naprawa od 0 do indeksu tego nowego elementu q->nPQCurrSize - 1
+		UpdateUp( q->pPQueue, 0, q->nPQCurrSize - 1 ); // wyniesienie nowego elementu w górê kopca, naprawa od 0 do indeksu tego nowego elementu q->nPQCurrSize - 1
 
-	q->nPQCurrSize++; // rozmiar kolejki zwiekszyl sie
 	return 1;
 }
 
@@ -170,28 +170,24 @@ int PQSetPrior( PQueue* q, PQINFO* pInfoToFind, int newPrior, int( __cdecl* comp
 }
 
 int PQsetPrior( PQueue* q, int infoPos, int newPrior ) {
-	//if( PQisEmpty( q ) ) return PRIOR_ERROR;
+	if( PQisEmpty( q ) ) return PRIOR_ERROR;
 
-	//int queueSize = PQSize( q );
+	int queueSize = PQSize( q );
 
 	// musze sprawdzic czy na danej pozycji jest jakiœ element i czy w ogóle pozycja z parametru ma sens 
-	//if( infoPos == POS_ERROR || infoPos == PRIOR_ERROR || infoPos >= queueSize ) return PRIOR_ERROR;
+	if( infoPos == POS_ERROR || infoPos == PRIOR_ERROR || infoPos >= queueSize ) return PRIOR_ERROR;
 
 	PQItem* pInfoFound = q->pPQueue[infoPos];
 
-	int oldPrior = PQgetPrior( q, infoPos ); // musze zachowac do returna
-	if( oldPrior == PRIOR_ERROR ) return PRIOR_ERROR;
-
+	int oldPrior = pInfoFound->nPrior; // musze zachowac do returna
 	pInfoFound->nPrior = newPrior;
 
 	if( newPrior > oldPrior ) {
 		UpdateUp( q->pPQueue, 0, infoPos ); // naprawa w górê od 0 do znalezionego elementu
 	}
-	else if( newPrior < oldPrior ) {
-	
-		UpdateDown( q->pPQueue, infoPos, PQSize(q)-1 ); // naprawa w dó³ od znalezionego elementu do koñca kopca
+	else {
+		UpdateDown( q->pPQueue, infoPos, queueSize - 1 ); // naprawa w dó³ od znalezionego elementu do koñca kopca
 	}
-
 
 	return oldPrior;
 }
@@ -205,7 +201,7 @@ int PQgetPrior( PQueue* q, int infoPos ) {
 	if( PQisEmpty( q ) ) return PRIOR_ERROR;
 
 	// musze sprawdzic czy na danej pozycji jest jakiœ element i czy w ogóle pozycja z parametru ma sens 
-	if( infoPos == POS_ERROR || infoPos == PRIOR_ERROR || infoPos >= PQSize( q ) || infoPos < 0 ) return PRIOR_ERROR;
+	if( infoPos == POS_ERROR || infoPos == PRIOR_ERROR || infoPos >= PQSize( q ) ) return PRIOR_ERROR;
 
 	return q->pPQueue[infoPos]->nPrior;
 }
